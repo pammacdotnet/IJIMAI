@@ -55,10 +55,6 @@ where:
 
 
 
-== Subsection title
-Another subsection.
-
-
 
 = Declaration of conflicts of interest
 We just want to declare our love to Typst and IJIMAI.

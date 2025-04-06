@@ -8,7 +8,7 @@ This template allows researchers to write and send papers to IJIMAI, directly wr
 In order to use it, just read the TOML configuration file, import the template and apply a `show` rule: 
 
 ```Typst
-#import "@preview/ijimai:0.0.2": *
+#import "@preview/ijimai:0.0.3": *
 #let conf = toml("paper.toml")
 #let author-photos = conf.authors.map(author => read(author.name + ".jpg", encoding: none))
 #show: ijimai.with(

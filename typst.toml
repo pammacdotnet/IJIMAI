@@ -1,6 +1,6 @@
 [package]
 name = "ijimai"
-version = "0.0.2"
+version = "0.0.3"
 entrypoint = "ijimai.typ"
 authors = ["Alberto Corbi (UNIR)"]
 license = "MIT"

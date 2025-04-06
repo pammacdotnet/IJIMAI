@@ -51,6 +51,8 @@
 
   show figure.where(kind: table): set figure.caption(position: top)
 
+  show figure.where(kind: table): set block(breakable: true)
+
 
   let regex-fig = regex("Figure\s(\d+)")
   show regex-fig: it => {
@@ -68,8 +70,8 @@
 
   set math.equation(numbering: "(1)", supplement: none)
   show ref: it => {
+    set text(fill: azulunir)
     if it.element != none and it.element.func() == math.equation {
-      set text(fill: azulunir)
       [(#it)]
     } else {
       [#it]
