@@ -8,7 +8,7 @@ This template allows researchers to write and send papers to IJIMAI, directly wr
 In order to use it, just read the TOML configuration file, import the template and apply a `show` rule: 
 
 ```Typst
-#import "@preview/ijimai:0.0.3": *
+#import "@preview/ijimai:0.0.4": *
 #let conf = toml("paper.toml")
 #let author-photos = conf.authors.map(author => read(author.name + ".jpg", encoding: none))
 #show: ijimai.with(
@@ -17,6 +17,14 @@ In order to use it, just read the TOML configuration file, import the template a
   logo: image("unir logo.svg", width: 17.5%),
   bib-data: read("bibliography.bib", encoding: none),
 )
+
+#set text(lang: "en")
+
+= Introduction
+#first-paragraph(
+  conf: conf,
+  first-word: "Typst",
+)[is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.]
 ```
 
 All the needed information is written in a [TOML](https://toml.io) conf file. Take a look at the example. Author photos are composed from their name and appending `.jpg` i.e., `John Doe` + `.jpg`.
