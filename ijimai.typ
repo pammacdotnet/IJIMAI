@@ -25,13 +25,8 @@
       .join(", ")
   )
 
-  let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
-  let doi-link = link(doi-link-text, doi-link-text)
   counter(page).update(conf.paper.starting-page)
-  let last-page = context counter(page).final().first()
 
-  let cite-string = [
-    #conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
 
   show bibliography: it => {
     show link: set text(blue)
@@ -44,13 +39,12 @@
       context [
         Fig.~#it.counter.display()#it.separator#it.body]
     } else {
-      context [
+      context [#v(.2cm)
         TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]]
     }
   }
 
   show figure.where(kind: table): set figure.caption(position: top)
-
   show figure.where(kind: table): set block(breakable: true)
 
 
@@ -77,12 +71,6 @@
       [#it]
     }
   }
-
-  let cite-as-section = rect(
-    fill: silver,
-    width: 100%,
-    stroke: 0.5pt + azulunir,
-  )[#par(leading: .1cm)[#text(size: 8.1pt)[Please, cite this article as: #cite-string]]]
 
   set page(
     paper: "a4",
@@ -281,18 +269,6 @@
   }
 
   set par(justify: true, leading: 5pt, first-line-indent: 1em, spacing: .25cm)
-  let first-paragraph(content) = {
-    let first-space = content.text.position(" ")
-    dropcap(
-      height: 2,
-      gap: 1pt,
-      hanging-indent: 1em,
-      overhang: 0pt,
-      fill: azulunir,
-    )[#text(fill: azulunir, weight: "semibold")[#upper[#content.text.find(regex("\w+"))]] #(
-        content.at("text").slice(first-space)
-      )]
-  }
 
   let author-bios = (
     authors
@@ -317,14 +293,30 @@
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
   set text(size: 7.5pt, lang: "en")
 
-  bibliography(bib-data, style: "association-for-computing-machinery", title: "References")
+  bibliography(bib-data, style: "ieee", title: "References")
   v(1cm)
   set par(leading: 4pt, spacing: 9.5pt)
   author-bios
 }
 
 
-#let first-paragraph(first-word: "The", body) = {
+#let first-paragraph(conf: none, first-word: "The", body) = {
+  let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
+  let doi-link = link(doi-link-text, doi-link-text)
+  let last-page = context counter(page).final().first()
+
+  let cite-string = [
+    #conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
+
+  let cite-as-section = align(
+    left,
+    rect(
+      fill: silver,
+      width: 100%,
+      stroke: 0.5pt + azulunir,
+    )[#par(leading: .1cm)[#text(size: 8.1pt)[Please, cite this article as: #cite-string]]],
+  )
+
   dropcap(
     height: 2,
     gap: 1pt,
@@ -334,4 +326,9 @@
   )[
     #upper(text(fill: azulunir, weight: "semibold", first-word)) #body
   ]
+  figure(
+    cite-as-section,
+    scope: "parent",
+    placement: bottom,
+  )
 }

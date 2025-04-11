@@ -1,4 +1,4 @@
-#import "@local/ijimai:0.0.2": *
+#import "@local/ijimai:0.0.3": *
 #let conf = toml("paper.toml")
 #let author-photos = conf.authors.map(author => read(author.name + ".jpg", encoding: none))
 #show: ijimai.with(
@@ -12,12 +12,13 @@
 
 = Introduction
 #first-paragraph(
+  conf: conf,
   first-word: "Typst",
 )[is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.
   Our goal with Typst is to build a typesetting tool that is highly capable and a pleasure to use @Madje2022 @Haug2022. An axes is shown in @axes.]
 
 #figure(
-  image("axes.svg", width: 95%),
+  image("axes.svg", width: 69%),
   caption: [Coordinate system used in the problem.],
 ) <axes>
 
