@@ -6,64 +6,7 @@
 #let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
-  let authors = conf.authors.filter(author => author.include)
-  let institution-names = authors.map(author => author.institution).dedup()
-  let numbered-institution-names = institution-names.enumerate(start: 1)
-  let authors-string = authors
-    .map(author => {
-      let institution-number = numbered-institution-names
-        .filter(((_, name)) => name == author.institution)
-        .first() // One and only numbered institution
-        .first() // Institution number
-      [#author.name#h(0.7pt)#super[#institution-number]]
-      if author.corresponding [#super[#sym.star]]
-    })
-    .join(", ")
-
-  show bibliography: it => {
-    show link: set text(blue)
-    show link: underline
-    it
-  }
-
-  show figure.caption: it => {
-    if (it.fields().at("kind") == image) {
-      context [
-        Fig.~#it.counter.display()#it.separator#it.body]
-    } else {
-      context [#v(.2cm)
-        TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]]
-    }
-  }
-
-  show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set block(breakable: true)
-
-
-  let regex-fig = regex("Figure\s(\d+)")
-  show regex-fig: it => {
-    let (d) = it.text.match(regex-fig).captures
-    set text(fill: azulunir)
-    [Fig. #d.at(0)]
-  }
-
-  let regex-table = regex("Table\s(\d+)")
-  show regex-table: it => {
-    let (d) = it.text.match(regex-table).captures
-    set text(fill: azulunir)
-    [Table #d.at(0)]
-  }
-
   set math.equation(numbering: "(1)", supplement: none)
-  show ref: it => {
-    set text(fill: azulunir)
-    if it.element != none and it.element.func() == math.equation {
-      [(#it)]
-    } else {
-      [#it]
-    }
-  }
-
   set page(
     paper: "a4",
     margin: (bottom: 1.5cm, rest: 1.5cm),
@@ -123,6 +66,116 @@
       )
     ],
   )
+
+  show bibliography: it => {
+    show link: set text(blue)
+    show link: underline
+    it
+  }
+
+  show figure.caption: it => {
+    if (it.fields().at("kind") == image) {
+      context [
+        Fig.~#it.counter.display()#it.separator#it.body]
+    } else {
+      context [#v(.2cm)
+        TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]]
+    }
+  }
+
+  show figure.where(kind: table): set figure.caption(position: top)
+  show figure.where(kind: table): set block(breakable: true)
+
+
+  let regex-fig = regex("Figure\s(\d+)")
+  show regex-fig: it => {
+    let (d) = it.text.match(regex-fig).captures
+    set text(fill: azulunir)
+    [Fig. #d.at(0)]
+  }
+
+  let regex-table = regex("Table\s(\d+)")
+  show regex-table: it => {
+    let (d) = it.text.match(regex-table).captures
+    set text(fill: azulunir)
+    [Table #d.at(0)]
+  }
+
+  show ref: it => {
+    set text(fill: azulunir)
+    if it.element != none and it.element.func() == math.equation {
+      [(#it)]
+    } else {
+      [#it]
+    }
+  }
+
+  set heading(numbering: "I.A.a)")
+
+  show heading: it => {
+    let levels = counter(heading).get()
+    let deepest = if levels != () {
+      levels.last()
+    } else {
+      1
+    }
+
+    set text(10pt, weight: "regular")
+    if it.level == 1 {
+      let is-ack = it.body in ([Acknowledgment], [Acknowledgement], [Acknowledgments], [Acknowledgements])
+      set align(center)
+      set text(if is-ack { 10pt } else { 11pt })
+      show: block.with(above: 15pt, below: 13.75pt, sticky: true)
+      show: smallcaps
+      if it.numbering != none and not is-ack {
+        numbering("I.", deepest)
+        h(7pt, weak: true)
+      }
+      it.body
+    } else if it.level == 2 {
+      //set par(first-line-indent: 0pt)
+      set text(style: "italic")
+      show: block.with(spacing: 10pt, sticky: true)
+      v(.15cm)
+      if it.numbering != none {
+        emph(text(fill: azulunir)[#numbering("A.", deepest)])
+        h(7pt, weak: true)
+      }
+      emph(text(fill: azulunir)[#it.body])
+    } else [
+      #if it.level == 3 {
+        numbering("a)", deepest)
+        [ ]
+      }
+      _#(it.body):_
+    ]
+  }
+
+  show heading.where(level: 1): it => {
+    text(fill: azulunir)[#it]
+    v(-12pt)
+    line(length: 100%, stroke: azulunir + 0.5pt)
+  }
+
+  show heading.where(level: 2): it => {
+    emph(text(fill: azulunir)[#it])
+  }
+
+  show regex("Equation"): set text(fill: azulunir)
+
+  let authors = conf.authors.filter(author => author.include)
+  let institution-names = authors.map(author => author.institution).dedup()
+  let numbered-institution-names = institution-names.enumerate(start: 1)
+  let authors-string = authors
+    .map(author => {
+      let institution-number = numbered-institution-names
+        .filter(((_, name)) => name == author.institution)
+        .first() // One and only numbered institution
+        .first() // Institution number
+      [#author.name#h(0.7pt)#super[#institution-number]]
+      if author.corresponding [#super[#sym.star]]
+    })
+    .join(", ")
 
   counter(page).update(conf.paper.starting-page)
 
@@ -208,60 +261,6 @@
     #v(-1.7cm)
   ]
 
-
-  set heading(numbering: "I.A.a)")
-
-  show heading: it => {
-    let levels = counter(heading).get()
-    let deepest = if levels != () {
-      levels.last()
-    } else {
-      1
-    }
-
-    set text(10pt, weight: "regular")
-    if it.level == 1 {
-      let is-ack = it.body in ([Acknowledgment], [Acknowledgement], [Acknowledgments], [Acknowledgements])
-      set align(center)
-      set text(if is-ack { 10pt } else { 11pt })
-      show: block.with(above: 15pt, below: 13.75pt, sticky: true)
-      show: smallcaps
-      if it.numbering != none and not is-ack {
-        numbering("I.", deepest)
-        h(7pt, weak: true)
-      }
-      it.body
-    } else if it.level == 2 {
-      //set par(first-line-indent: 0pt)
-      set text(style: "italic")
-      show: block.with(spacing: 10pt, sticky: true)
-      v(.15cm)
-      if it.numbering != none {
-        emph(text(fill: azulunir)[#numbering("A.", deepest)])
-        h(7pt, weak: true)
-      }
-      emph(text(fill: azulunir)[#it.body])
-    } else [
-      #if it.level == 3 {
-        numbering("a)", deepest)
-        [ ]
-      }
-      _#(it.body):_
-    ]
-  }
-
-  show heading.where(level: 1): it => {
-    text(fill: azulunir)[#it]
-    v(-12pt)
-    line(length: 100%, stroke: azulunir + 0.5pt)
-  }
-
-  show heading.where(level: 2): it => {
-    emph(text(fill: azulunir)[#it])
-  }
-
-  set par(justify: true, leading: 5pt, first-line-indent: 1em, spacing: .25cm)
-
   let author-bios = (
     authors
       .enumerate()
@@ -277,7 +276,7 @@
       .join()
   )
 
-  show regex("Equation"): set text(fill: azulunir)
+  set par(justify: true, leading: 5pt, first-line-indent: 1em, spacing: .25cm)
 
   body
   show regex("^\[\d+\]"): set text(fill: azulunir)
