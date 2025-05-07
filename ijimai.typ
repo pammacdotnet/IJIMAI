@@ -65,7 +65,8 @@
   show figure.where(kind: table): set block(breakable: true)
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(
-    supplement: context if in-ref.get() [Table] else [TABLE ],
+    supplement: context if in-ref.get() [Table] else [TABLE],
+    numbering: "I",
   )
 
   set heading(numbering: "I.A.a)")
