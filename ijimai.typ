@@ -6,24 +6,19 @@
 #let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
-  let authors = conf.authors.filter(author => author.include == true)
-  let institutions-names = authors.map(author => { author.institution }).dedup()
-  let institutions-dict = institutions-names.enumerate(start: 1).map(institution-name => { (institution-name) })
-  let authors-string = (
-    authors
-      .enumerate(start: 1)
-      .map(author => {
-        let institution-number = institutions-dict
-          .filter(institution-dict => (
-            institution-dict.at(1) == author.at(1).institution
-          ))
-          .at(0)
-          .at(0)
-        [#author.at(1).name #h(-.09cm) #super[#institution-number]]
-        if author.at(1).corresponding [#super[#sym.star]]
-      })
-      .join(", ")
-  )
+  let authors = conf.authors.filter(author => author.include)
+  let institution-names = authors.map(author => author.institution).dedup()
+  let numbered-institution-names = institution-names.enumerate(start: 1)
+  let authors-string = authors
+    .map(author => {
+      let institution-number = numbered-institution-names
+        .filter(((_, name)) => name == author.institution)
+        .first() // One and only numbered institution
+        .first() // Institution number
+      [#author.name#h(0.7pt)#super[#institution-number]]
+      if author.corresponding [#super[#sym.star]]
+    })
+    .join(", ")
 
   counter(page).update(conf.paper.starting-page)
 
@@ -148,8 +143,7 @@
 
     #text(fill: black, size: 10pt)[
       #(
-        institutions-names
-          .enumerate(start: 1)
+        numbered-institution-names
           .map(institution-name => super[#institution-name.at(0)] + " " + institution-name.at(1))
           .join([\ ])
       )
