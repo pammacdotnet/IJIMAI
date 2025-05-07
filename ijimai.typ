@@ -9,62 +9,39 @@
   set math.equation(numbering: "(1)", supplement: none)
   set page(
     paper: "a4",
-    margin: (bottom: 1.5cm, rest: 1.5cm),
+    margin: 1.5cm,
     columns: 2,
     height: 27.9cm,
     width: 21.6cm,
-    header: [#if (conf.paper.special-issue == true) [
-        #context [
-          #if calc.odd(here().page()) {
-            place(
-              top + left,
-              dx: -80%,
-              dy: -8%,
-              rect(
-                width: 165%,
-                height: 17pt,
-                fill: gradient.linear(white, azulunir, angle: 180deg),
-              ),
-            )
-          } else {
-            place(
-              top + left,
-              dx: -8%,
-              dy: -8%,
-              rect(
-                width: 165%,
-                height: 17pt,
-                fill: gradient.linear(white, azulunir, angle: 180deg).sharp(5),
-              ),
-            )
-          }
-        ]]
+    header: context {
+      set align(center)
+      set text(10pt, azulunir, font: "Unit OT", weight: "bold", style: "italic")
 
-      #context [
-        #if calc.odd(here().page()) {
-          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "regular", style: "italic")[
-              #if (conf.paper.special-issue == true) [
-                *#conf.paper.special-issue-title*
-              ] else [*Regular issue*]
-            ]]
+      if (conf.paper.special-issue == true) {
+        let gradient = gradient.linear(white, azulunir, angle: 180deg)
+        let stripe = rect.with(width: 165%, height: 17pt - 8%)
+        if calc.odd(here().page()) {
+          place(dx: -80%, stripe(fill: gradient))
         } else {
-          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "regular", style: "italic")[
-              *#conf.paper.journal, Vol. #conf.paper.volume, N#super("o")#conf.paper.number*
-            ]]
-        }]
-    ],
-    footer: context [
-      #align(
-        center,
-        text(
-          fill: azulunir,
-          weight: "regular",
-          font: "Unit OT",
-          size: 8pt,
-          "- " + counter(page).display("1") + " -",
-        ),
-      )
-    ],
+          place(dx: -page.margin, stripe(fill: gradient.sharp(5)))
+        }
+      }
+
+      if calc.odd(here().page()) {
+        if (conf.paper.special-issue) {
+          conf.paper.special-issue-title
+        } else [Regular issue]
+      } else {
+        let (journal, volume, number) = conf.paper
+        [#journal, Vol. #volume, N#super[o]#number]
+        // [#journal, Vol. #volume, #sym.numero#number]
+      }
+    },
+    footer: context {
+      set align(center)
+      set text(8pt, azulunir, font: "Unit OT")
+      "- " + counter(page).display() + " -"
+    },
   )
 
   show bibliography: it => {
