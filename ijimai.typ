@@ -6,7 +6,7 @@
 #let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
-  set math.equation(numbering: "(1)", supplement: none)
+  set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
     paper: "a4",
     margin: 1.5cm,
@@ -51,41 +51,22 @@
   }
 
   show figure.caption: it => {
-    if (it.fields().at("kind") == image) {
-      context [
-        Fig.~#it.counter.display()#it.separator#it.body]
-    } else {
-      context [#v(.2cm)
-        TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]]
-    }
+    if it.kind != table { return it }
+    smallcaps(it) // Supplement and numbering are uppercase (not affected).
   }
 
-  show figure.where(kind: table): set figure.caption(position: top)
+  let in-ref = state("in-ref", false)
+  show ref: set text(azulunir)
+  show ref: it => in-ref.update(true) + it + in-ref.update(false)
+
+  show figure.where(kind: image): set figure(supplement: "Fig.")
+
+  show figure.where(kind: table): set block(above: 4.5mm)
   show figure.where(kind: table): set block(breakable: true)
-
-
-  let regex-fig = regex("Figure\s(\d+)")
-  show regex-fig: it => {
-    let (d) = it.text.match(regex-fig).captures
-    set text(fill: azulunir)
-    [Fig. #d.at(0)]
-  }
-
-  let regex-table = regex("Table\s(\d+)")
-  show regex-table: it => {
-    let (d) = it.text.match(regex-table).captures
-    set text(fill: azulunir)
-    [Table #d.at(0)]
-  }
-
-  show ref: it => {
-    set text(fill: azulunir)
-    if it.element != none and it.element.func() == math.equation {
-      [(#it)]
-    } else {
-      [#it]
-    }
-  }
+  show figure.where(kind: table): set figure.caption(position: top)
+  show figure.where(kind: table): set figure(
+    supplement: context if in-ref.get() [Table] else [TABLE ],
+  )
 
   set heading(numbering: "I.A.a)")
 
