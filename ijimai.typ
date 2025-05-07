@@ -1,5 +1,5 @@
 #import "@preview/wrap-it:0.1.1": wrap-content
-#import "@preview/datify:0.1.3": day-name, month-name, custom-date-format
+#import "@preview/datify:0.1.3": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
 #let azulunir = rgb("#0098cd")
 
