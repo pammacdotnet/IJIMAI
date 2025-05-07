@@ -20,9 +20,6 @@
     })
     .join(", ")
 
-  counter(page).update(conf.paper.starting-page)
-
-
   show bibliography: it => {
     show link: set text(blue)
     show link: underline
@@ -127,6 +124,7 @@
     ],
   )
 
+  counter(page).update(conf.paper.starting-page)
 
   place(
     top + left,
