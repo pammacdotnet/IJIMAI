@@ -29,7 +29,7 @@ In order to use it, just read the TOML configuration file, import the template a
 
 All the needed information is written in a [TOML](https://toml.io) conf file. Take a look at the example. Author photos are composed from their name and appending `.jpg` i.e., `John Doe` + `.jpg`.
 
-If you do not have the UnitOT font, you can download it from [here](https://www.dropbox.com/scl/fi/ejy8910blatsgpzvcyhf8/UnitOT.zip?rlkey=7c550m3rpvd6hovt1o9s5oiwf&st=4adnysuo&dl=0). Once done, upload all the `UnitOT*.otf` files to your project directory in the [Typst.app](http://typst.app) web application.
+If you do not have the UnitOT font, you can download it from the [repo](https://github.com/pammacdotnet/ijimai). Once done, upload the `UnitOT.otf`, `UnitOT Light Italic.otf` and `UnitOT Medium.otf` files to your project directory in the [Typst.app](http://typst.app) web application.
 
 # In case of doubts
 Please, bear in mind this template is continously been bettered. In case of doubts, please, send an email to alberto.corbi@unir.net. 
