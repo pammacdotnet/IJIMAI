@@ -1,5 +1,5 @@
 .DS_Store
-*.otf
+# *.otf
 template/Johanna Swift.jpg
 template/Oliver Liam.jpg
 template/paper.pdf
@@ -20,3 +20,4 @@ template/interstellar.jpg
 template/interstellar.pdf
 template/interstellar.toml
 template/interstellar.typ
+*.otf

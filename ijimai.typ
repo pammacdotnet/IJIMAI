@@ -37,15 +37,17 @@
   show figure.caption: it => {
     if (it.fields().at("kind") == image) {
       context [
-        Fig.~#it.counter.display()#it.separator#it.body]
+        Fig.~#it.counter.display()#it.separator#it.body #v(.2cm)]
     } else {
       context [#v(.2cm)
-        TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]]
+        TABLE #smallcaps()[~#it.counter.display()#it.separator#it.body]#v(.1cm)]
     }
   }
 
   show figure.where(kind: table): set figure.caption(position: top)
-  show figure.where(kind: table): set block(breakable: true)
+  show figure.where(kind: table): set block(breakable: true, below: .6cm, sticky: false)
+  show figure.where(kind: image): set figure(placement: none)
+  show figure.where(kind: table): set figure(placement: none)
 
 
   let regex-fig = regex("Figure\s(\d+)")
@@ -107,14 +109,14 @@
 
       #context [
         #if calc.odd(here().page()) {
-          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "regular", style: "italic")[
+          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "light", style: "oblique")[
               #if (conf.paper.special-issue == true) [
-                *#conf.paper.special-issue-title*
-              ] else [*Regular issue*]
+                #conf.paper.special-issue-title
+              ] else [Regular issue]
             ]]
         } else {
-          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "regular", style: "italic")[
-              *#conf.paper.journal, Vol. #conf.paper.volume, N#super("o")#conf.paper.number*
+          align(center)[#text(size: 10pt, fill: azulunir, font: "Unit OT", weight: "light", style: "oblique")[
+              #conf.paper.journal, Vol. #conf.paper.volume, N#super("o")#conf.paper.number
             ]]
         }]
     ],
@@ -192,18 +194,18 @@
       columns: (3.5fr, 1fr),
       rows: (auto, 60pt),
       gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[A]#text(
+      [#text(size: 15pt, font: "Unit OT", weight: "medium", fill: azulunir)[A]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
+          weight: "medium",
           fill: azulunir,
         )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: true, leading: 5.5pt)[#text(
             size: 8.8pt,
           )[#conf.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[K]#text(
+      [#text(size: 15pt, font: "Unit OT", weight: "medium", fill: azulunir)[K]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
+          weight: "medium",
           fill: azulunir,
         )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: false, leading: 4pt)[#text(
             size: 9.6pt,
