@@ -8,11 +8,9 @@
   set columns(gutter: 0.4cm)
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
-    paper: "a4",
+    paper: "ansi-a",
     margin: 1.5cm,
     columns: 2,
-    height: 27.9cm,
-    width: 21.6cm,
     header: context {
       set align(center)
       set text(10pt, azulunir, font: "Unit OT", weight: "bold", style: "italic")
