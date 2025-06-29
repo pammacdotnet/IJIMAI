@@ -15,7 +15,13 @@
     width: 21.6cm,
     header: context {
       set align(center)
-      set text(10pt, azulunir, font: "Unit OT", weight: "bold", style: "italic")
+      set text(
+        size: 10pt,
+        fill: azulunir,
+        font: "Unit OT",
+        weight: "light",
+        style: "oblique",
+      )
 
       if (conf.paper.special-issue == true) {
         let gradient = gradient.linear(white, azulunir, angle: 180deg)
@@ -59,10 +65,13 @@
   show ref: set text(azulunir)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
+  show figure.where(kind: image): set figure(gap: 0.65em + 2mm)
   show figure.where(kind: image): set figure(supplement: "Fig.")
 
+  show figure.where(kind: table): set figure(gap: 0.65em + 1mm)
   show figure.where(kind: table): set block(above: 4.5mm)
   show figure.where(kind: table): set block(breakable: true)
+  show figure.where(kind: table): set block(breakable: true, below: 6mm)
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(
     supplement: context if in-ref.get() [Table] else [TABLE],
@@ -196,18 +205,18 @@
       columns: (3.5fr, 1fr),
       rows: (auto, 60pt),
       gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[A]#text(
+      [#text(size: 15pt, font: "Unit OT", weight: "medium", fill: azulunir)[A]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
+          weight: "medium",
           fill: azulunir,
         )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: true, leading: 5.5pt)[#text(
             size: 8.8pt,
           )[#conf.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[K]#text(
+      [#text(size: 15pt, font: "Unit OT", weight: "medium", fill: azulunir)[K]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
+          weight: "medium",
           fill: azulunir,
         )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: false, leading: 4pt)[#text(
             size: 9.6pt,
