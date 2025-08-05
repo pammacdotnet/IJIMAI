@@ -1,5 +1,5 @@
 #import "@preview/wrap-it:0.1.1": wrap-content
-#import "@preview/datify:0.1.3": custom-date-format, day-name, month-name
+#import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
 #let azulunir = rgb("#0098cd")
 
@@ -8,11 +8,9 @@
   set columns(gutter: 0.4cm)
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
-    paper: "a4",
+    paper: "ansi-a",
     margin: 1.5cm,
     columns: 2,
-    height: 27.9cm,
-    width: 21.6cm,
     header: context {
       set align(center)
       set text(10pt, azulunir, font: "Unit OT", weight: "bold", style: "italic")
@@ -228,7 +226,7 @@
         let author-bio = [#par(
             text(fill: azulunir, font: "Unit OT", size: 8.0pt, weight: "regular", author.at(1).name),
           ) #(
-            text(size: 8pt, author.at(1).bio)
+            text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
           )]
         wrap-content(author-photo, author-bio)
       })
