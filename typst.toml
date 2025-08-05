@@ -11,4 +11,4 @@ categories = ["paper"]
 [template]
 path = "template"
 entrypoint = "paper.typ"
-thumbnail = "thumbnail.png"
+thumbnail = "tests/template/ref/1.png"
