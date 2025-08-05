@@ -226,7 +226,7 @@
         let author-bio = [#par(
             text(fill: azulunir, font: "Unit OT", size: 8.0pt, weight: "regular", author.at(1).name),
           ) #(
-            text(size: 8pt, author.at(1).bio)
+            text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
           )]
         wrap-content(author-photo, author-bio)
       })
