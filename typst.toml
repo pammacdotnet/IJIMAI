@@ -1,8 +1,8 @@
 [package]
 name = "ijimai"
-version = "0.0.4"
+version = "0.0.5"
 entrypoint = "ijimai.typ"
-authors = ["Alberto Corbi (UNIR)"]
+authors = ["Alberto Corbi (UNIR)", "Andrey Voynov (BMSTU)"]
 license = "MIT"
 description = "Template for writing articles for the International Journal of Interactive Multimedia and Artificial Intelligence (IJIMAI)"
 repository = "https://github.com/pammacdotnet/IJIMAI"

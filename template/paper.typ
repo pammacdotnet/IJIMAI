@@ -1,4 +1,5 @@
-#import "@preview/ijimai:0.0.4": *
+//#import "@preview/ijimai:0.0.4": *
+#import "@local/ijimai:0.0.5": *
 #let conf = toml("paper.toml")
 #let author-photos = conf.authors.map(author => read(author.name + ".jpg", encoding: none))
 #show: ijimai.with(
@@ -35,11 +36,7 @@ where:
     columns: (0.5fr, 2cm, 4cm),
     inset: 3pt,
     align: horizon,
-    table.header(
-      [],
-      [*Volume*],
-      [*Parameters*],
-    ),
+    table.header([], [*Volume*], [*Parameters*]),
 
     image("cylinder.svg", width: 0.8cm),
     $ pi h (D^2 - d^2) / 4 $,

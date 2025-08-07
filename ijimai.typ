@@ -1,7 +1,13 @@
 #import "@preview/wrap-it:0.1.1": wrap-content
 #import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
-#let azulunir = rgb("#0098cd")
+//#import "@preview/decasify:0.10.1": *
+#import "@preview/titleize:0.1.1": titlecase
+#let blueunir = rgb("#0098cd")
+#let softblueunir = rgb("eaf6fd")
+#let space-above-tables = 4.5mm
+#let space-above-images = 4.5mm
+#let abstract-font-size = 8.8pt
 
 #let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
@@ -13,10 +19,10 @@
     columns: 2,
     header: context {
       set align(center)
-      set text(10pt, azulunir, font: "Unit OT", weight: "bold", style: "italic")
+      set text(10pt, blueunir, font: "Unit OT", weight: "light", style: "oblique")
 
       if (conf.paper.special-issue == true) {
-        let gradient = gradient.linear(white, azulunir, angle: 180deg)
+        let gradient = gradient.linear(white, blueunir, angle: 180deg)
         let stripe = rect.with(width: 165%, height: 17pt - 8%)
         if calc.odd(here().page()) {
           place(dx: -80%, stripe(fill: gradient))
@@ -32,12 +38,11 @@
       } else {
         let (journal, volume, number) = conf.paper
         [#journal, Vol. #volume, N#super[o]#number]
-        // [#journal, Vol. #volume, #sym.numero#number]
       }
     },
     footer: context {
       set align(center)
-      set text(8pt, azulunir, font: "Unit OT")
+      set text(8pt, blueunir, font: "Unit OT")
       "- " + counter(page).display() + " -"
     },
   )
@@ -50,22 +55,25 @@
 
   show figure.caption: it => {
     if it.kind != table { return it }
-    smallcaps(it) // Supplement and numbering are uppercase (not affected).
+    smallcaps(it)
   }
 
   let in-ref = state("in-ref", false)
-  show ref: set text(azulunir)
+  show ref: set text(blueunir)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
   show figure.where(kind: image): set figure(supplement: "Fig.")
-
-  show figure.where(kind: table): set block(above: 4.5mm)
+  show figure.where(kind: image): set block(below: space-above-images)
+  show figure.where(kind: table): set block(above: space-above-tables)
+  show figure.where(kind: table): set block(below: space-above-tables)
   show figure.where(kind: table): set block(breakable: true)
   show figure.where(kind: table): set figure.caption(position: top)
   show figure.where(kind: table): set figure(
     supplement: context if in-ref.get() [Table] else [TABLE],
     numbering: "I",
   )
+
+  set figure.caption(separator: [. ])
 
   set heading(numbering: "I.A.a)")
 
@@ -95,10 +103,10 @@
       show: block.with(spacing: 10pt, sticky: true)
       v(.15cm)
       if it.numbering != none {
-        emph(text(fill: azulunir)[#numbering("A.", deepest)])
+        emph(text(fill: blueunir)[#numbering("A.", deepest)])
         h(7pt, weak: true)
       }
-      emph(text(fill: azulunir)[#it.body])
+      emph(text(fill: blueunir)[#it.body])
     } else [
       #if it.level == 3 {
         numbering("a)", deepest)
@@ -109,16 +117,16 @@
   }
 
   show heading.where(level: 1): it => {
-    text(fill: azulunir)[#it]
+    text(fill: blueunir)[#it]
     v(-12pt)
-    line(length: 100%, stroke: azulunir + 0.5pt)
+    line(length: 100%, stroke: blueunir + 0.5pt)
   }
 
   show heading.where(level: 2): it => {
-    emph(text(fill: azulunir)[#it])
+    emph(text(fill: blueunir)[#it])
   }
 
-  show regex("Equation"): set text(fill: azulunir)
+  show regex("Equation"): set text(fill: blueunir)
 
   let authors = conf.authors.filter(author => author.include)
   let institution-names = authors.map(author => author.institution).dedup()
@@ -144,10 +152,10 @@
   )[
     #align(left)[
       #par(spacing: 0.7cm, leading: 1.5em)[
-        #text(size: 24pt)[#conf.paper.title]
+        #text(size: 24pt)[#titlecase(conf.paper.title)]
       ]]
 
-    #text(fill: azulunir, size: 13pt)[#authors-string]
+    #text(fill: blueunir, size: 13pt)[#authors-string]
 
     #text(fill: black, size: 10pt)[
       #(
@@ -157,7 +165,7 @@
       )
     ]
 
-    #text(fill: azulunir)[#super[#sym.star] Corresponding author:] #(
+    #text(fill: blueunir)[#super[#sym.star] Corresponding author:] #(
       authors.filter(author => author.corresponding).at(0).email
     )
 
@@ -174,10 +182,10 @@
         conf.paper.published-date.month(),
         true,
       ) #conf.paper.published-date.year()]
-    #underline(offset: 4pt, stroke: azulunir)[#overline(offset: -10pt, stroke: azulunir)[#text(
-          font: "Unit OT",
-          size: 8pt,
-        )[Received #received-date-string | Accepted #accepted-date-string | Published #published-date-string]]]
+    #underline(offset: 4pt, stroke: blueunir)[#overline(offset: -10pt, stroke: blueunir)[#text(
+      font: "Unit OT",
+      size: 8pt,
+    )[Received #received-date-string | Accepted #accepted-date-string | Published #published-date-string]]]
 
     #context [
       #let abstract-y = here().position().y
@@ -190,30 +198,32 @@
     #v(1.3cm)
 
 
+    #let keywords-string = (conf.paper.keywords.sorted().join(", ") + ".")
+
     #grid(
       columns: (3.5fr, 1fr),
       rows: (auto, 60pt),
       gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[A]#text(
+      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: blueunir)[A]#text(
           size: 13pt,
           font: "Unit OT",
           weight: "regular",
-          fill: azulunir,
-        )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: true, leading: 5.5pt)[#text(
-            size: 8.8pt,
-          )[#conf.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: azulunir)[K]#text(
+          fill: blueunir,
+        )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: true, leading: 5.5pt)[#text(
+          size: abstract-font-size,
+        )[#conf.paper.abstract]]],
+      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: blueunir)[K]#text(
           size: 13pt,
           font: "Unit OT",
           weight: "regular",
-          fill: azulunir,
-        )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: azulunir) #par(justify: false, leading: 4pt)[#text(
-            size: 9.6pt,
-          )[#conf.paper.keywords]] #align(left + bottom)[
-          #underline(offset: 4pt, stroke: azulunir)[#overline(offset: -10pt, stroke: azulunir)[#text(
-                font: "Unit OT",
-                size: 7.5pt,
-              )[#text(fill: azulunir, "DOI: ") #conf.paper.doi]]]]],
+          fill: blueunir,
+        )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: false, leading: 4pt)[#text(
+          size: abstract-font-size,
+        )[#keywords-string]] #align(left + bottom)[
+          #underline(offset: 4pt, stroke: blueunir)[#overline(offset: -10pt, stroke: blueunir)[#text(
+            font: "Unit OT",
+            size: 7.5pt,
+          )[#text(fill: blueunir, "DOI: ") #conf.paper.doi]]]]],
     )
     #v(-1.7cm)
   ]
@@ -224,7 +234,7 @@
       .map(author => {
         let author-photo = image(bytes(photos.at(author.at(0))), width: 2cm)
         let author-bio = [#par(
-            text(fill: azulunir, font: "Unit OT", size: 8.0pt, weight: "regular", author.at(1).name),
+            text(fill: blueunir, font: "Unit OT", size: 8.0pt, weight: "regular", author.at(1).name),
           ) #(
             text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
           )]
@@ -236,7 +246,7 @@
   set par(justify: true, leading: 5pt, first-line-indent: 1em, spacing: .25cm)
 
   body
-  show regex("^\[\d+\]"): set text(fill: azulunir)
+  show regex("^\[\d+\]"): set text(fill: blueunir)
 
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
   set text(size: 7.5pt, lang: "en")
@@ -261,7 +271,7 @@
     rect(
       fill: silver,
       width: 100%,
-      stroke: 0.5pt + azulunir,
+      stroke: 0.5pt + blueunir,
     )[#par(leading: .1cm)[#text(size: 8.1pt)[Please, cite this article as: #cite-string]]],
   )
 
@@ -270,13 +280,17 @@
     gap: 1pt,
     hanging-indent: 1em,
     overhang: 0pt,
-    fill: azulunir,
+    fill: blueunir,
   )[
-    #upper(text(fill: azulunir, weight: "semibold", first-word)) #body
+    #upper(text(fill: blueunir, weight: "semibold", first-word)) #body
   ]
+
+
   figure(
     cite-as-section,
     scope: "parent",
     placement: bottom,
   )
+  counter(figure.where(kind: image)).update(0)
 }
+
