@@ -5,7 +5,6 @@
 # https://github.com/typst-community/tytanic/issues/184
 
 DEFAULT_ARGS := "\
---ppi 100 \
 --font-path fonts \
 --expression 'not template()' \
 "

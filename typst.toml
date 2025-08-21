@@ -12,3 +12,6 @@ categories = ["paper"]
 path = "template"
 entrypoint = "paper.typ"
 thumbnail = "tests/template/ref/1.png"
+
+[tool.tytanic.default]
+ppi = 100
