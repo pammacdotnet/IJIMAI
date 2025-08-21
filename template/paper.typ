@@ -1,5 +1,4 @@
-//#import "@preview/ijimai:0.0.4": *
-#import "@local/ijimai:0.0.5": *
+#import "@preview/ijimai:0.0.5": *
 #let conf = toml("paper.toml")
 #let author-photos = conf.authors.map(author => read(author.name + ".jpg", encoding: none))
 #show: ijimai.with(
@@ -25,7 +24,7 @@
 
 
 == Subsection title
-#lorem(47)
+#lorem(39)
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
 where:
 - $G_(mu nu)$ is the Einstein tensor, and

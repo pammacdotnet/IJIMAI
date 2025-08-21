@@ -25,7 +25,7 @@
 
 
 == Subsection title
-#lorem(47)
+#lorem(39)
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
 where:
 - $G_(mu nu)$ is the Einstein tensor, and

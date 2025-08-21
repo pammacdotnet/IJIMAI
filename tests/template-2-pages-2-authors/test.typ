@@ -25,7 +25,7 @@
 
 
 == Subsection title
-#lorem(47)
+#lorem(39)
 Reference to equation: @eq.
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <eq>
 where:

@@ -29,7 +29,10 @@ In order to use it, just read the TOML configuration file, import the template a
 
 All the needed information is written in a [TOML](https://toml.io) conf file. Take a look at the example. Author photos are composed from their name and appending `.jpg` i.e., `John Doe` + `.jpg`.
 
-If you do not have the UnitOT font, you can download it from the [repo](https://github.com/pammacdotnet/ijimai). Once done, upload the `UnitOT.otf`, `UnitOT Light Italic.otf` and `UnitOT Medium.otf` files to your project directory in the [Typst.app](http://typst.app) web application.
+If you do not have the Unit OT font, you can download it from the [repository](https://github.com/pammacdotnet/IJIMAI). Once done, upload the [`UnitOT-Regular.otf`] and [`UnitOT-LightItalic.otf`] files to your project directory in the [Typst.app](http://typst.app) web application. If you are using Typst locally, install font files in your operating system so that they are available to any program, alternatively use `--font-path` (paired with `--ignore-system-fonts`) flag and pass the directory with the downloaded fonts (see `typst compile --help`).
+
+[`UnitOT-Regular.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-Regular.otf
+[`UnitOT-LightItalic.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf
 
 # In case of doubts
 Please, bear in mind this template is continously been bettered. In case of doubts, please, send an email to alberto.corbi@unir.net. 
