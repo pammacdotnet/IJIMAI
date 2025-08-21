@@ -2,10 +2,10 @@
 # Template for the _International Journal of Interactive Multimedia and Artificial Intelligence_ (IJIMAI)
 The _International Journal of Interactive Multimedia and Artificial Intelligence_ ([IJIMAI](https://www.ijimai.org)) is a quarterly journal which provides an interdisciplinary forum in which scientists and professionals can share their research results and report new advances on artificial intelligence tools, theory, methodologies, systems, architectures integrating multiple technologies, problems including demonstrations of effectiveness, or tools that use AI with interactive multimedia techniques.
 
-This template allows researchers to write and send papers to IJIMAI, directly written in Typst! IJIMAI is the first journal ever to accept contributions authored in Typst. 
+This template allows researchers to write and send papers to IJIMAI, directly written in Typst! IJIMAI is the first journal ever to accept contributions authored in Typst.
 
 ## Quick start
-In order to use it, just read the TOML configuration file, import the template and apply a `show` rule: 
+In order to use it, just read the TOML configuration file, import the template and apply a `show` rule:
 
 ```Typst
 #import "@preview/ijimai:0.0.4": *
@@ -35,4 +35,4 @@ If you do not have the Unit OT font, you can download it from the [repository](h
 [`UnitOT-LightItalic.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf
 
 # In case of doubts
-Please, bear in mind this template is continously been bettered. In case of doubts, please, send an email to alberto.corbi@unir.net. 
+Please, bear in mind this template is continously been bettered. In case of doubts, please, send an email to alberto.corbi@unir.net.
