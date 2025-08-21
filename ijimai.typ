@@ -62,6 +62,8 @@
   show ref: set text(blueunir)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
+  // Make floating figures by default to avoid gaps in document flow.
+  set figure(placement: auto)
   show figure.where(kind: image): set figure(supplement: "Fig.")
   show figure.where(kind: image): set block(below: space-above-images)
   show figure.where(kind: table): set block(above: space-above-tables)
