@@ -53,10 +53,7 @@
     it
   }
 
-  show figure.caption: it => {
-    if it.kind != table { return it }
-    smallcaps(it)
-  }
+  show figure.caption.where(kind: table): smallcaps
 
   let in-ref = state("in-ref", false)
   show ref: set text(blueunir)
