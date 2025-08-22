@@ -20,7 +20,7 @@
 
 #figure(
   image(dir + "axes.svg", width: 69%),
-  caption: [Coordinate system used in the problem.],
+  caption: [Coordinate system used in the problem],
 ) <axes>
 
 
