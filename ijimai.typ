@@ -54,7 +54,48 @@
     it
   }
 
-  show figure.caption.where(kind: table): smallcaps
+  // Used for table figure caption.
+  // See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
+  let remove-trailing-period(element, sep: "") = {
+    assert(type(element) == content)
+    let sequence = [].func()
+    let space = [ ].func()
+    let styled = text(red)[].func()
+    if element.func() == text {
+      element.text.slice(0, -1)
+    } else if element.func() == space {
+      " "
+    } else if element.func() == sequence {
+      let (..rest, last) = element.children
+      (..rest, remove-trailing-period(last)).join()
+    } else if element.func() == styled {
+      styled(styles: element.styles, remove-trailing-period(element.child))
+    } else if element.func() == emph {
+      emph(remove-trailing-period(element.body))
+    } else if element.func() == strong {
+      strong(remove-trailing-period(element.body))
+    } else {
+      panic(repr(element.func()) + " was not handled properly")
+    }
+  }
+
+  // show figure.caption.where(kind: table): smallcaps
+  show figure.caption.where(kind: table): it => {
+    show: smallcaps
+    let text = get.text(it)
+    // text == none when caption == [].
+    // Don't remove period for empty caption.
+    // Don't remove period if doesn't exist.
+    if text == none or text.len() == 0 or text.last() != "." { it } else {
+      show: block
+      it.supplement
+      if it.supplement != none { sym.space.nobreak }
+      context it.counter.display(it.numbering)
+      it.separator
+      remove-trailing-period(it.body)
+    }
+  }
+
   show figure.caption.where(kind: image): it => {
     let text = get.text(it)
     // text == none when caption == [].
