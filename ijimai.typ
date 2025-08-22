@@ -20,7 +20,7 @@
     columns: 2,
     header: context {
       set align(center)
-      set text(10pt, blueunir, font: "Unit OT", weight: "light", style: "oblique")
+      set text(10pt, blueunir, font: "Unit OT", weight: "light", style: "italic")
 
       if (conf.paper.special-issue == true) {
         let gradient = gradient.linear(white, blueunir, angle: 180deg)
