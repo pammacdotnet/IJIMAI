@@ -214,7 +214,7 @@
     #text(fill: black, size: 10pt)[
       #(
         numbered-institution-names
-          .map(institution-name => super[#institution-name.at(0)] + " " + institution-name.at(1))
+          .map(((number, name)) => super[#number] + " " + eval(name, mode: "markup"))
           .join([\ ])
       )
     ]
