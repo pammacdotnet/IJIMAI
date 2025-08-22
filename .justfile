@@ -4,10 +4,7 @@
 # dependent files/imports.
 # https://github.com/typst-community/tytanic/issues/184
 
-DEFAULT_ARGS := "\
---font-path fonts \
---expression 'not template()' \
-"
+export TYPST_FONT_PATHS := "fonts"
 
 PREVIEW_DIR := env(
   'TYPST_PACKAGE_CACHE_PATH',
@@ -40,11 +37,11 @@ alias init := pre-commit
 
 # Run tests.
 test *args: pre-commit
-  tt run {{DEFAULT_ARGS}} {{args}}
+  tt run --expression 'not template()' {{args}}
 
 # Update tests.
 update-test *args: pre-commit
-  tt update {{DEFAULT_ARGS}} {{args}}
+  tt update {{args}}
 
 # Install the package by linking it to this repository.
 install:
