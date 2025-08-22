@@ -258,18 +258,16 @@
       columns: (3.5fr, 1fr),
       rows: (auto, 60pt),
       gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: blueunir)[A]#text(
+      [#text(size: 15pt, font: "Unit OT", fill: blueunir)[A]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
           fill: blueunir,
         )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: true, leading: 5.5pt)[#text(
           size: abstract-font-size,
         )[#conf.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", weight: "regular", fill: blueunir)[K]#text(
+      [#text(size: 15pt, font: "Unit OT", fill: blueunir)[K]#text(
           size: 13pt,
           font: "Unit OT",
-          weight: "regular",
           fill: blueunir,
         )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: false, leading: 4pt)[#text(
           size: abstract-font-size,
@@ -288,7 +286,7 @@
       .map(author => {
         let author-photo = image(bytes(photos.at(author.at(0))), width: 2cm)
         let author-bio = [#par(
-            text(fill: blueunir, font: "Unit OT", size: 8.0pt, weight: "regular", author.at(1).name),
+            text(fill: blueunir, font: "Unit OT", size: 8.0pt, author.at(1).name),
           ) #(
             text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
           )]
