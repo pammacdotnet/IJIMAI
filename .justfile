@@ -6,9 +6,13 @@
 
 export TYPST_FONT_PATHS := "fonts"
 
+
 PREVIEW_DIR := env(
   'TYPST_PACKAGE_CACHE_PATH',
-  env('XDG_CACHE_HOME', env('HOME') / '.cache') / 'typst' / 'packages',
+  env(
+    'XDG_CACHE_HOME',
+    env('HOME') / if os() == 'macos' { 'Library/Application Support' } else { '.cache' }
+  ) / 'typst' / 'packages',
 ) / 'preview'
 
 PACKAGE_NAME := shell(
