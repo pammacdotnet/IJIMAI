@@ -144,11 +144,12 @@
       set align(center)
       set text(if is-ack { 10pt } else { 11pt })
       show: block.with(above: 15pt, below: 13.75pt, sticky: true)
-      show: smallcaps
       if it.numbering != none and not is-ack {
         numbering("I.", deepest)
         h(7pt, weak: true)
       }
+      show: smallcaps
+      show: titlecase
       it.body
     } else if it.level == 2 {
       //set par(first-line-indent: 0pt)
