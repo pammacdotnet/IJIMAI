@@ -154,8 +154,7 @@
     } else if it.level == 2 {
       //set par(first-line-indent: 0pt)
       set text(style: "italic")
-      show: block.with(spacing: 10pt, sticky: true)
-      v(.15cm)
+      show: block.with(spacing: 10pt, sticky: true, above: 1.2em + 0.22em)
       if it.numbering != none {
         emph(text(fill: blueunir)[#numbering("A.", deepest)])
         h(7pt, weak: true)
