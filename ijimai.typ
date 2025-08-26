@@ -111,7 +111,6 @@
   }
 
   let in-ref = state("in-ref", false)
-  show ref: set text(blueunir)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
   // Make floating figures by default to avoid gaps in document flow.
