@@ -12,6 +12,16 @@
 #figure(rect(), caption: strong[Strong content caption])
 #figure(rect(), caption: [_Styled_ *content* caption])
 #figure(rect(), caption: [Referencing @a])
+#figure(rect(), caption: [Caption with space ])
+#figure(rect(), caption: [Caption with comment
+  // Some comment.
+])
+#figure(rect(), caption: [Caption with `raw `])
+#figure(rect(), caption: [Caption with `linebreak` \
+])
+#figure(rect(), caption: [Caption with `parbreak`
+
+])
 
 // Period is included in the caption:
 #figure(rect(), caption: ".") // Empty caption with period
@@ -23,3 +33,13 @@
 #figure(rect(), caption: strong[Strong content caption.])
 #figure(rect(), caption: [_Styled_ *content* caption.])
 #figure(rect(), caption: [Referencing @a.])
+#figure(rect(), caption: [Caption with space. ])
+#figure(rect(), caption: [Caption with comment.
+  // Some comment.
+])
+#figure(rect(), caption: [Caption with `raw.`])
+#figure(rect(), caption: [Caption with `linebreak`. \
+])
+#figure(rect(), caption: [Caption with `parbreak`.
+
+])

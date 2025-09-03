@@ -96,18 +96,55 @@
     }
   }
 
+  let remove-trailing-spaces(element) = {
+    if element == none { return element }
+    assert(type(element) == content)
+    let sequence = [].func()
+    let space = [ ].func()
+    let styled = text(red)[].func()
+    let new = if element.func() == text {
+      if element.text.last() != " " { element } else {
+        text(element.text.slice(0, -1))
+      }
+    } else if element.func() == raw {
+      if element.text.last() != " " { element } else {
+        let fields = element.fields()
+        let text = fields.remove("text")
+        raw(..fields, text.slice(0, -1))
+      }
+    } else if element.func() in (space, linebreak, parbreak) {
+    } else if element.func() == sequence {
+      let (..rest, last) = element.children
+      (..rest, remove-trailing-spaces(last)).join()
+    } else if element.func() == styled {
+      styled(styles: element.styles, remove-trailing-spaces(element.child))
+    } else if element.func() == emph {
+      emph(remove-trailing-spaces(element.body))
+    } else if element.func() == strong {
+      strong(remove-trailing-spaces(element.body))
+    } else if element.func() in (ref, raw) {
+      element
+    } else {
+      panic(repr(element.func()) + " was not handled properly")
+    }
+    if new != element { remove-trailing-spaces(new) } else { new }
+  }
+
   show figure.caption.where(kind: image): it => {
     let text = get.text(it)
     // text == none when caption == [].
-    // Don't add period for empty caption.
-    // Don't add period if already exist.
-    if text == none or text.len() == 0 or text.last() == "." { return it }
+    // Don't add period for empty caption (spaces pre-trimmed).
+    // Don't add period if already exist (spaces pre-trimmed).
+    if text == none or text.trim().len() == 0 or text.trim().last() == "." {
+      return it
+    }
     show: block
     it.supplement
     if it.supplement != none { sym.space.nobreak }
     context it.counter.display(it.numbering)
     it.separator
-    it.body + "."
+    remove-trailing-spaces(it.body)
+    "."
   }
 
   let in-ref = state("in-ref", false)
