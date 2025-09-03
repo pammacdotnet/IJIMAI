@@ -1,7 +1,9 @@
 #import "../minimal-template.typ": ijimai
 #show: ijimai
+#set figure(placement: none)
 
-// Period is not included in the caption:
+Period is not included in the caption:
+
 #figure(rect()) // No caption
 #figure(rect(), caption: "") // Empty caption
 #figure(rect(), caption: "String caption")
@@ -23,7 +25,10 @@
 
 ])
 
-// Period is included in the caption:
+#pagebreak()
+
+Period is included in the caption:
+
 #figure(rect(), caption: ".") // Empty caption with period
 #figure(rect(), caption: "String caption.")
 #figure(rect(), caption: [.]) // Empty caption with period
