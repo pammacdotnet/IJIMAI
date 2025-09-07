@@ -54,17 +54,18 @@
     it
   }
 
-  // Used for table figure caption.
-  // See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
-  let remove-trailing-period(element, sep: "") = {
+  /// Used for table figure caption.
+  /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
+  let remove-trailing-period(element) = {
     assert(type(element) == content)
     let sequence = [].func()
     let space = [ ].func()
     let styled = text(red)[].func()
     if element.func() == text {
-      element.text.slice(0, -1)
-    } else if element.func() == space {
-      " "
+      if element.text.last() != "." { element } else {
+        text(element.text.slice(0, -1))
+      }
+    } else if element.func() in (space, linebreak, parbreak) {
     } else if element.func() == sequence {
       let (..rest, last) = element.children
       (..rest, remove-trailing-period(last)).join()
@@ -74,28 +75,21 @@
       emph(remove-trailing-period(element.body))
     } else if element.func() == strong {
       strong(remove-trailing-period(element.body))
+    } else if element.func() == ref {
+      element
+    } else if element.func() == raw {
+      let fields = element.fields()
+      let text = fields.remove("text")
+      raw(..fields, text.replace(regex("\\.$"), ""))
     } else {
       panic(repr(element.func()) + " was not handled properly")
     }
   }
 
-  // show figure.caption.where(kind: table): smallcaps
-  show figure.caption.where(kind: table): it => {
-    show: smallcaps
-    let text = get.text(it)
-    // text == none when caption == [].
-    // Don't remove period for empty caption.
-    // Don't remove period if doesn't exist.
-    if text == none or text.len() == 0 or text.last() != "." { it } else {
-      show: block
-      it.supplement
-      if it.supplement != none { sym.space.nobreak }
-      context it.counter.display(it.numbering)
-      it.separator
-      remove-trailing-period(it.body)
-    }
-  }
-
+  /// Used to normalize figure captions. If there is an invisible space of
+  /// different kinds at the end of the caption, it will remove all of them,
+  /// until there are none left.
+  /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
   let remove-trailing-spaces(element) = {
     if element == none { return element }
     assert(type(element) == content)
@@ -130,11 +124,29 @@
     if new != element { remove-trailing-spaces(new) } else { new }
   }
 
+  show figure.caption.where(kind: table): it => {
+    show: smallcaps
+    let text = get.text(it)
+    // text == none when caption == [].
+    // Don't remove period for empty caption.
+    // Don't remove period if it doesn't exist.
+    if text == none or text.trim().len() == 0 or text.trim().last() != "." {
+      it
+    } else {
+      show: block
+      it.supplement
+      if it.supplement != none { sym.space.nobreak }
+      context it.counter.display(it.numbering)
+      it.separator
+      remove-trailing-period(remove-trailing-spaces(it.body))
+    }
+  }
+
   show figure.caption.where(kind: image): it => {
     let text = get.text(it)
     // text == none when caption == [].
     // Don't add period for empty caption (spaces pre-trimmed).
-    // Don't add period if already exist (spaces pre-trimmed).
+    // Don't add period if it already exists (spaces pre-trimmed).
     if text == none or text.trim().len() == 0 or text.trim().last() == "." {
       return it
     }
