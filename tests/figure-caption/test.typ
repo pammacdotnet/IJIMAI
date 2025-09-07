@@ -2,7 +2,13 @@
 #show: ijimai
 #set figure(placement: none)
 
-Period is not included in the caption:
+// There is a requirement from Editor-in-Chief from IJIMAI, for figure captions
+// (`image` figures) to always have period at the end.
+//
+// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
+
+Period is not included in the caption but should be appended (if caption is not
+empty). There must be no spaces before the period:
 
 #figure(rect()) // No caption
 #figure(rect(), caption: "") // Empty caption
@@ -27,7 +33,7 @@ Period is not included in the caption:
 
 #pagebreak()
 
-Period is included in the caption:
+Period is included in the caption and exactly 1 period should exist:
 
 #figure(rect(), caption: ".") // Empty caption with period
 #figure(rect(), caption: "String caption.")

@@ -1,7 +1,14 @@
 #import "../minimal-template.typ": ijimai
 #show: ijimai
+#set figure(placement: none)
 
-// Period is not included in the caption:
+// There is a requirement from Editor-in-Chief from IJIMAI, for table captions
+// (`table` figures) to never have period at the end.
+//
+// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
+
+Period is not included in the caption and should be absent:
+
 #figure(table[]) // No caption
 #figure(table[], caption: "") // Empty caption
 #figure(table[], caption: "String caption")
@@ -23,7 +30,10 @@
 
 ])
 
-// Period is included in the caption:
+#pagebreak()
+
+Period is included in the caption but should be removed:
+
 #figure(table[], caption: ".") // Empty caption with period
 #figure(table[], caption: "String caption.")
 #figure(table[], caption: [.]) // Empty caption with period
