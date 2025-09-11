@@ -27,7 +27,7 @@
 == Subsection title
 #lorem(39)
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
-where:
+#no-indent[where:] // Force no-indent paragraph.
 - $G_(mu nu)$ is the Einstein tensor, and
 - $T_(mu nu)$ is the stress–energy tensor.
 

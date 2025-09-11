@@ -28,7 +28,7 @@
 #lorem(39)
 Reference to equation: @eq.
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <eq>
-where:
+#no-indent[where:]
 - $G_(mu nu)$ is the Einstein tensor, and
 - $T_(mu nu)$ is the stress–energy tensor.
 

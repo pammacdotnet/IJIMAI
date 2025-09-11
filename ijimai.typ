@@ -10,6 +10,14 @@
 #let space-above-images = 4.5mm
 #let abstract-font-size = 8.8pt
 
+/// Remove indentation for a specific paragraph. This is useful when using
+/// "where" paragraph right after an equation that must not be indented.
+#let no-indent(body) = {
+  set par(first-line-indent: 0pt)
+  body
+}
+
+/// The template function.
 #let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
@@ -343,7 +351,12 @@
       .join()
   )
 
-  set par(justify: true, leading: 5pt, first-line-indent: 1em, spacing: .25cm)
+  set par(
+    first-line-indent: (amount: 1em, all: true),
+    justify: true,
+    leading: 5pt,
+    spacing: 0.25cm,
+  )
 
   body
   show regex("^\[\d+\]"): set text(fill: blueunir)
@@ -366,14 +379,13 @@
   let cite-string = [
     #conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
 
-  let cite-as-section = align(
-    left,
-    rect(
-      fill: silver,
-      width: 100%,
-      stroke: 0.5pt + blueunir,
-    )[#par(leading: .1cm)[#text(size: 8.1pt)[Please, cite this article as: #cite-string]]],
-  )
+  let cite-as-section = {
+    set align(left)
+    set par(leading: 1mm)
+    set text(size: 8.1pt)
+    show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blueunir)
+    [Please, cite this article as: #cite-string]
+  }
 
   dropcap(
     height: 2,
