@@ -1,4 +1,4 @@
-#import "../ijimai.typ": ijimai
+#import "../ijimai.typ": ijimai as base-template
 
 #let config = ```toml
 [[authors]]
@@ -32,9 +32,23 @@ a:
   type: article
 ```.text
 
-#let ijimai = ijimai.with(
+#let ijimai(
   conf: toml(bytes(config)),
   photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
   logo: none,
   bib-data: bytes(bib),
-)
+  doc,
+) = [
+  #show: base-template.with(
+    conf: conf,
+    photos: photos,
+    logo: logo,
+    bib-data: bib-data,
+  )
+  #doc
+  = Introduction
+  = CRediT authorship contribution statement
+  = Data statement
+  = Declaration of conflicts of interest
+  = Acknowledgment
+]

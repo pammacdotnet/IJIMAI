@@ -187,6 +187,23 @@
 
   set heading(numbering: "I.A.a)")
 
+  let used-sections = state("_ijimai-used-sections", ())
+  let credit-section-name = "CRediT Authorship Contribution Statement"
+  let introduction-section-name = "Introduction"
+  let required-sections = (
+    (introduction-section-name): (),
+    (credit-section-name): (),
+    "Data Statement": (),
+    "Declaration of Conflicts of Interest": (),
+    "Acknowledgment": (
+      [Acknowledgments],
+      [Acknowledgement],
+      [Acknowledgements],
+    ),
+  )
+    .pairs()
+    .map(((k, v)) => (k, (text(k),) + v))
+    .to-dict()
   show heading: it => {
     let levels = counter(heading).get()
     let deepest = if levels != () {
@@ -197,11 +214,24 @@
 
     set text(10pt, weight: "regular")
     if it.level == 1 {
-      let is-ack = it.body in ([Acknowledgment], [Acknowledgement], [Acknowledgments], [Acknowledgements])
+      let is-special = (
+        lower(get.text(it.body))
+          in required-sections.values().flatten().map(x => lower(x.text))
+      )
+      if is-special {
+        used-sections.update(x => x + (it.body,))
+        // This is a special section that must be styled like a normal section.
+        if lower(it.body.text) == lower(introduction-section-name) {
+          is-special = false
+        }
+      }
+      // Special formatting for special section.
+      show regex("^(?i)" + credit-section-name + "$"): credit-section-name
+
       set align(center)
-      set text(if is-ack { 10pt } else { 11pt })
+      set text(if is-special { 10pt } else { 11pt })
       show: block.with(above: 15pt, below: 13.75pt, sticky: true)
-      if it.numbering != none and not is-ack {
+      if it.numbering != none and not is-special {
         numbering("I.", deepest)
         h(7pt, weak: true)
       }
@@ -359,6 +389,83 @@
   )
 
   body
+
+  // Make sure the required sections are:
+  // - all included
+  // - have correct order
+  // - have no duplicates
+  context {
+    assert(
+      used-sections.get().len() == required-sections.len(),
+      message: if used-sections.get().len() < required-sections.len() {
+        let not-used = (:)
+        for (section, values) in required-sections {
+          let exists = false
+          for value in values {
+            if lower(value.text) in used-sections.get().map(get.text).map(lower) {
+              exists = true
+              break
+            }
+          }
+          if not exists { not-used.insert(section, values) }
+        }
+        let message = "Next required sections are missing:\n"
+        message += not-used.pairs().map(((key, value)) => "- " + key).join("\n")
+        message += "\nPlease, use document structure from the official IJIMAI Typst template."
+        message
+      } else if used-sections.get().len() > required-sections.len() {
+        let dict = (:)
+        for section in used-sections.get() {
+          let key
+          for (required-section, aliases) in required-sections {
+            if lower(get.text(section)) in aliases.map(x => lower(x.text)) {
+              key = required-section // Preserve preferred in-source casing.
+              break
+            }
+          }
+          assert(key != none)
+          let value = dict.at(key, default: ())
+          dict.insert(key, value + (section,))
+        }
+        for (key, instances) in dict {
+          if instances.len() == 1 {
+            _ = dict.remove(key)
+          }
+        }
+        let message = "Found duplicate sections:\n"
+        message += dict
+          .pairs()
+          .map(((section, instances)) => {
+            "- " + section + ": " + instances.map(x => x.text).join(", ")
+          })
+          .join("\n")
+        message += "\nPlease, remove the duplicates."
+        message
+      } else { "" },
+    )
+
+    for (used, required) in array.zip(
+      used-sections.get(),
+      required-sections.pairs(),
+    ) {
+      let (section, aliases) = required
+      let message = (
+        "Section "
+          + repr(section)
+          + " is included in the wrong order. The correct order:\n"
+      )
+      message += required-sections
+        .pairs()
+        .map(((key, value)) => "- " + key)
+        .join("\n")
+      message += "\nPlease, use document structure from the official IJIMAI Typst template."
+      assert(
+        lower(get.text(used)) in aliases.map(x => lower(x.text)),
+        message: message,
+      )
+    }
+  }
+
   show regex("^\[\d+\]"): set text(fill: blueunir)
 
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
