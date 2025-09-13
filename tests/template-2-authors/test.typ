@@ -36,14 +36,10 @@ Reference to equation: @ppt.
 
 #figure(
   table(
-    columns: (0.5fr, 2cm, 4cm),
+    columns: (1fr, 9em, 4cm),
     inset: 3pt,
     align: horizon,
-    table.header(
-      [],
-      [*Volume*],
-      [*Parameters*],
-    ),
+    table.header(..([], [Volume], [Parameters]).map(strong)),
 
     image(dir + "cylinder.svg", width: 0.8cm),
     $ pi h (D^2 - d^2) / 4 $,
