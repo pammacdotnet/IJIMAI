@@ -388,6 +388,29 @@
     spacing: 0.25cm,
   )
 
+  let cite-string = context {
+    let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
+    let doi-link = link(doi-link-text)
+    let last-page = counter(page).final().first()
+    [#conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
+  }
+
+  let cite-as-section = {
+    set align(left)
+    set par(leading: 1mm)
+    set text(size: 8.1pt)
+    show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blueunir)
+    [Please, cite this article as: #cite-string]
+  }
+
+  figure(
+    scope: "parent",
+    placement: bottom,
+    kind: "_ijimai-citing-notice",
+    supplement: none,
+    cite-as-section,
+  )
+
   body
 
   // Make sure the required sections are:
@@ -466,6 +489,18 @@
     }
   }
 
+  // Make sure the `first-paragraph` function is used exactly once.
+  context {
+    let used = counter("_ijimai-first-paragraph-usage").final().first()
+    assert(
+      used == 1,
+      message: "The \"first-paragraph\" function must be used exactly once, "
+        + "but was used "
+        + str(used)
+        + " times.",
+    )
+  }
+
   show regex("^\[\d+\]"): set text(fill: blueunir)
 
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
@@ -478,38 +513,14 @@
 }
 
 
-#let first-paragraph(conf: none, first-word: "The", body) = {
-  let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
-  let doi-link = link(doi-link-text, doi-link-text)
-  let last-page = context counter(page).final().first()
-
-  let cite-string = [
-    #conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
-
-  let cite-as-section = {
-    set align(left)
-    set par(leading: 1mm)
-    set text(size: 8.1pt)
-    show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blueunir)
-    [Please, cite this article as: #cite-string]
-  }
-
+#let first-paragraph(first-word, body) = {
   dropcap(
     height: 2,
     gap: 1pt,
     hanging-indent: 1em,
     overhang: 0pt,
     fill: blueunir,
-  )[
-    #upper(text(fill: blueunir, weight: "semibold", first-word)) #body
-  ]
-
-
-  figure(
-    cite-as-section,
-    scope: "parent",
-    placement: bottom,
+    [#upper(text(fill: blueunir, weight: "semibold", first-word)) #body],
   )
-  counter(figure.where(kind: image)).update(0)
+  counter("_ijimai-first-paragraph-usage").step()
 }
-

@@ -1,4 +1,4 @@
-#import "../ijimai.typ": ijimai as base-template
+#import "../ijimai.typ": ijimai as base-template, first-paragraph
 
 #let config = ```toml
 [[authors]]
@@ -51,4 +51,7 @@ a:
   = Data statement
   = Declaration of conflicts of interest
   = Acknowledgment
+  // Don't add empty vertical spacing at the start of a test, but at the end.
+  // Makes tests look better (since tested content is normally at the start).
+  #first-paragraph[][]
 ]

@@ -22,10 +22,7 @@ In order to use it, just read the TOML configuration file, import the template a
 )
 
 = Introduction
-#first-paragraph(
-  conf: conf,
-  first-word: "Typst",
-)[is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.]
+#first-paragraph[Typst][is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.]
 
 = CRediT authorship contribution statement
 = Data statement
