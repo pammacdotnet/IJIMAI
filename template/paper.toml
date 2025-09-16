@@ -1,5 +1,6 @@
 [[authors]]
 name = "John Doe"
+photo = "John Doe.jpg"
 include = true
 corresponding = true
 email = "john.doe@aserver.net"
@@ -8,6 +9,7 @@ bio = "John Doe is a theoretical physicist known for his groundbreaking work in 
 
 [[authors]]
 name = "Jane Smith"
+photo = "Jane Smith.jpg"
 include = false
 corresponding = false
 email = "jane.smith@otherserver.net"

@@ -1,7 +1,10 @@
 #let dir = "../../template/"
 #import "../../ijimai.typ": *
 #let conf = toml(dir + "paper.toml")
-#let author-photos = conf.authors.map(author => read(dir + author.name + ".jpg", encoding: none))
+#let author-photos = conf.authors.map(author => read(
+  dir + "photos/" + author.photo,
+  encoding: none,
+))
 #show: ijimai.with(
   conf: conf,
   photos: author-photos,
