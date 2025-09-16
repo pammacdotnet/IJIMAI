@@ -40,5 +40,30 @@ If you do not have the Unit OT font, you can download it from the [repository](h
 [`UnitOT-Regular.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-Regular.otf
 [`UnitOT-LightItalic.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf
 
-# In case of doubts
+## Examples
+
+### [Simple]
+
+[![](./tests/template/ref/1.png)][Simple] | [![](./tests/template/ref/2.png)][Simple]
+-|-
+
+---
+
+### [2 authors]
+
+[![](./tests/template-2-authors/ref/1.png)][2 authors] | [![](./tests/template-2-authors/ref/2.png)][2 authors]
+-|-
+
+---
+
+### [Regular issue]
+
+[![](./tests/template-regular-issue/ref/1.png)][Regular issue] | [![](./tests/template-regular-issue/ref/2.png)][Regular issue]
+-|-
+
+[Simple]: ./tests/template/test.typ
+[2 authors]: ./tests/template-2-authors/test.typ
+[Regular issue]: ./tests/template-regular-issue/test.typ
+
+## In case of doubts
 Please, bear in mind this template is continously been bettered. In case of doubts, please, send an email to alberto.corbi@unir.net.
