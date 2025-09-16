@@ -469,7 +469,7 @@
   show regex("^\[\d+\]"): set text(fill: blueunir)
 
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
-  set text(size: 7.5pt, lang: "en")
+  set text(size: 7.5pt)
 
   bibliography(bib-data, style: "ieee", title: "References")
   v(1cm)

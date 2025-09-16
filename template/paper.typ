@@ -8,8 +8,6 @@
   bib-data: read("bibliography.bib", encoding: none),
 )
 
-#set text(lang: "en")
-
 = Introduction
 #first-paragraph(
   conf: conf,

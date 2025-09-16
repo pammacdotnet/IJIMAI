@@ -18,8 +18,6 @@ In order to use it, just read the TOML configuration file, import the template a
   bib-data: read("bibliography.bib", encoding: none),
 )
 
-#set text(lang: "en")
-
 = Introduction
 #first-paragraph(
   conf: conf,

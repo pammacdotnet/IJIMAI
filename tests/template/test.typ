@@ -9,8 +9,6 @@
   bib-data: read(dir + "bibliography.bib", encoding: none),
 )
 
-#set text(lang: "en")
-
 = Introduction
 #first-paragraph(
   conf: conf,
