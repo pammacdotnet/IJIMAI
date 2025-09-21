@@ -411,6 +411,45 @@
     cite-as-section,
   )
 
+  // ANSI/NISO Z39.104-2022
+  // Contributor roles
+  let roles = (
+    conceptualization: [Conceptualization],
+    data-curation: [Data curation],
+    formal-analysis: [Formal analysis],
+    funding-acquisition: [Funding acquisition],
+    investigation: [Investigation],
+    methodology: [Methodology],
+    project-administration: [Project administration],
+    resources: [Resources],
+    software: [Software],
+    supervision: [Supervision],
+    validation: [Validation],
+    visualization: [Visualization],
+    writing-original-draft: [Writing -- original draft],
+    writing-review-editing: [Writing -- review & editing],
+  )
+  let author-roles = authors
+    .map(author => {
+      let message = "Missing \"credit\" key for " + author.name
+      assert("credit" in author, message: message)
+      let credit = author.credit
+      let message = "\"credit\" key must be a list of roles"
+      assert(type(credit) == array, message: message)
+      let message = role => (
+        "Invalid CRediT role: "
+          + role
+          + " (" + author.name + ").\nValid roles:"
+          + roles.keys().map(x => "\n- " + x).join()
+      )
+      for role in credit {
+        assert(role in roles.keys(), message: message(role))
+      }
+      ((author.name): credit.sorted().map(role => roles.at(role)))
+    })
+    .join()
+  state("_ijimai-author-roles").update(author-roles)
+
   body
 
   // Make sure the required sections are:
@@ -523,4 +562,15 @@
     [#upper(text(fill: blueunir, weight: "semibold", first-word)) #body],
   )
   counter("_ijimai-first-paragraph-usage").step()
+}
+
+/// Function that automatically generates the whole body for the CRediT section.
+#let format-credit-section() = context {
+  let author-roles = state("_ijimai-author-roles").get()
+  assert(author-roles != none, message: "The template was not applied")
+  author-roles
+    .pairs()
+    .map(((author, roles)) => [#eval(author, mode: "markup"): #roles.join[, ]])
+    .join[; ]
+  "."
 }

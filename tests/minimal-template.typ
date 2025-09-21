@@ -7,6 +7,7 @@ include = true
 corresponding = true
 email = ""
 institution = ""
+credit = []
 bio = ""
 
 [paper]

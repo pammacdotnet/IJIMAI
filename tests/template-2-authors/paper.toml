@@ -5,6 +5,7 @@ include = true
 corresponding = true
 email = "john.doe@aserver.net"
 institution = "A nice university, somewhere"
+credit = ["supervision", "project-administration", "writing-original-draft", "formal-analysis"]
 bio = "John Doe is a theoretical physicist known for his groundbreaking work in quantum mechanics and black hole thermodynamics. Born in 1975, he developed an early fascination with mathematics and the fundamental laws of the universe. After earning his PhD from MIT, Doe contributed to major advancements in quantum gravity, proposing a novel framework that bridges quantum mechanics and general relativity. His research \"Quantum entanglement\" on entangled particles near event horizons has influenced the study of Hawking radiation."
 
 [[authors]]
@@ -14,6 +15,7 @@ include = true
 corresponding = false
 email = "jane.smith@otherserver.net"
 institution = "Universidad Internacional de La Rioja, Logroño, La Rioja (Spain)"
+credit = ["conceptualization", "methodology", "resources", "validation"]
 bio = "Dr. Jane Smith is a pioneering astrophysicist known for her groundbreaking research on exoplanets and their potential for habitability. Born in 1978, she developed a passion for space science at an early age, earning her PhD from MIT in 2005. She played a key role in the discovery of several Earth-like exoplanets using data from the Kepler Space Telescope. Her research focuses on atmospheric compositions of distant worlds, and she has developed innovative methods for detecting biosignatures."
 
 
