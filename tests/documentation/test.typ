@@ -55,7 +55,7 @@ The individual contribution of each author must be declared using the Contributo
 State the availability of the data used in the research. If data is not available, provide the reason. Providing access to data increases transparency, encourages trust and facilitates reproducing results.
 
 = Declaration of conflicts of interest
-#format-credit-section()
+A conflict of interest (COI) refers to situations where any authors’ circumstance could influence the content and conclusions of their article. Disclosing COI is crucial to maintain transparency and trust in academic publishing, allowing to assess potential biases and the integrity of the research. If there are no conflicts of interest to declare, authors should state “No conflict of interest exists” or “We have no conflict of interest to declare”.
 
 = Acknowledgment
 In this section you can thank all those who have helped in undertaking the research work. We advise to express your gratitude in a concise way and to avoid strong emotive language.
