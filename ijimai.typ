@@ -2,7 +2,6 @@
 #import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/t4t:0.4.3": get
-//#import "@preview/decasify:0.10.1": *
 #import "@preview/titleize:0.1.1": titlecase
 #let blueunir = rgb("#0098cd")
 #let softblueunir = rgb("eaf6fd")
