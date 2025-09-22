@@ -62,13 +62,14 @@
     it
   }
 
+  let sequence = [].func()
+  let space = [ ].func()
+  let styled = text(red)[].func()
+
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
   let remove-trailing-period(element) = {
     assert(type(element) == content)
-    let sequence = [].func()
-    let space = [ ].func()
-    let styled = text(red)[].func()
     if element.func() == text {
       if element.text.last() != "." { element } else {
         text(element.text.slice(0, -1))
@@ -78,7 +79,7 @@
       let (..rest, last) = element.children
       (..rest, remove-trailing-period(last)).join()
     } else if element.func() == styled {
-      styled(styles: element.styles, remove-trailing-period(element.child))
+      styled(remove-trailing-period(element.child), element.styles)
     } else if element.func() == emph {
       emph(remove-trailing-period(element.body))
     } else if element.func() == strong {
@@ -101,9 +102,6 @@
   let remove-trailing-spaces(element) = {
     if element == none { return element }
     assert(type(element) == content)
-    let sequence = [].func()
-    let space = [ ].func()
-    let styled = text(red)[].func()
     let new = if element.func() == text {
       if element.text.last() != " " { element } else {
         text(element.text.slice(0, -1))
@@ -119,7 +117,7 @@
       let (..rest, last) = element.children
       (..rest, remove-trailing-spaces(last)).join()
     } else if element.func() == styled {
-      styled(styles: element.styles, remove-trailing-spaces(element.child))
+      styled(remove-trailing-spaces(element.child), element.styles)
     } else if element.func() == emph {
       emph(remove-trailing-spaces(element.body))
     } else if element.func() == strong {
