@@ -28,7 +28,6 @@ starting-page = 93
 publication-year = 2025
 title = "A super cool paper title"
 doi = "10.9781/ijimai.XXXX.02.006"
-short-author-list = "J. Doe and J. Smith"
 special-issue = false
 keywords = ["Typst", "Multimedia", "Glory"]
 received-date = 2024-07-08

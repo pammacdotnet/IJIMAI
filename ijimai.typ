@@ -385,11 +385,26 @@
     spacing: 0.25cm,
   )
 
+  let short-author-list = if "short-author-list" in conf.paper {
+    conf.paper.short-author-list.trim().replace(regex(" {2,}"), " ")
+  } else {
+    authors.map(author => {
+      let name = author.name.split()
+      assert(
+        name.len() == 2,
+        message: "Failed to generate short author list.\n"
+          + "Please provide a custom value in the TOML file:\n"
+          + "[paper]\nshort-author-list = \"<Your short list of authors>\"",
+      )
+      let (first, last) = name
+      [#first.first(). #last]
+    }).join([, ], last: [ and ])
+  }
   let cite-string = context {
     let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
     let doi-link = link(doi-link-text)
     let last-page = counter(page).final().first()
-    [#conf.paper.short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
+    [#short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
   }
 
   let cite-as-section = {
