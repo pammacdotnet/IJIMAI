@@ -551,7 +551,7 @@
   author-bios
 }
 
-
+/// Function that styles the first paragraph of the Introduction section.
 #let first-paragraph(first-word, body) = {
   dropcap(
     height: 2,
