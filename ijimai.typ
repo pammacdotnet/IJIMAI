@@ -263,8 +263,6 @@
     emph(text(fill: blueunir)[#it])
   }
 
-  show regex("Equation"): set text(fill: blueunir)
-
   let authors = conf.authors.filter(author => author.include)
   let institution-names = authors.map(author => author.institution).dedup()
   let numbered-institution-names = institution-names.enumerate(start: 1)
