@@ -76,6 +76,8 @@
     } else if element.func() == symbol {
       if element.text != "." { element }
     } else if element.func() in (space, linebreak, parbreak) {
+    } else if element.func() in (ref, footnote) {
+      element
     } else if element.func() == sequence {
       let (..rest, last) = element.children
       (..rest, remove-trailing-period(last)).join()
@@ -85,8 +87,6 @@
       emph(remove-trailing-period(element.body))
     } else if element.func() == strong {
       strong(remove-trailing-period(element.body))
-    } else if element.func() in (ref, footnote) {
-      element
     } else if element.func() == link {
       link(element.dest, remove-trailing-period(element.body))
     } else if element.func() == raw {
@@ -119,13 +119,9 @@
       }
     } else if element.func() == symbol {
       if element.text != " " { element }
-    } else if element.func() == raw {
-      if element.text.last() != " " { element } else {
-        let fields = element.fields()
-        let text = fields.remove("text")
-        raw(..fields, text.slice(0, -1))
-      }
     } else if element.func() in (space, linebreak, parbreak) {
+    } else if element.func() in (ref, footnote, math.equation) {
+      element
     } else if element.func() == sequence {
       let (..rest, last) = element.children
       (..rest, remove-trailing-spaces(last)).join()
@@ -141,8 +137,6 @@
       let fields = element.fields()
       let text = fields.remove("text")
       raw(..fields, text.replace(regex(" $"), ""))
-    } else if element.func() in (ref, footnote, math.equation, symbol) {
-      element
     } else {
       panic(repr(element.func()) + " was not handled properly")
     }
