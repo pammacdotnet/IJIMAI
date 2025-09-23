@@ -13,18 +13,22 @@ empty). There must be no spaces before the period:
 #figure([]) // No caption
 #figure([], caption: "") // Empty caption
 #figure([], caption: "String caption")
+#figure([], caption: "String caption with space ")
 #figure([], caption: []) // Empty caption
 #figure([], caption: [Simple content caption])
-#figure([], caption: [Complex --- `content` caption])
+#figure([], caption: [Simple content caption with space ])
+#figure([], caption: [_Complex_ --- *content* caption])
+#figure([], caption: [_Complex_ --- *content* caption with space ])
 #figure([], caption: emph[Emphasized content caption])
+#figure([], caption: emph[Emphasized content caption with space ])
 #figure([], caption: strong[Strong content caption])
-#figure([], caption: [_Styled_ *content* caption])
+#figure([], caption: strong[Strong content caption with space ])
 #figure([], caption: [Referencing @a])
-#figure([], caption: [Caption with space ])
+#figure([], caption: [Caption with `raw`])
+#figure([], caption: [Caption with `raw with space `])
 #figure([], caption: [Caption with comment
   // Some comment.
 ])
-#figure([], caption: [Caption with `raw `])
 #figure([], caption: [Caption with `linebreak` \
 ])
 #figure([], caption: [Caption with `parbreak`
@@ -37,18 +41,22 @@ Period is included in the caption and exactly 1 period should exist:
 
 #figure([], caption: ".") // Empty caption with period
 #figure([], caption: "String caption.")
+#figure([], caption: "String caption with space. ")
 #figure([], caption: [.]) // Empty caption with period
 #figure([], caption: [Simple content caption.])
-#figure([], caption: [Complex --- `content` caption.])
+#figure([], caption: [Simple content caption with space. ])
+#figure([], caption: [_Complex_ --- *content* caption.])
+#figure([], caption: [_Complex_ --- *content* caption with space. ])
 #figure([], caption: emph[Emphasized content caption.])
+#figure([], caption: emph[Emphasized content caption with space. ])
 #figure([], caption: strong[Strong content caption.])
-#figure([], caption: [_Styled_ *content* caption.])
+#figure([], caption: strong[Strong content caption with space. ])
 #figure([], caption: [Referencing @a.])
-#figure([], caption: [Caption with space. ])
+#figure([], caption: [Caption with `raw.`])
+#figure([], caption: [Caption with `raw with space. `])
 #figure([], caption: [Caption with comment.
   // Some comment.
 ])
-#figure([], caption: [Caption with `raw.`])
 #figure([], caption: [Caption with `linebreak`. \
 ])
 #figure([], caption: [Caption with `parbreak`.
