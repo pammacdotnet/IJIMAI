@@ -18,7 +18,11 @@ Period is not included in the caption and should be absent:
 #figure(table(), caption: [_Complex_ --- *content* caption])
 #figure(table(), caption: emph[Emphasized content caption])
 #figure(table(), caption: strong[Strong content caption])
+#figure(table(), caption: [Symbol #sym.beta])
+#figure(table(), caption: [Formula $x = y$])
 #figure(table(), caption: [Referencing @a])
+#figure(table(), caption: [Footnote #footnote[Footnote]])
+#figure(table(), caption: [#link("https://typst.app")[Linking]])
 #figure(table(), caption: [Caption with comment
   // Some comment.
 ])
@@ -41,7 +45,11 @@ Period is included in the caption but should be removed:
 #figure(table(), caption: [_Complex_ --- *content* caption.])
 #figure(table(), caption: emph[Emphasized content caption.])
 #figure(table(), caption: strong[Strong content caption.])
+#figure(table(), caption: [Symbol #sym.beta.])
+#figure(table(), caption: [Formula $x = y.$])
 #figure(table(), caption: [Referencing @a.])
+#figure(table(), caption: [Footnote #footnote[Footnote.]])
+#figure(table(), caption: [#link("https://typst.app")[Linking.]])
 #figure(table(), caption: [Caption with comment.
   // Some comment.
 ])

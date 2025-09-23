@@ -64,15 +64,17 @@
   let sequence = [].func()
   let space = [ ].func()
   let styled = text(red)[].func()
+  let symbol = $.$.body.func()
 
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
   let remove-trailing-period(element) = {
     assert(type(element) == content)
     if element.func() == text {
-      if element.text.last() != "." { element } else {
-        text(element.text.slice(0, -1))
-      }
+      if element.text.last() != "." { return element }
+      text(element.text.slice(0, -1))
+    } else if element.func() == symbol {
+      if element.text != "." { element }
     } else if element.func() in (space, linebreak, parbreak) {
     } else if element.func() == sequence {
       let (..rest, last) = element.children
@@ -83,12 +85,22 @@
       emph(remove-trailing-period(element.body))
     } else if element.func() == strong {
       strong(remove-trailing-period(element.body))
-    } else if element.func() == ref {
+    } else if element.func() in (ref, footnote) {
       element
+    } else if element.func() == link {
+      link(element.dest, remove-trailing-period(element.body))
     } else if element.func() == raw {
       let fields = element.fields()
       let text = fields.remove("text")
       raw(..fields, text.replace(regex("\\.$"), ""))
+    } else if element.func() == math.equation {
+      let fields = element.fields()
+      let body = fields.remove("body")
+      if body == symbol(".") { return }
+      if body.func() == sequence and body.children.last() == symbol(".") {
+        return math.equation(..fields, remove-trailing-period(body))
+      }
+      element
     } else {
       panic(repr(element.func()) + " was not handled properly")
     }
@@ -105,6 +117,8 @@
       if element.text.last() != " " { element } else {
         text(element.text.slice(0, -1))
       }
+    } else if element.func() == symbol {
+      if element.text != " " { element }
     } else if element.func() == raw {
       if element.text.last() != " " { element } else {
         let fields = element.fields()
@@ -121,7 +135,13 @@
       emph(remove-trailing-spaces(element.body))
     } else if element.func() == strong {
       strong(remove-trailing-spaces(element.body))
-    } else if element.func() in (ref, raw) {
+    } else if element.func() == link {
+      link(element.dest, remove-trailing-spaces(element.body))
+    } else if element.func() == raw {
+      let fields = element.fields()
+      let text = fields.remove("text")
+      raw(..fields, text.replace(regex(" $"), ""))
+    } else if element.func() in (ref, footnote, math.equation, symbol) {
       element
     } else {
       panic(repr(element.func()) + " was not handled properly")
@@ -151,16 +171,14 @@
     let text = get.text(it)
     // text == none when caption == [].
     // Don't add period for empty caption (spaces pre-trimmed).
-    // Don't add period if it already exists (spaces pre-trimmed).
-    if text == none or text.trim().len() == 0 or text.trim().last() == "." {
-      return it
-    }
+    if text == none or text.trim().len() == 0 { return it }
     show: block
     it.supplement
     if it.supplement != none { sym.space.nobreak }
     context it.counter.display(it.numbering)
     it.separator
-    remove-trailing-spaces(it.body)
+    // Some periods can be in raw, footnote, strong, etc. It must be unstyled.
+    remove-trailing-period(remove-trailing-spaces(it.body))
     "."
   }
 
