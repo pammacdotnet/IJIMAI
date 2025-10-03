@@ -24,10 +24,10 @@ Period is not included in the caption and should be absent:
 #figure(table(), caption: [Footnote #footnote[Footnote]])
 #figure(table(), caption: [#link("https://typst.app")[Linking]])
 #figure(table(), caption: [Caption with #box[box]])
+#figure(table(), caption: [Caption with `raw`])
 #figure(table(), caption: [Caption with comment
   // Some comment.
 ])
-#figure(table(), caption: [Caption with `raw`])
 #figure(table(), caption: [Caption with `linebreak` \
 ])
 #figure(table(), caption: [Caption with `parbreak`
@@ -52,10 +52,10 @@ Period is included in the caption but should be removed:
 #figure(table(), caption: [Footnote #footnote[Footnote.]])
 #figure(table(), caption: [#link("https://typst.app")[Linking.]])
 #figure(table(), caption: [Caption with #box[box.]])
+#figure(table(), caption: [Caption with `raw.`])
 #figure(table(), caption: [Caption with comment.
   // Some comment.
 ])
-#figure(table(), caption: [Caption with `raw.`])
 #figure(table(), caption: [Caption with `linebreak`. \
 ])
 #figure(table(), caption: [Caption with `parbreak`.
