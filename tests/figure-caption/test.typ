@@ -29,6 +29,8 @@ empty). There must be no spaces before the period:
 #figure([], caption: [Footnote #footnote[Footnote]])
 #figure([], caption: [#link("https://typst.app")[Linking]])
 #figure([], caption: [#link("https://typst.app")[Linking with space ]])
+#figure([], caption: [Caption with #box[a box]])
+#figure([], caption: [Caption with #box[a box and space ]])
 #figure([], caption: [Caption with `raw`])
 #figure([], caption: [Caption with `raw with space `])
 #figure([], caption: [Caption with comment
@@ -62,6 +64,8 @@ Period is included in the caption and exactly 1 period should exist:
 #figure([], caption: [Footnote #footnote[Footnote.]])
 #figure([], caption: [#link("https://typst.app")[Linking.]])
 #figure([], caption: [#link("https://typst.app")[Linking with space. ]])
+#figure([], caption: [Caption with #box[a box.]])
+#figure([], caption: [Caption with #box[a box and space. ]])
 #figure([], caption: [Caption with `raw.`])
 #figure([], caption: [Caption with `raw with space. `])
 #figure([], caption: [Caption with comment.

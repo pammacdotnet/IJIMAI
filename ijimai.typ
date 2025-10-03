@@ -89,6 +89,10 @@
       strong(remove-trailing-period(element.body))
     } else if element.func() == link {
       link(element.dest, remove-trailing-period(element.body))
+    } else if element.func() == box {
+      let fields = element.fields()
+      let body = fields.remove("body")
+      box(..fields, remove-trailing-period(body))
     } else if element.func() == raw {
       let fields = element.fields()
       let text = fields.remove("text")
@@ -133,6 +137,10 @@
       strong(remove-trailing-spaces(element.body))
     } else if element.func() == link {
       link(element.dest, remove-trailing-spaces(element.body))
+    } else if element.func() == box {
+      let fields = element.fields()
+      let body = fields.remove("body")
+      box(..fields, remove-trailing-spaces(body))
     } else if element.func() == raw {
       let fields = element.fields()
       let text = fields.remove("text")
