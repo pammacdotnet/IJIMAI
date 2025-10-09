@@ -33,6 +33,22 @@ a:
   type: article
 ```.text
 
+#let ijimai-no-content(
+  conf: toml(bytes(config)),
+  photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
+  logo: none,
+  bib-data: bytes(bib),
+  doc,
+) = {
+  show: base-template.with(
+    conf: conf,
+    photos: photos,
+    logo: logo,
+    bib-data: bib-data,
+  )
+  doc
+}
+
 #let ijimai(
   conf: toml(bytes(config)),
   photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
