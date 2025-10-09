@@ -30,15 +30,47 @@
   counter("_ijimai-first-paragraph-usage").step()
 }
 
+/// An alias to `read.with(encoding: none)`. Indented to be used with
+/// `ijimai.read` (also `ijimai.photos`, `ijimai.logo`, or
+/// `ijimai.bibliography`).
+#let read-raw = read.with(encoding: none)
+
 /// The template function.
 #let ijimai(
   config: none,
-  photos: (),
+  photos: "photos/",
+  read: none, // path => read-raw(path)
   logo: none,
   bib-data: none,
   auto-first-paragraph: true,
   body,
 ) = {
+  assert(
+    type(photos) == str
+      or type(photos) == array and photos.all(x => type(x) == bytes),
+    message: "\"photos\" can be path to author photos (`str`),"
+      + " or raw image data (`array` of `bytes`)",
+  )
+  assert(
+    type(logo) in (str, bytes),
+    message: "\"logo\" must be path to the UNIR SVG image (`str`),"
+      + " or raw image data (`bytes`)",
+  )
+  logo = if type(logo) == str { read(logo) } else { logo }
+  assert(
+    type(bib-data) in (str, bytes),
+    message: "\"bib-data\" must be path to the bibliography file (`str`),"
+      + " or raw file content (`bytes`)",
+  )
+  bib-data = if type(bib-data) == str { read(bib-data) } else { bib-data }
+  if str in (photos, logo, bib-data).map(type) {
+    assert(
+      type(read) == function,
+      message: "To be able to automatically read files,"
+        + " set \"read\" parameter to `path => read-raw(path)`.",
+    )
+  }
+
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
@@ -415,7 +447,7 @@
         top + left,
         dx: 14.8cm,
         dy: abstract-y - 5cm,
-        logo,
+        image(logo, width: 17.5%),
       )]
     #v(1.3cm)
 
@@ -451,12 +483,15 @@
   let author-bios = (
     authors
       .enumerate()
-      .map(author => {
-        let author-photo = image(bytes(photos.at(author.at(0))), width: 2cm)
+      .map(((i, author)) => {
+        let photo-data = if type(photos) == array { photos.at(i) } else {
+          read(photos + author.photo)
+        }
+        let author-photo = image(photo-data, width: 2cm)
         let author-bio = [#par(
-            text(fill: blue-unir, font: "Unit OT", size: 8.0pt, author.at(1).name),
+            text(fill: blue-unir, font: "Unit OT", size: 8.0pt, author.name),
           ) #(
-            text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
+            text(size: 8pt, eval(author.bio, mode: "markup"))
           )]
         wrap-content(author-photo, author-bio)
       })

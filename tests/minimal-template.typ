@@ -35,8 +35,8 @@ a:
 
 #let ijimai-no-content(
   config: toml(bytes(config)),
-  photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
-  logo: none,
+  photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
+  logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
   bib-data: bytes(bib),
   doc,
 ) = {
@@ -51,8 +51,8 @@ a:
 
 #let ijimai(
   config: toml(bytes(config)),
-  photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
-  logo: none,
+  photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
+  logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
   bib-data: bytes(bib),
   doc,
 ) = [

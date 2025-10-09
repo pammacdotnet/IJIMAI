@@ -1,14 +1,9 @@
 #import "@preview/ijimai:0.0.5": *
-#let config = toml("paper.toml")
-#let author-photos = config.authors.map(author => read(
-  "photos/" + author.photo,
-  encoding: none,
-))
 #show: ijimai.with(
-  config: config,
-  photos: author-photos,
-  logo: image("unir logo.svg", width: 17.5%),
-  bib-data: read("bibliography.bib", encoding: none),
+  config: toml("paper.toml"),
+  read: path => read-raw(path),
+  logo: "unir logo.svg",
+  bib-data: read-raw("bibliography.bib"),
 )
 
 = Introduction
