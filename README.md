@@ -9,13 +9,13 @@ In order to use it, just read the TOML configuration file, import the template a
 
 ```Typst
 #import "@preview/ijimai:0.0.4": *
-#let conf = toml("paper.toml")
-#let author-photos = conf.authors.map(author => read(
+#let config = toml("paper.toml")
+#let author-photos = config.authors.map(author => read(
   "photos/" + author.photo,
   encoding: none,
 ))
 #show: ijimai.with(
-  conf: conf,
+  config: config,
   photos: author-photos,
   logo: image("unir logo.svg", width: 17.5%),
   bib-data: read("bibliography.bib", encoding: none),

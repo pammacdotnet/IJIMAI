@@ -32,7 +32,7 @@
 
 /// The template function.
 #let ijimai(
-  conf: none,
+  config: none,
   photos: (),
   logo: none,
   bib-data: none,
@@ -50,7 +50,7 @@
       set align(center)
       set text(10pt, blue-unir, font: "Unit OT", weight: "light", style: "italic")
 
-      if (conf.paper.special-issue == true) {
+      if (config.paper.special-issue == true) {
         let gradient = gradient.linear(white, blue-unir, angle: 180deg)
         let stripe = rect.with(width: 165%, height: 17pt - 8%)
         if calc.odd(here().page()) {
@@ -61,11 +61,11 @@
       }
 
       if calc.odd(here().page()) {
-        if (conf.paper.special-issue) {
-          conf.paper.special-issue-title
+        if (config.paper.special-issue) {
+          config.paper.special-issue-title
         } else [Regular issue]
       } else {
-        let (journal, volume, number) = conf.paper
+        let (journal, volume, number) = config.paper
         [#journal, Vol. #volume, N#super[o]#number]
       }
     },
@@ -228,7 +228,7 @@
 
   set heading(numbering: "I.A.a)")
 
-  let authors = conf.authors.filter(author => author.include)
+  let authors = config.authors.filter(author => author.include)
 
   /// Automatically generate the whole body for the CRediT section.
   let generate-author-credit-roles() = {
@@ -364,7 +364,7 @@
     })
     .join(", ")
 
-  counter(page).update(conf.paper.starting-page)
+  counter(page).update(config.paper.starting-page)
 
   place(
     top + left,
@@ -374,7 +374,7 @@
   )[
     #align(left)[
       #par(spacing: 0.7cm, leading: 1.5em)[
-        #text(size: 24pt)[#titlecase(conf.paper.title)]
+        #text(size: 24pt)[#titlecase(config.paper.title)]
       ]]
 
     #text(fill: blue-unir, size: 13pt)[#authors-string]
@@ -392,18 +392,18 @@
     )
 
     #v(0.3cm)
-    #let received-date-string = [#conf.paper.received-date.day() #month-name(
-        conf.paper.received-date.month(),
+    #let received-date-string = [#config.paper.received-date.day() #month-name(
+        config.paper.received-date.month(),
         true,
-      ) #conf.paper.received-date.year()]
-    #let accepted-date-string = [#conf.paper.accepted-date.day() #month-name(
-        conf.paper.accepted-date.month(),
+      ) #config.paper.received-date.year()]
+    #let accepted-date-string = [#config.paper.accepted-date.day() #month-name(
+        config.paper.accepted-date.month(),
         true,
-      ) #conf.paper.accepted-date.year()]
-    #let published-date-string = [#conf.paper.published-date.day() #month-name(
-        conf.paper.published-date.month(),
+      ) #config.paper.accepted-date.year()]
+    #let published-date-string = [#config.paper.published-date.day() #month-name(
+        config.paper.published-date.month(),
         true,
-      ) #conf.paper.published-date.year()]
+      ) #config.paper.published-date.year()]
     #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
       font: "Unit OT",
       size: 8pt,
@@ -420,7 +420,7 @@
     #v(1.3cm)
 
 
-    #let keywords-string = (conf.paper.keywords.sorted().join(", ") + ".")
+    #let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
 
     #grid(
       columns: (3.5fr, 1fr),
@@ -432,7 +432,7 @@
           fill: blue-unir,
         )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blue-unir) #par(justify: true, leading: 5.5pt)[#text(
           size: abstract-font-size,
-        )[#conf.paper.abstract]]],
+        )[#config.paper.abstract]]],
       [#text(size: 15pt, font: "Unit OT", fill: blue-unir)[K]#text(
           size: 13pt,
           font: "Unit OT",
@@ -443,7 +443,7 @@
           #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
             font: "Unit OT",
             size: 7.5pt,
-          )[#text(fill: blue-unir, "DOI: ") #conf.paper.doi]]]]],
+          )[#text(fill: blue-unir, "DOI: ") #config.paper.doi]]]]],
     )
     #v(-1.7cm)
   ]
@@ -470,8 +470,8 @@
     spacing: 0.25cm,
   )
 
-  let short-author-list = if "short-author-list" in conf.paper {
-    conf.paper.short-author-list.trim().replace(regex(" {2,}"), " ")
+  let short-author-list = if "short-author-list" in config.paper {
+    config.paper.short-author-list.trim().replace(regex(" {2,}"), " ")
   } else {
     authors.map(author => {
       let name = author.name.split()
@@ -486,10 +486,10 @@
     }).join([, ], last: [ and ])
   }
   let cite-string = context {
-    let doi-link-text = "https://dx.doi.org/" + conf.paper.doi
+    let doi-link-text = "https://dx.doi.org/" + config.paper.doi
     let doi-link = link(doi-link-text)
     let last-page = counter(page).final().first()
-    [#short-author-list. #conf.paper.title. #conf.paper.journal, vol. #conf.paper.volume, no. #conf.paper.number, pp. #conf.paper.starting-page - #last-page, #conf.paper.publication-year, #doi-link]
+    [#short-author-list. #config.paper.title. #config.paper.journal, vol. #config.paper.volume, no. #config.paper.number, pp. #config.paper.starting-page - #last-page, #config.paper.publication-year, #doi-link]
   }
 
   let cite-as-section = {

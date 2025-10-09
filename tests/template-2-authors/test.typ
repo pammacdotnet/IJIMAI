@@ -1,12 +1,12 @@
 #let dir = "../../template/"
 #import "../../ijimai.typ": *
-#let conf = toml("paper.toml")
-#let author-photos = conf.authors.map(author => read(
+#let config = toml("paper.toml")
+#let author-photos = config.authors.map(author => read(
   dir + "photos/" + author.photo,
   encoding: none,
 ))
 #show: ijimai.with(
-  conf: conf,
+  config: config,
   photos: author-photos,
   logo: image(dir + "unir logo.svg", width: 17.5%),
   bib-data: read(dir + "bibliography.bib", encoding: none),

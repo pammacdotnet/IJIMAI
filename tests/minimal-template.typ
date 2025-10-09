@@ -34,14 +34,14 @@ a:
 ```.text
 
 #let ijimai-no-content(
-  conf: toml(bytes(config)),
+  config: toml(bytes(config)),
   photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
   logo: none,
   bib-data: bytes(bib),
   doc,
 ) = {
   show: base-template.with(
-    conf: conf,
+    config: config,
     photos: photos,
     logo: logo,
     bib-data: bib-data,
@@ -50,14 +50,14 @@ a:
 }
 
 #let ijimai(
-  conf: toml(bytes(config)),
+  config: toml(bytes(config)),
   photos: ("<svg xmlns='http://www.w3.org/2000/svg'></svg>",),
   logo: none,
   bib-data: bytes(bib),
   doc,
 ) = [
   #show: base-template.with(
-    conf: conf,
+    config: config,
     photos: photos,
     logo: logo,
     bib-data: bib-data,
