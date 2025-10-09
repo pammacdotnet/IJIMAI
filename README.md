@@ -22,7 +22,7 @@ In order to use it, just read the TOML configuration file, import the template a
 )
 
 = Introduction
-#first-paragraph[Typst][is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.]
+Typst is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs.
 
 = CRediT authorship contribution statement
 // Content for this section is generated automatically (this comment can be removed).

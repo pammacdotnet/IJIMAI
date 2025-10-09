@@ -17,8 +17,28 @@
   body
 }
 
+/// Function that styles the first paragraph of the Introduction section.
+#let first-paragraph(first-word, body) = {
+  dropcap(
+    height: 2,
+    gap: 1pt,
+    hanging-indent: 1em,
+    overhang: 0pt,
+    fill: blue-unir,
+    [#upper(text(fill: blue-unir, weight: "semibold", first-word)) #body],
+  )
+  counter("_ijimai-first-paragraph-usage").step()
+}
+
 /// The template function.
-#let ijimai(conf: none, photos: (), logo: none, bib-data: none, body) = {
+#let ijimai(
+  conf: none,
+  photos: (),
+  logo: none,
+  bib-data: none,
+  auto-first-paragraph: true,
+  body,
+) = {
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
@@ -66,6 +86,7 @@
   let space = [ ].func()
   let styled = text(red)[].func()
   let symbol-func = $.$.body.func()
+  let context-func = (context{}).func()
 
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
@@ -487,6 +508,46 @@
     cite-as-section,
   )
 
+  // Detect first paragraph after the Introduction section using location
+  // proximity relative to the section.
+  // Based on hacks from https://github.com/typst/typst/issues/2953.
+  // Make an early (in-context) return if an explicit function used in the
+  // document. There is a second non-contextual switch in case user is using
+  // their own par show rule and template's one breaks the user's one.
+  show par: it => {
+    if not auto-first-paragraph { return it }
+    if it.body.func() == context-func or it.body == h(0.1pt) { return it }
+    context {
+      if here().page() > 1 { return it }
+      let used = counter("_ijimai-first-paragraph-usage").final().first()
+      if used > 1 { return it } // Context quirk (can't use `used == 1`).
+      let a = query(selector(heading.where(level: 1)).before(here())).filter(
+        x => lower(get.text(x)) == "introduction",
+      )
+      if a.len() != 1 { return it }
+      let intro = a.first()
+      if intro.location().page() != here().page() { return it }
+      if intro.location().position().x != here().position().x { return it }
+      let distance = here().position().y - intro.location().position().y
+      if distance.cm() > 1 { return it }
+      assert(it.body.func() in (text, sequence), message: repr(it))
+      let first
+      let rest
+      if it.body.func() == text {
+        (first, ..rest) = it.body.text.split()
+        rest = rest.join(" ")
+      } else {
+        (first, ..rest) = it.body.children
+        assert(first.func() == text)
+        let (a, ..b) = first.text.split()
+        rest.insert(0, b.join(" "))
+        first = a
+        rest = rest.join()
+      }
+      first-paragraph(first, rest)
+    }
+  }
+
   body
 
   // Make sure the required sections are:
@@ -587,17 +648,3 @@
   set par(leading: 4pt, spacing: 9.5pt)
   author-bios
 }
-
-/// Function that styles the first paragraph of the Introduction section.
-#let first-paragraph(first-word, body) = {
-  dropcap(
-    height: 2,
-    gap: 1pt,
-    hanging-indent: 1em,
-    overhang: 0pt,
-    fill: blue-unir,
-    [#upper(text(fill: blue-unir, weight: "semibold", first-word)) #body],
-  )
-  counter("_ijimai-first-paragraph-usage").step()
-}
-
