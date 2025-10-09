@@ -46,6 +46,7 @@ a:
     logo: logo,
     bib-data: bib-data,
   )
+  #state("_ijimai-generate-author-credit-roles").update(false)
   #doc
   = Introduction
   = CRediT authorship contribution statement

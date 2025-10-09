@@ -206,6 +206,56 @@
 
   set heading(numbering: "I.A.a)")
 
+  let authors = conf.authors.filter(author => author.include)
+
+  /// Automatically generate the whole body for the CRediT section.
+  let generate-author-credit-roles() = {
+    if state("_ijimai-generate-author-credit-roles").get() == false { return }
+    // ANSI/NISO Z39.104-2022
+    // Contributor roles
+    let roles = (
+      conceptualization: [Conceptualization],
+      data-curation: [Data curation],
+      formal-analysis: [Formal analysis],
+      funding-acquisition: [Funding acquisition],
+      investigation: [Investigation],
+      methodology: [Methodology],
+      project-administration: [Project administration],
+      resources: [Resources],
+      software: [Software],
+      supervision: [Supervision],
+      validation: [Validation],
+      visualization: [Visualization],
+      writing-original-draft: [Writing -- original draft],
+      writing-review-editing: [Writing -- review & editing],
+    )
+    let author-roles = authors
+      .map(author => {
+        let message = "Missing \"credit\" key for " + author.name
+        assert("credit" in author, message: message)
+        let credit = author.credit
+        let message = "\"credit\" key must be a list of roles"
+        assert(type(credit) == array, message: message)
+        let message = role => (
+          "Invalid CRediT role: "
+            + role
+            + " ("
+            + author.name
+            + ").\nValid roles:"
+            + roles.keys().map(x => "\n- " + x).join()
+        )
+        for role in credit {
+          assert(role in roles.keys(), message: message(role))
+        }
+        ((author.name): credit.sorted().map(role => roles.at(role)))
+      })
+      .join()
+    let format-author-roles = ((author, roles)) => {
+      [#eval(author, mode: "markup"): #roles.join[, ]]
+    }
+    author-roles.pairs().map(format-author-roles).join[; ] + "."
+  }
+
   let used-sections = state("_ijimai-used-sections", ())
   let credit-section-name = "CRediT Authorship Contribution Statement"
   let introduction-section-name = "Introduction"
@@ -223,15 +273,17 @@
     .pairs()
     .map(((k, v)) => (k, (text(k),) + v))
     .to-dict()
+
   show heading: it => {
     let deepest = counter(heading).get().last()
 
-    set text(10pt, weight: "regular")
-    if it.level == 1 {
-      let is-special = (
-        lower(get.text(it.body))
+    set text(weight: "regular")
+    let is-special = (
+      it.level == 1
+        and lower(get.text(it.body))
           in required-sections.values().flatten().map(x => lower(x.text))
-      )
+    )
+    if it.level == 1 {
       if is-special { used-sections.update(x => x + (it.body,)) }
       // This is a special section that must be styled like a normal section.
       if lower(it.body.text) == lower(introduction-section-name) {
@@ -252,7 +304,7 @@
       it.body
     } else if it.level == 2 {
       //set par(first-line-indent: 0pt)
-      set text(blueunir, style: "italic")
+      set text(10pt, blueunir, style: "italic")
       show: block.with(spacing: 10pt, sticky: true, above: 1.2em + 0.22em)
       if it.numbering != none {
         numbering("A.", deepest)
@@ -260,6 +312,7 @@
       }
       it.body
     } else {
+      set text(10pt)
       if it.level == 3 {
         numbering("a)", deepest)
         [ ]
@@ -267,13 +320,15 @@
       [_#(it.body):_]
     }
     if it.level == 1 {
-      set text(text.size)
       v(-12pt)
       line(length: 100%, stroke: blueunir + 0.5pt)
     }
+    if is-special and lower(it.body.text) == lower(credit-section-name) {
+      set text(9pt) // Cancel heading styling.
+      generate-author-credit-roles()
+    }
   }
 
-  let authors = conf.authors.filter(author => author.include)
   let institution-names = authors.map(author => author.institution).dedup()
   let numbered-institution-names = institution-names.enumerate(start: 1)
   let authors-string = authors
@@ -431,45 +486,6 @@
     cite-as-section,
   )
 
-  // ANSI/NISO Z39.104-2022
-  // Contributor roles
-  let roles = (
-    conceptualization: [Conceptualization],
-    data-curation: [Data curation],
-    formal-analysis: [Formal analysis],
-    funding-acquisition: [Funding acquisition],
-    investigation: [Investigation],
-    methodology: [Methodology],
-    project-administration: [Project administration],
-    resources: [Resources],
-    software: [Software],
-    supervision: [Supervision],
-    validation: [Validation],
-    visualization: [Visualization],
-    writing-original-draft: [Writing -- original draft],
-    writing-review-editing: [Writing -- review & editing],
-  )
-  let author-roles = authors
-    .map(author => {
-      let message = "Missing \"credit\" key for " + author.name
-      assert("credit" in author, message: message)
-      let credit = author.credit
-      let message = "\"credit\" key must be a list of roles"
-      assert(type(credit) == array, message: message)
-      let message = role => (
-        "Invalid CRediT role: "
-          + role
-          + " (" + author.name + ").\nValid roles:"
-          + roles.keys().map(x => "\n- " + x).join()
-      )
-      for role in credit {
-        assert(role in roles.keys(), message: message(role))
-      }
-      ((author.name): credit.sorted().map(role => roles.at(role)))
-    })
-    .join()
-  state("_ijimai-author-roles").update(author-roles)
-
   body
 
   // Make sure the required sections are:
@@ -584,13 +600,3 @@
   counter("_ijimai-first-paragraph-usage").step()
 }
 
-/// Function that automatically generates the whole body for the CRediT section.
-#let format-credit-section() = context {
-  let author-roles = state("_ijimai-author-roles").get()
-  assert(author-roles != none, message: "The template was not applied")
-  author-roles
-    .pairs()
-    .map(((author, roles)) => [#eval(author, mode: "markup"): #roles.join[, ]])
-    .join[; ]
-  "."
-}

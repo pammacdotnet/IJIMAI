@@ -52,7 +52,6 @@ Reference to equation: @ppt.
 ) <ppt>
 
 = CRediT authorship contribution statement
-#format-credit-section()
 
 = Data statement
 State the availability of the data used in the research. If data is not available, provide the reason. Providing access to data increases transparency, encourages trust and facilitates reproducing results.

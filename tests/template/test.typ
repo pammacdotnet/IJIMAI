@@ -49,7 +49,7 @@ $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
 ) <ppt>
 
 = CRediT authorship contribution statement
-#format-credit-section()
+// Content for this section is generated automatically (this comment can be removed).
 
 = Data statement
 State the availability of the data used in the research. If data is not available, provide the reason. Providing access to data increases transparency, encourages trust and facilitates reproducing results.
