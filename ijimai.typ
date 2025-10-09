@@ -224,12 +224,7 @@
     .map(((k, v)) => (k, (text(k),) + v))
     .to-dict()
   show heading: it => {
-    let levels = counter(heading).get()
-    let deepest = if levels != () {
-      levels.last()
-    } else {
-      1
-    }
+    let deepest = counter(heading).get().last()
 
     set text(10pt, weight: "regular")
     if it.level == 1 {
@@ -237,18 +232,16 @@
         lower(get.text(it.body))
           in required-sections.values().flatten().map(x => lower(x.text))
       )
-      if is-special {
-        used-sections.update(x => x + (it.body,))
-        // This is a special section that must be styled like a normal section.
-        if lower(it.body.text) == lower(introduction-section-name) {
-          is-special = false
-        }
+      if is-special { used-sections.update(x => x + (it.body,)) }
+      // This is a special section that must be styled like a normal section.
+      if lower(it.body.text) == lower(introduction-section-name) {
+        is-special = false
       }
       // Special formatting for special section.
       show regex("^(?i)" + credit-section-name + "$"): credit-section-name
 
       set align(center)
-      set text(if is-special { 10pt } else { 11pt })
+      set text(blueunir, if is-special { 10pt } else { 11pt })
       show: block.with(above: 15pt, below: 13.75pt, sticky: true)
       if it.numbering != none and not is-special {
         numbering("I.", deepest)
@@ -259,30 +252,25 @@
       it.body
     } else if it.level == 2 {
       //set par(first-line-indent: 0pt)
-      set text(style: "italic")
+      set text(blueunir, style: "italic")
       show: block.with(spacing: 10pt, sticky: true, above: 1.2em + 0.22em)
       if it.numbering != none {
-        emph(text(fill: blueunir)[#numbering("A.", deepest)])
+        numbering("A.", deepest)
         h(7pt, weak: true)
       }
-      emph(text(fill: blueunir)[#it.body])
-    } else [
-      #if it.level == 3 {
+      it.body
+    } else {
+      if it.level == 3 {
         numbering("a)", deepest)
         [ ]
       }
-      _#(it.body):_
-    ]
-  }
-
-  show heading.where(level: 1): it => {
-    text(fill: blueunir)[#it]
-    v(-12pt)
-    line(length: 100%, stroke: blueunir + 0.5pt)
-  }
-
-  show heading.where(level: 2): it => {
-    emph(text(fill: blueunir)[#it])
+      [_#(it.body):_]
+    }
+    if it.level == 1 {
+      set text(text.size)
+      v(-12pt)
+      line(length: 100%, stroke: blueunir + 0.5pt)
+    }
   }
 
   let authors = conf.authors.filter(author => author.include)
