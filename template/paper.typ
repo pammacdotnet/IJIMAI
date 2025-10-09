@@ -48,7 +48,7 @@ $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
 ) <ppt>
 
 = CRediT authorship contribution statement
-The individual contribution of each author must be declared using the Contributor Role Taxonomy (CRediT) roles: conceptualization, software, data curation, resources, formal analysis, supervision, funding acquisition, validation, investigation, visualization, methodology, project administration, writing – original draft, writing – review and editing. The description of these roles can be found in https://credit.niso.org/.
+#format-credit-section()
 
 = Data statement
 State the availability of the data used in the research. If data is not available, provide the reason. Providing access to data increases transparency, encourages trust and facilitates reproducing results.
