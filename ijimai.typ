@@ -266,8 +266,6 @@
 
   set heading(numbering: "I.A.a)")
 
-  let authors = config.authors.filter(author => author.include)
-
   /// Automatically generate the whole body for the CRediT section.
   let generate-author-credit-roles() = {
     if state("_ijimai-generate-author-credit-roles").get() == false { return }
@@ -289,7 +287,8 @@
       writing-original-draft: [Writing -- original draft],
       writing-review-editing: [Writing -- review & editing],
     )
-    let author-roles = authors
+    let author-roles = config
+      .authors
       .map(author => {
         let message = "Missing \"credit\" key for " + author.name
         assert("credit" in author, message: message)
@@ -389,9 +388,13 @@
     }
   }
 
-  let institution-names = authors.map(author => author.institution).dedup()
+  let institution-names = config
+    .authors
+    .map(author => author.institution)
+    .dedup()
   let numbered-institution-names = institution-names.enumerate(start: 1)
-  let authors-string = authors
+  let authors-string = config
+    .authors
     .map(author => {
       let institution-number = numbered-institution-names
         .filter(((_, name)) => name == author.institution)
@@ -426,7 +429,7 @@
     ]
 
     #text(fill: blue-unir)[#super[#sym.star] Corresponding author:] #(
-      authors.filter(author => author.corresponding).at(0).email
+      config.authors.filter(author => author.corresponding).at(0).email
     )
 
     #v(0.3cm)
@@ -487,7 +490,8 @@
   ]
 
   let author-bios = (
-    authors
+    config
+      .authors
       .enumerate()
       .map(((i, author)) => {
         let photo-data = if type(photos) == array { photos.at(i) } else {
@@ -514,7 +518,7 @@
   let short-author-list = if "short-author-list" in config.paper {
     config.paper.short-author-list.trim().replace(regex(" {2,}"), " ")
   } else {
-    authors.map(author => {
+    config.authors.map(author => {
       let name = author.name.split()
       assert(
         name.len() == 2,

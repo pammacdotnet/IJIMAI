@@ -3,7 +3,6 @@
 #let config = ```toml
 [[authors]]
 name = ""
-include = true
 corresponding = true
 email = ""
 institution = ""

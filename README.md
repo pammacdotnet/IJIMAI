@@ -48,8 +48,8 @@ the configuration TOML file, if present. If the `short-author-list` key is
 absent, the template will try to generate its value automatically. Generally
 speaking, no action from authors is needed, however one can face some issues.
 
-It will succeed if all included authors have exactly two words in their `name`
-value: first name and last name (i.e., surname). It will use the first letter
+It will succeed if all authors have exactly two words in their `name` value:
+first name and last name (i.e., surname). It will use the first letter
 (grapheme cluster, to be exact) from the first name (then put `. `), and whole
 last name (for each author). Then these pieces of text are joined together with
 `, ` between each but last pair, last 2 names will have ` and ` between them.

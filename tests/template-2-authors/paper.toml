@@ -1,7 +1,6 @@
 [[authors]]
 name = "John Doe"
 photo = "John Doe.jpg"
-include = true
 corresponding = true
 email = "john.doe@aserver.net"
 institution = "A nice university, somewhere"
@@ -11,7 +10,6 @@ bio = "John Doe is a theoretical physicist known for his groundbreaking work in 
 [[authors]]
 name = "Jane Smith"
 photo = "Jane Smith.jpg"
-include = true
 corresponding = false
 email = "jane.smith@otherserver.net"
 institution = "The International University of La Rioja (UNIR), Logroño, La Rioja, Spain"
