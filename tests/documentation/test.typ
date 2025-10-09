@@ -4,7 +4,7 @@
   config: toml(dir + "paper.toml"),
   read: path => read-raw(dir + path),
   logo: "unir logo.svg",
-  bib-data: "bibliography.bib",
+  bibliography: "bibliography.bib",
 )
 #state("_ijimai-generate-author-credit-roles").update(false) // Internal API!
 

@@ -41,10 +41,18 @@
   photos: "photos/",
   read: none, // path => read-raw(path)
   logo: none,
-  bib-data: none,
+  bibliography: none,
   auto-first-paragraph: true,
   body,
 ) = {
+  assert(type(config) == dictionary, message: "\"config\" was not provided")
+  if str in (photos, logo, bibliography).map(type) {
+    assert(
+      type(read) == function,
+      message: "To be able to automatically read files,"
+        + " set \"read\" parameter to `path => read-raw(path)`.",
+    )
+  }
   assert(
     type(photos) == str
       or type(photos) == array and photos.all(x => type(x) == bytes),
@@ -58,18 +66,16 @@
   )
   logo = if type(logo) == str { read(logo) } else { logo }
   assert(
-    type(bib-data) in (str, bytes),
-    message: "\"bib-data\" must be path to the bibliography file (`str`),"
+    type(bibliography) in (str, bytes),
+    message: "\"bibliography\" must be path to the bibliography file (`str`),"
       + " or raw file content (`bytes`)",
   )
-  bib-data = if type(bib-data) == str { read(bib-data) } else { bib-data }
-  if str in (photos, logo, bib-data).map(type) {
-    assert(
-      type(read) == function,
-      message: "To be able to automatically read files,"
-        + " set \"read\" parameter to `path => read-raw(path)`.",
-    )
+  let bibliography-data = if type(bibliography) == str {
+    read(bibliography)
+  } else {
+    bibliography
   }
+  bibliography = std.bibliography
 
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
@@ -678,7 +684,7 @@
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
   set text(size: 7.5pt)
 
-  bibliography(bib-data, style: "ieee", title: "References")
+  bibliography(bibliography-data, style: "ieee", title: "References")
   v(1cm)
   set par(leading: 4pt, spacing: 9.5pt)
   author-bios

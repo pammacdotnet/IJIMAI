@@ -4,7 +4,7 @@
   config: toml("paper.toml"),
   read: path => read-raw(dir + path),
   logo: "unir logo.svg",
-  bib-data: "bibliography.bib",
+  bibliography: "bibliography.bib",
 )
 
 = Introduction

@@ -37,14 +37,14 @@ a:
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
   logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
-  bib-data: bytes(bib),
+  bibliography: bytes(bib),
   doc,
 ) = {
   show: base-template.with(
     config: config,
     photos: photos,
     logo: logo,
-    bib-data: bib-data,
+    bibliography: bibliography,
   )
   doc
 }
@@ -53,14 +53,14 @@ a:
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
   logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
-  bib-data: bytes(bib),
+  bibliography: bytes(bib),
   doc,
 ) = [
   #show: base-template.with(
     config: config,
     photos: photos,
     logo: logo,
-    bib-data: bib-data,
+    bibliography: bibliography,
   )
   #state("_ijimai-generate-author-credit-roles").update(false)
   #doc
