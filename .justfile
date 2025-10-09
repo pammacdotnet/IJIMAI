@@ -28,7 +28,7 @@ PACKAGE_VERSION := shell(
 )
 
 PRE_COMMIT_SCRIPT := "\
-#!/usr/bin/env sh
+#!/bin/sh
 # Run tests.
 just test\
 "
