@@ -3,8 +3,9 @@
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/t4t:0.4.3": get
 #import "@preview/titleize:0.1.1": titlecase
-#let blueunir = rgb("#0098cd")
-#let softblueunir = rgb("eaf6fd")
+
+#let blue-unir = rgb("#0098cd")
+#let blue-unir-soft = rgb("#eaf6fd")
 #let space-above-tables = 4.5mm
 #let space-above-images = 4.5mm
 #let abstract-font-size = 8.8pt
@@ -27,10 +28,10 @@
     columns: 2,
     header: context {
       set align(center)
-      set text(10pt, blueunir, font: "Unit OT", weight: "light", style: "italic")
+      set text(10pt, blue-unir, font: "Unit OT", weight: "light", style: "italic")
 
       if (conf.paper.special-issue == true) {
-        let gradient = gradient.linear(white, blueunir, angle: 180deg)
+        let gradient = gradient.linear(white, blue-unir, angle: 180deg)
         let stripe = rect.with(width: 165%, height: 17pt - 8%)
         if calc.odd(here().page()) {
           place(dx: -80%, stripe(fill: gradient))
@@ -50,7 +51,7 @@
     },
     footer: context {
       set align(center)
-      set text(8pt, blueunir, font: "Unit OT")
+      set text(8pt, blue-unir, font: "Unit OT")
       "- " + counter(page).display() + " -"
     },
   )
@@ -293,7 +294,7 @@
       show regex("^(?i)" + credit-section-name + "$"): credit-section-name
 
       set align(center)
-      set text(blueunir, if is-special { 10pt } else { 11pt })
+      set text(blue-unir, if is-special { 10pt } else { 11pt })
       show: block.with(above: 15pt, below: 13.75pt, sticky: true)
       if it.numbering != none and not is-special {
         numbering("I.", deepest)
@@ -304,7 +305,7 @@
       it.body
     } else if it.level == 2 {
       //set par(first-line-indent: 0pt)
-      set text(10pt, blueunir, style: "italic")
+      set text(10pt, blue-unir, style: "italic")
       show: block.with(spacing: 10pt, sticky: true, above: 1.2em + 0.22em)
       if it.numbering != none {
         numbering("A.", deepest)
@@ -321,7 +322,7 @@
     }
     if it.level == 1 {
       v(-12pt)
-      line(length: 100%, stroke: blueunir + 0.5pt)
+      line(length: 100%, stroke: blue-unir + 0.5pt)
     }
     if is-special and lower(it.body.text) == lower(credit-section-name) {
       set text(9pt) // Cancel heading styling.
@@ -355,7 +356,7 @@
         #text(size: 24pt)[#titlecase(conf.paper.title)]
       ]]
 
-    #text(fill: blueunir, size: 13pt)[#authors-string]
+    #text(fill: blue-unir, size: 13pt)[#authors-string]
 
     #text(fill: black, size: 10pt)[
       #(
@@ -365,7 +366,7 @@
       )
     ]
 
-    #text(fill: blueunir)[#super[#sym.star] Corresponding author:] #(
+    #text(fill: blue-unir)[#super[#sym.star] Corresponding author:] #(
       authors.filter(author => author.corresponding).at(0).email
     )
 
@@ -382,7 +383,7 @@
         conf.paper.published-date.month(),
         true,
       ) #conf.paper.published-date.year()]
-    #underline(offset: 4pt, stroke: blueunir)[#overline(offset: -10pt, stroke: blueunir)[#text(
+    #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
       font: "Unit OT",
       size: 8pt,
     )[Received #received-date-string | Accepted #accepted-date-string | Published #published-date-string]]]
@@ -404,24 +405,24 @@
       columns: (3.5fr, 1fr),
       rows: (auto, 60pt),
       gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", fill: blueunir)[A]#text(
+      [#text(size: 15pt, font: "Unit OT", fill: blue-unir)[A]#text(
           size: 13pt,
           font: "Unit OT",
-          fill: blueunir,
-        )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: true, leading: 5.5pt)[#text(
+          fill: blue-unir,
+        )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blue-unir) #par(justify: true, leading: 5.5pt)[#text(
           size: abstract-font-size,
         )[#conf.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", fill: blueunir)[K]#text(
+      [#text(size: 15pt, font: "Unit OT", fill: blue-unir)[K]#text(
           size: 13pt,
           font: "Unit OT",
-          fill: blueunir,
-        )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: blueunir) #par(justify: false, leading: 4pt)[#text(
+          fill: blue-unir,
+        )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: blue-unir) #par(justify: false, leading: 4pt)[#text(
           size: abstract-font-size,
         )[#keywords-string]] #align(left + bottom)[
-          #underline(offset: 4pt, stroke: blueunir)[#overline(offset: -10pt, stroke: blueunir)[#text(
+          #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
             font: "Unit OT",
             size: 7.5pt,
-          )[#text(fill: blueunir, "DOI: ") #conf.paper.doi]]]]],
+          )[#text(fill: blue-unir, "DOI: ") #conf.paper.doi]]]]],
     )
     #v(-1.7cm)
   ]
@@ -432,7 +433,7 @@
       .map(author => {
         let author-photo = image(bytes(photos.at(author.at(0))), width: 2cm)
         let author-bio = [#par(
-            text(fill: blueunir, font: "Unit OT", size: 8.0pt, author.at(1).name),
+            text(fill: blue-unir, font: "Unit OT", size: 8.0pt, author.at(1).name),
           ) #(
             text(size: 8pt, eval(author.at(1).bio, mode: "markup"))
           )]
@@ -474,7 +475,7 @@
     set align(left)
     set par(leading: 1mm)
     set text(size: 8.1pt)
-    show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blueunir)
+    show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blue-unir)
     [Please, cite this article as: #cite-string]
   }
 
@@ -576,7 +577,7 @@
     )
   }
 
-  show regex("^\[\d+\]"): set text(fill: blueunir)
+  show regex("^\[\d+\]"): set text(fill: blue-unir)
 
   set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
   set text(size: 7.5pt)
@@ -594,8 +595,8 @@
     gap: 1pt,
     hanging-indent: 1em,
     overhang: 0pt,
-    fill: blueunir,
-    [#upper(text(fill: blueunir, weight: "semibold", first-word)) #body],
+    fill: blue-unir,
+    [#upper(text(fill: blue-unir, weight: "semibold", first-word)) #body],
   )
   counter("_ijimai-first-paragraph-usage").step()
 }
