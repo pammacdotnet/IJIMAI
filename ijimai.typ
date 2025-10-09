@@ -201,6 +201,8 @@
   )
 
   set figure.caption(separator: [. ])
+  // https://github.com/typst/typst/issues/5357#issuecomment-3384254721
+  show figure.caption.where(kind: table): set block(sticky: true)
 
   set heading(numbering: "I.A.a)")
 
