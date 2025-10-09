@@ -65,7 +65,7 @@
   let sequence = [].func()
   let space = [ ].func()
   let styled = text(red)[].func()
-  let symbol = $.$.body.func()
+  let symbol-func = $.$.body.func()
 
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
@@ -74,7 +74,7 @@
     if element.func() == text {
       if element.text.last() != "." { return element }
       text(element.text.slice(0, -1))
-    } else if element.func() == symbol {
+    } else if element.func() == symbol-func {
       if element.text != "." { element }
     } else if element.func() in (space, linebreak, parbreak) {
     } else if element.func() in (ref, footnote) {
@@ -101,8 +101,8 @@
     } else if element.func() == math.equation {
       let fields = element.fields()
       let body = fields.remove("body")
-      if body == symbol(".") { return }
-      if body.func() == sequence and body.children.last() == symbol(".") {
+      if body == symbol-func(".") { return }
+      if body.func() == sequence and body.children.last() == symbol-func(".") {
         return math.equation(..fields, remove-trailing-period(body))
       }
       element
@@ -122,7 +122,7 @@
       if element.text.last() != " " { element } else {
         text(element.text.slice(0, -1))
       }
-    } else if element.func() == symbol {
+    } else if element.func() == symbol-func {
       if element.text != " " { element }
     } else if element.func() in (space, linebreak, parbreak) {
     } else if element.func() in (ref, footnote, math.equation) {
