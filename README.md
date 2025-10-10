@@ -18,7 +18,7 @@ In order to use it, just read the TOML configuration file, import the template
 and apply a `show` rule:
 
 ```Typst
-#import "@preview/ijimai:0.0.4": *
+#import "@preview/ijimai:1.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),

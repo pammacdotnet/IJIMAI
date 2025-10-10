@@ -1,4 +1,4 @@
-#import "@preview/ijimai:0.0.5": *
+#import "@preview/ijimai:1.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),
