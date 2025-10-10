@@ -14,16 +14,25 @@ authored in Typst.
 
 ## Quick start
 
-In order to use it, just read the TOML configuration file, import the template
-and apply a `show` rule:
+To use it in [the web app], find the `ijimai` template when creating a project.
+To learn about creating a project, see [documentation][creating project].
 
-```Typst
+To use it with [the CLI], run `typst init @preview/ijimai:1.0.0` in a terminal.
+
+The project example and structure can also be found in the [`template`]
+directory.
+
+The template requires providing configuration, UNIR's logo, bibliography, and
+authors' photos. Additionally, the project must include 5 required headings and
+a first paragraph (at least one word):
+
+```typ
 #import "@preview/ijimai:1.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),
   logo: "unir logo.svg",
-  bibliography: read-raw("bibliography.bib"),
+  bibliography: "bibliography.bib", // or .yaml file (Hayagriva)
 )
 
 = Introduction
@@ -32,16 +41,15 @@ to be an alternative both to advanced tools like LaTeX and simpler tools like
 Word and Google Docs.
 
 = CRediT authorship contribution statement
-// Content for this section is generated automatically (this comment can be removed).
+// Content for this section is generated automatically (this comment can be
+// removed).
 
 = Data statement
 = Declaration of conflicts of interest
 = Acknowledgment
 ```
 
-All the needed information is written in a [TOML] conf file. Take a look at the
-example. Author photos are composed from their name and appending `.jpg` i.e.,
-`John Doe` + `.jpg`.
+All the needed information is written in a [TOML] configuration file.
 
 If you do not have the Unit OT font, you can download it from the [repository].
 Once done, upload the [`UnitOT-Regular.otf`] and [`UnitOT-LightItalic.otf`]
@@ -126,6 +134,10 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [TOML]: https://toml.io
 [repository]: https://github.com/pammacdotnet/IJIMAI
 [typst.app]: http://typst.app
+[the web app]: http://typst.app/signin
+[the CLI]: https://typst.app/open-source/#download
+[creating project]: https://typst.app/docs/web-app/creating-a-project/#creating-a-project-from-a-template
+[`template`]: ./template
 [`UnitOT-Regular.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-Regular.otf
 [`UnitOT-LightItalic.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf
 [Simple]: ./tests/template/test.typ
