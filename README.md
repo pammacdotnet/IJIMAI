@@ -31,7 +31,7 @@ paragraph (at least one word):
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),
-  bibliography: "bibliography.bib", // or .yaml file (Hayagriva)
+  bibliography: "bibliography.yaml", // or .bib file
 )
 
 = Introduction

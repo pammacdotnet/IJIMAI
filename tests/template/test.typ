@@ -3,7 +3,7 @@
 #show: ijimai.with(
   config: toml(dir + "paper.toml"),
   read: path => read-raw(dir + path),
-  bibliography: "bibliography.bib",
+  bibliography: "bibliography.yaml",
 )
 
 = Introduction
