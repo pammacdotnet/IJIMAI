@@ -127,7 +127,7 @@ be added with correct value to the configuration file.
 
 ## In case of doubts
 
-Please, bear in mind this template is continously been bettered. In case of
+Please, bear in mind this template is continuously been bettered. In case of
 doubts, please, send an email to alberto.corbi@unir.net.
 
 [IJIMAI]: https://www.ijimai.org
@@ -138,8 +138,8 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [the CLI]: https://typst.app/open-source/#download
 [creating project]: https://typst.app/docs/web-app/creating-a-project/#creating-a-project-from-a-template
 [`template`]: ./template
-[`UnitOT-Regular.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-Regular.otf
-[`UnitOT-LightItalic.otf`]: https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf
+[`UnitOT-Regular.otf`]: <https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-Regular.otf>
+[`UnitOT-LightItalic.otf`]: <https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf>
 [Simple]: ./tests/template/test.typ
 [2 authors]: ./tests/template-2-authors/test.typ
 [Regular issue]: ./tests/template-regular-issue/test.typ
