@@ -31,8 +31,7 @@
 }
 
 /// An alias to `read.with(encoding: none)`. Indented to be used with
-/// `ijimai.read` (also `ijimai.photos`, `ijimai.logo`, or
-/// `ijimai.bibliography`).
+/// `ijimai.read` (also `ijimai.photos`, or `ijimai.bibliography`).
 #let read-raw = read.with(encoding: none)
 
 /// The template function.
@@ -40,13 +39,12 @@
   config: none,
   photos: "photos/",
   read: none, // path => read-raw(path)
-  logo: none,
   bibliography: none,
   auto-first-paragraph: true,
   body,
 ) = {
   assert(type(config) == dictionary, message: "\"config\" was not provided")
-  if str in (photos, logo, bibliography).map(type) {
+  if str in (photos, bibliography).map(type) {
     assert(
       type(read) == function,
       message: "To be able to automatically read files,"
@@ -59,12 +57,6 @@
     message: "\"photos\" can be path to author photos (`str`),"
       + " or raw image data (`array` of `bytes`)",
   )
-  assert(
-    type(logo) in (str, bytes),
-    message: "\"logo\" must be path to the UNIR SVG image (`str`),"
-      + " or raw image data (`bytes`)",
-  )
-  logo = if type(logo) == str { read(logo) } else { logo }
   assert(
     type(bibliography) in (str, bytes),
     message: "\"bibliography\" must be path to the bibliography file (`str`),"
@@ -456,7 +448,7 @@
         top + left,
         dx: 14.8cm,
         dy: abstract-y - 5cm,
-        image(logo, width: 17.5%),
+        image("UNIR_logo.svg", width: 17.5%),
       )]
     #v(1.3cm)
 

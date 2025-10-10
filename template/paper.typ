@@ -2,8 +2,7 @@
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),
-  logo: "unir logo.svg",
-  bibliography: read-raw("bibliography.bib"),
+  bibliography: "bibliography.bib",
 )
 
 = Introduction

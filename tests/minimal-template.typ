@@ -35,14 +35,12 @@ a:
 #let ijimai-no-content(
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
-  logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
   bibliography: bytes(bib),
   doc,
 ) = {
   show: base-template.with(
     config: config,
     photos: photos,
-    logo: logo,
     bibliography: bibliography,
   )
   doc
@@ -51,14 +49,12 @@ a:
 #let ijimai(
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
-  logo: bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),
   bibliography: bytes(bib),
   doc,
 ) = [
   #show: base-template.with(
     config: config,
     photos: photos,
-    logo: logo,
     bibliography: bibliography,
   )
   #state("_ijimai-generate-author-credit-roles").update(false)

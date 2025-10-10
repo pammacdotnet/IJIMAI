@@ -22,16 +22,15 @@ To use it with [the CLI], run `typst init @preview/ijimai:1.0.0` in a terminal.
 The project example and structure can also be found in the [`template`]
 directory.
 
-The template requires providing configuration, UNIR's logo, bibliography, and
-authors' photos. Additionally, the project must include 5 required headings and
-a first paragraph (at least one word):
+The template requires providing configuration, bibliography, and authors'
+photos. Additionally, the project must include 5 required headings and a first
+paragraph (at least one word):
 
 ```typ
 #import "@preview/ijimai:1.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(path),
-  logo: "unir logo.svg",
   bibliography: "bibliography.bib", // or .yaml file (Hayagriva)
 )
 

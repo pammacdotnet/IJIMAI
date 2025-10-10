@@ -3,7 +3,6 @@
 #show: ijimai.with(
   config: toml("paper.toml"),
   read: path => read-raw(dir + path),
-  logo: "unir logo.svg",
   bibliography: "bibliography.bib",
 )
 
