@@ -8,9 +8,9 @@ theory, methodologies, systems, architectures integrating multiple
 technologies, problems including demonstrations of effectiveness, or tools that
 use AI with interactive multimedia techniques.
 
-This template allows researchers to write and send papers to IJIMAI, directly
-written in Typst! IJIMAI is the first journal ever to accept contributions
-authored in Typst.
+[This template][repository] allows researchers to write and send papers to
+IJIMAI, directly written in Typst! IJIMAI is the first journal ever to accept
+contributions authored in Typst.
 
 ## Quick start
 
