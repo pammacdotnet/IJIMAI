@@ -119,9 +119,9 @@ be added with correct value to the configuration file.
 
 ---
 
-### [Regular issue]
+### [Special issue]
 
-[![](./tests/template-regular-issue/ref/1.png)][Regular issue] | [![](./tests/template-regular-issue/ref/2.png)][Regular issue]
+[![](./tests/template-special-issue/ref/1.png)][Special issue] | [![](./tests/template-special-issue/ref/2.png)][Special issue]
 -|-
 
 ## In case of doubts
@@ -141,4 +141,4 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [`UnitOT-LightItalic.otf`]: <https://raw.githubusercontent.com/pammacdotnet/IJIMAI/refs/heads/main/fonts/Unit OT/UnitOT-LightItalic.otf>
 [Simple]: ./tests/template/test.typ
 [2 authors]: ./tests/template-2-authors/test.typ
-[Regular issue]: ./tests/template-regular-issue/test.typ
+[Special issue]: ./tests/template-special-issue/test.typ

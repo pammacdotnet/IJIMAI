@@ -1,7 +1,18 @@
 #let dir = "../../template/"
 #import "../../ijimai.typ": *
+#let config-file = dir + "paper.toml"
+#let config = toml(config-file)
+#let extra = toml(bytes(
+  read(config-file)
+    .split(regex("\\n\\n"))
+    .filter(part => part.starts-with("# [[authors]]\n"))
+    .map(x => x.split("\n").map(line => line.replace(regex("^#\\s*"), "")))
+    .flatten()
+    .join("\n"),
+))
+#(config.authors += extra.authors)
 #show: ijimai.with(
-  config: toml("paper.toml"),
+  config: config,
   read: path => read-raw(dir + path),
   bibliography: "bibliography.yaml",
 )

@@ -1,7 +1,9 @@
 #let dir = "../../template/"
 #import "../../ijimai.typ": *
+#let config = toml(dir + "paper.toml")
+#(config.paper.special-issue = true)
 #show: ijimai.with(
-  config: toml("paper.toml"),
+  config: config,
   read: path => read-raw(dir + path),
   bibliography: "bibliography.yaml",
 )
@@ -17,13 +19,10 @@ Typst is a new markup-based typesetting system for the sciences. It is designed 
 
 == Subsection title
 #lorem(39)
-Reference to equation: @eq.
-$ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <eq>
-#no-indent[where:]
+$ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
+#no-indent[where:] // Force no-indent paragraph.
 - $G_(mu nu)$ is the Einstein tensor, and
 - $T_(mu nu)$ is the stress–energy tensor.
-
-Reference to equation: @ppt.
 
 #figure(
   table(
@@ -46,6 +45,7 @@ Reference to equation: @ppt.
 ) <ppt>
 
 = CRediT authorship contribution statement
+// Content for this section is generated automatically (this comment can be removed).
 
 = Data statement
 State the availability of the data used in the research. If data is not available, provide the reason. Providing access to data increases transparency, encourages trust and facilitates reproducing results.
