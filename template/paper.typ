@@ -15,8 +15,10 @@ Typst is a new markup-based typesetting system for the sciences. It is designed 
 
 
 == Subsection title
-#lorem(39)
-$ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
+#lorem(55) #eq[@field] is a concise form for the Einstein field equations.
+
+$ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <field>
+
 #no-indent[where:] // Force no-indent paragraph.
 - $G_(mu nu)$ is the Einstein tensor, and
 - $T_(mu nu)$ is the stress–energy tensor.
