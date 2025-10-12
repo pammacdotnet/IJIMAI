@@ -1,7 +1,8 @@
 #let dir = "../../template/"
-#import "../../ijimai.typ": *
+#let image(file, ..args) = std.image(dir + file, ..args)
 #let config = toml(dir + "paper.toml")
 #(config.paper.special-issue = true)
+#import "../../ijimai.typ": *
 #show: ijimai.with(
   config: config,
   read: path => read-raw(dir + path),
@@ -12,7 +13,7 @@
 Typst is a new markup-based typesetting system for the sciences. It is designed to be an alternative both to advanced tools like LaTeX and simpler tools like Word and Google Docs. Our goal with Typst is to build a typesetting tool that is highly capable and a pleasure to use @Madje2022 @Haug2022. An axes is shown in @axes.
 
 #figure(
-  image(dir + "axes.svg", width: 69%),
+  image("axes.svg", width: 69%),
   caption: [Coordinate system used in the problem],
 ) <axes>
 
@@ -31,7 +32,7 @@ $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
     align: horizon,
     table.header(..([], [Volume], [Parameters]).map(strong)),
 
-    image(dir + "cylinder.svg", width: 0.8cm),
+    image("cylinder.svg", width: 0.8cm),
     $ pi h (D^2 - d^2) / 4 $,
     [
       $h$: height \
@@ -39,7 +40,7 @@ $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $
       $d$: inner radius
     ],
 
-    image(dir + "tetrahedron.svg", width: 0.8cm), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
+    image("tetrahedron.svg", width: 0.8cm), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
   ),
   caption: [Timing Results],
 ) <ppt>
