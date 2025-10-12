@@ -17,6 +17,24 @@
   body
 }
 
+/// Add "Equation" supplement before the equation reference.
+///
+/// Intended to be used only for equations that are referenced immediately at
+/// the start of a sentence, as per IJIMAI requirements. In any other
+/// situations, reference equations as usual (directly).
+///
+/// ```typ
+/// Usage: #eq[@pythagorean], #eq(<pythagorean>), #eq(ref(<pythagorean>))
+/// ```
+///
+/// - reference: (ref, label): equation's label or reference to it.
+#let eq(reference) = {
+  assert(type(reference) in (content, label))
+  if type(reference) == content { assert(reference.func() == ref) }
+  if type(reference) == label { reference = ref(reference) }
+  ref(reference.target, supplement: [Equation])
+}
+
 /// Function that styles the first paragraph of the Introduction section.
 #let first-paragraph(first-word, body) = {
   dropcap(
