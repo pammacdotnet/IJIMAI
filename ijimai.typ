@@ -89,6 +89,13 @@
 
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
+  // The requirements state that the supplement can only appear if an equation
+  // reference is at the start of a sentence, but it must be dropped otherwise.
+  //
+  // Since currently sentence detection is not present in Typst
+  // (https://forum.typst.app/t/sentence-spacing/6015), it is expected that
+  // authors will manually add the correct supplement when referencing at the
+  // beginning of a sentence. To ease the burden, the `eq` function can be used.
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
     paper: "ansi-a",
