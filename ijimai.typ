@@ -606,6 +606,18 @@
         first = a
         rest = rest.join()
       }
+      assert(type(first) == str)
+      assert(
+        first.clusters().len() != 1 or body != none,
+        message: "First paragraph cannot be a single letter: " + first,
+      )
+      // Can't use because it triggers on first-word == "paragraph." when
+      // `#first-paragraph[The][first paragraph.]`.
+      // assert(
+      //   first.clusters().first().match(regex("^\\p{Uppercase}$")) != none,
+      //   message: "First paragraph must start with a capital letter"
+      //     + " (starts with \"" + first + "\").",
+      // )
       first-paragraph(first, rest)
     }
   }
