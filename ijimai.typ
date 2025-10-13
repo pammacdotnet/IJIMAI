@@ -24,11 +24,11 @@
 /// situations, reference equations as usual (directly).
 ///
 /// ```typ
-/// Usage: #eq[@pythagorean], #eq(<pythagorean>), #eq(ref(<pythagorean>))
+/// Usage: #Eq[@pythagorean], #Eq(<pythagorean>), #Eq(ref(<pythagorean>))
 /// ```
 ///
 /// - reference: (ref, label): equation's label or reference to it.
-#let eq(reference) = {
+#let Eq(reference) = {
   assert(type(reference) in (content, label))
   if type(reference) == content { assert(reference.func() == ref) }
   if type(reference) == label { reference = ref(reference) }
@@ -95,7 +95,7 @@
   // Since currently sentence detection is not present in Typst
   // (https://forum.typst.app/t/sentence-spacing/6015), it is expected that
   // authors will manually add the correct supplement when referencing at the
-  // beginning of a sentence. To ease the burden, the `eq` function can be used.
+  // beginning of a sentence. To ease the burden, the `Eq` function can be used.
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
     paper: "ansi-a",

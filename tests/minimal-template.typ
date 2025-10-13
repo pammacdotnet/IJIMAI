@@ -1,4 +1,4 @@
-#import "../ijimai.typ": ijimai as base-template, first-paragraph, eq
+#import "../ijimai.typ": ijimai as base-template, first-paragraph, Eq
 
 #let config = ```toml
 [[authors]]

@@ -15,7 +15,7 @@ Typst is a new markup-based typesetting system for the sciences. It is designed 
 
 
 == Subsection title
-#lorem(55) #eq[@field] is a concise form for the Einstein field equations.
+#lorem(55) #Eq[@field] is a concise form for the Einstein field equations.
 
 $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <field>
 
