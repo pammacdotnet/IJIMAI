@@ -525,6 +525,9 @@
       .join()
   )
 
+  set list(indent: 1em)
+  set enum(indent: 1em)
+  set terms(indent: 1em)
   set par(
     first-line-indent: (amount: 1em, all: true),
     justify: true,
