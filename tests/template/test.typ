@@ -3,8 +3,8 @@
 #import "../../ijimai.typ": *
 #show: ijimai.with(
   config: toml(dir + "paper.toml"),
-  read: path => read-raw(dir + path),
   bibliography: "bibliography.yaml",
+  read: path => read-raw(dir + path),
 )
 
 = Introduction

@@ -14,8 +14,8 @@
 #import "../../ijimai.typ": *
 #show: ijimai.with(
   config: config,
-  read: path => read-raw(dir + path),
   bibliography: "bibliography.yaml",
+  read: path => read-raw(dir + path),
 )
 
 = Introduction

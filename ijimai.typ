@@ -56,8 +56,8 @@
 #let ijimai(
   config: none,
   photos: "photos/",
-  read: none, // path => read-raw(path)
   bibliography: none,
+  read: none, // path => read-raw(path)
   auto-first-paragraph: true,
   body,
 ) = {

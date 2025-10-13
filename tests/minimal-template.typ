@@ -35,16 +35,16 @@ a:
 #let ijimai-no-content(
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
-  read: none, // path => read-raw(path)
   bibliography: bytes(bib),
+  read: none, // path => read-raw(path)
   auto-first-paragraph: true,
   doc,
 ) = {
   show: base-template.with(
     config: config,
     photos: photos,
-    read: read,
     bibliography: bibliography,
+    read: read,
     auto-first-paragraph: auto-first-paragraph,
   )
   doc
@@ -53,16 +53,16 @@ a:
 #let ijimai(
   config: toml(bytes(config)),
   photos: (bytes("<svg xmlns='http://www.w3.org/2000/svg'></svg>"),),
-  read: none, // path => read-raw(path)
   bibliography: bytes(bib),
+  read: none, // path => read-raw(path)
   auto-first-paragraph: true,
   doc,
 ) = [
   #show: base-template.with(
     config: config,
     photos: photos,
-    read: read,
     bibliography: bibliography,
+    read: read,
     auto-first-paragraph: auto-first-paragraph,
   )
   #state("_ijimai-generate-author-credit-roles").update(false)

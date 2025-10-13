@@ -1,8 +1,8 @@
 #import "@preview/ijimai:1.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
-  read: path => read-raw(path),
   bibliography: "bibliography.yaml",
+  read: path => read-raw(path),
 )
 
 = Introduction
