@@ -12,6 +12,8 @@
 
 /// Remove indentation for a specific paragraph. This is useful when using
 /// "where" paragraph right after an equation that must not be indented.
+///
+/// - body: (content): Paragraph that needs to be unindented.
 #let no-indent(body) = {
   set par(first-line-indent: 0pt)
   body
@@ -22,6 +24,10 @@
 /// Intended to be used only for equations that are referenced immediately at
 /// the start of a sentence, as per IJIMAI requirements. In any other
 /// situations, reference equations as usual (directly).
+///
+/// Named with a capital letter to avoid shadowing `math.eq` that is directly
+/// accessible in the math mode. As a consequence, it also reminds that it must
+/// be used at the start of a sentence.
 ///
 /// ```typ
 /// Usage: #Eq[@pythagorean], #Eq(<pythagorean>), #Eq(ref(<pythagorean>))
@@ -36,6 +42,10 @@
 }
 
 /// Function that styles the first paragraph of the Introduction section.
+///
+/// - first-word (str, content): First word that will be styled.
+/// - body (str, content): The rest of the first paragraph that is needed to
+///     properly style the first word.
 #let first-paragraph(first-word, body) = {
   dropcap(
     height: 2,
@@ -48,16 +58,36 @@
   counter("_ijimai-first-paragraph-usage").step()
 }
 
-/// An alias to `read.with(encoding: none)`. Indented to be used with
+/// An alias to `read.with(encoding: none)`. Intended to be used with
 /// `ijimai.read` (also `ijimai.photos`, or `ijimai.bibliography`).
 #let read-raw = read.with(encoding: none)
 
 /// The template function.
+///
+/// ```typ
+/// #show: ijimai.with(
+///   config: toml("paper.toml"),
+///   bibliography: "bibliography.yaml",
+///   read: path => read-raw(path),
+/// )
+/// ```
+///
+/// - config (dictionary): Configuration that defines paper and author metadata.
+/// - photos (str, array): Path to directory with authors' photos or an array
+///     of raw photos data (bytes of images).
+/// - bibliography (str, bytes): Path to the bibliography file or raw content of
+///     the file (bytes).
+/// - read (function): A special function that allows passing path strings to
+///     the other parameters. Should be set to `path => read-raw(path)`.
+/// - auto-first-paragraph (bool): Whether to automatically detect and style the
+///     first paragraph. Normally this parameter should be ignored.
+/// - body (content): Content passed to the template function when it is
+///     applied.
 #let ijimai(
   config: none,
   photos: "photos/",
   bibliography: none,
-  read: none, // path => read-raw(path)
+  read: none,
   auto-first-paragraph: true,
   body,
 ) = {
