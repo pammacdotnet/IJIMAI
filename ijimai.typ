@@ -6,9 +6,6 @@
 
 #let blue-unir = rgb("#0098cd")
 #let blue-unir-soft = rgb("#eaf6fd")
-#let space-above-tables = 4.5mm
-#let space-above-images = 4.5mm
-#let abstract-font-size = 8.8pt
 
 /// Remove indentation for a specific paragraph. This is useful when using
 /// "where" paragraph right after an equation that must not be indented.
@@ -116,6 +113,10 @@
     bibliography
   }
   bibliography = std.bibliography
+
+  let space-above-tables = 4.5mm
+  let space-above-images = 4.5mm
+  let abstract-font-size = 8.8pt
 
   set document(
     title: string-to-titlecase(config.paper.title),
