@@ -377,6 +377,20 @@ See [`./template/paper.typ`] for a use case example.
 
 See [`./template/paper.typ`] for a use case example.
 
+### `blue-unir`
+
+```typ
+/// IJIMAI (foreground) accent color.
+#let blue-unir = rgb("#0098cd")
+```
+
+### `blue-unir-soft`
+
+```typ
+/// IJIMAI background accent color.
+#let blue-unir-soft = rgb("#eaf6fd")
+```
+
 ## Examples
 
 ### [Simple]

@@ -4,7 +4,10 @@
 #import "@preview/t4t:0.4.3": get
 #import "@preview/titleize:0.1.1": titlecase, string-to-titlecase
 
+/// IJIMAI (foreground) accent color.
 #let blue-unir = rgb("#0098cd")
+
+/// IJIMAI background accent color.
 #let blue-unir-soft = rgb("#eaf6fd")
 
 /// Remove indentation for a specific paragraph. This is useful when using
