@@ -2,7 +2,7 @@
 #import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/t4t:0.4.3": get
-#import "@preview/titleize:0.1.1": titlecase
+#import "@preview/titleize:0.1.1": titlecase, string-to-titlecase
 
 #let blue-unir = rgb("#0098cd")
 #let blue-unir-soft = rgb("#eaf6fd")
@@ -117,6 +117,11 @@
   }
   bibliography = std.bibliography
 
+  set document(
+    title: string-to-titlecase(config.paper.title),
+    author: config.authors.map(x => x.name),
+    keywords: config.paper.keywords.sorted(),
+  )
   set text(font: "Libertinus Serif", size: 9pt, lang: "en")
   set columns(gutter: 0.4cm)
   // The requirements state that the supplement can only appear if an equation
