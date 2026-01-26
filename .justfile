@@ -34,6 +34,7 @@ just test\
 "
 
 alias t := test
+alias st := search-test
 alias ut := update-test
 alias i := install
 alias un := uninstall
@@ -46,6 +47,10 @@ tt := shell("if [ -f tt ]; then echo ./tt; else echo tt; fi")
 # Run tests.
 test *args: pre-commit
   {{tt}} run {{args}}
+
+# Run tests that match given regex.
+search-test *args:
+  just test --expression 'regex:{{args}}'
 
 # Update tests.
 update-test *args: pre-commit
