@@ -39,13 +39,17 @@ alias i := install
 alias un := uninstall
 alias init := pre-commit
 
+# Automatically use local binary over global one, if present. For more
+# information (including used version), see Testing section in ./README.md.
+tt := shell("if [ -f tt ]; then echo ./tt; else echo tt; fi")
+
 # Run tests.
 test *args: pre-commit
-  tt run --expression 'not template()' {{args}}
+  {{tt}} run {{args}}
 
 # Update tests.
 update-test *args: pre-commit
-  tt update {{args}}
+  {{tt}} update {{args}}
 
 # Install the package by linking it to this repository.
 install:

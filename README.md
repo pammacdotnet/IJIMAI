@@ -412,6 +412,30 @@ See [`./template/paper.typ`] for a use case example.
 | [![](./tests/template-special-issue/ref/1.png)][Special issue] | [![](./tests/template-special-issue/ref/2.png)][Special issue] |
 | -------------------------------------------------------------- | -------------------------------------------------------------- |
 
+## Development
+
+### Testing
+
+For testing [Tytanic] v0.2.2 is used (see [Typst Compatibility]). To run tests:
+
+```sh
+just t # test
+```
+
+To update test:
+
+```sh
+just ut # update-test
+```
+
+To run the underlying `tt` commands, export related environment variables first:
+
+```sh
+export TYPST_FONT_PATHS=fonts
+```
+
+For more details, see [`.justfile`](./.justfile).
+
 ## In case of doubts
 
 Please, bear in mind this template is continuously been bettered. In case of
@@ -446,3 +470,5 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [Simple]: ./tests/template/test.typ
 [2 authors]: ./tests/template-2-authors/test.typ
 [Special issue]: ./tests/template-special-issue/test.typ
+[Tytanic]: https://github.com/typst-community/tytanic
+[Typst Compatibility]: https://typst-community.github.io/tytanic/reference/compat.html#typst-compatibility
