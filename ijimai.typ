@@ -468,6 +468,7 @@
     scope: "parent",
     float: true,
     dy: 0.6cm,
+    clearance: 1.5em + 12.98611mm,
   )[
     #align(left)[
       #par(spacing: 0.7cm, leading: 1.5em)[
@@ -519,30 +520,43 @@
 
     #let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
 
+    #show grid.cell.where(y: 0): set text(13pt, blue-unir, font: "Unit OT")
+    #set line(length: 100%, stroke: blue-unir)
+    #show line: set block(above: 0.81mm)
     #grid(
       columns: (3.5fr, 1fr),
-      rows: (auto, 60pt),
-      gutter: 25pt,
-      [#text(size: 15pt, font: "Unit OT", fill: blue-unir)[A]#text(
-          size: 13pt,
-          font: "Unit OT",
-          fill: blue-unir,
-        )[BSTRACT]#v(-.3cm)#line(length: 100%, stroke: blue-unir) #par(justify: true, leading: 5.5pt)[#text(
-          size: abstract-font-size,
-        )[#config.paper.abstract]]],
-      [#text(size: 15pt, font: "Unit OT", fill: blue-unir)[K]#text(
-          size: 13pt,
-          font: "Unit OT",
-          fill: blue-unir,
-        )[EYWORDS]#v(-.3cm)#line(length: 100%, stroke: blue-unir) #par(justify: false, leading: 4pt)[#text(
-          size: abstract-font-size,
-        )[#keywords-string]] #align(left + bottom)[
-          #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
-            font: "Unit OT",
-            size: 7.5pt,
-          )[#text(fill: blue-unir, "DOI: ") #config.paper.doi]]]]],
+      column-gutter: 25pt,
+      row-gutter: 10.8pt,
+      {
+        text(15pt)[A]
+        [BSTRACT]
+        line()
+      },
+      {
+        text(15pt)[K]
+        [EYWORDS]
+        line()
+      },
+      {
+        set text(abstract-font-size)
+        set par(leading: 5.5pt, justify: true)
+        if config.paper.abstract == "" { v(15.968pt) }
+        config.paper.abstract
+      },
+      {
+        set text(abstract-font-size)
+        set par(leading: 4pt, justify: false)
+        keywords-string
+
+        set align(left + bottom)
+        set text(7.5pt, font: "Unit OT")
+        show: underline.with(offset: 4pt, stroke: blue-unir)
+        show: overline.with(offset: -10pt, stroke: blue-unir)
+        text(blue-unir, "DOI: ")
+        [ ]
+        config.paper.doi
+      },
     )
-    #v(-1.7cm)
   ]
 
   let author-bios = (
