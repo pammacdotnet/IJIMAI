@@ -470,10 +470,11 @@
     dy: 0.6cm,
     clearance: 1.5em + 12.98611mm,
   )[
-    #align(left)[
-      #par(spacing: 0.7cm, leading: 1.5em)[
-        #text(size: 24pt)[#titlecase(config.paper.title)]
-      ]]
+    #{
+      set text(24pt)
+      set par(leading: 1.5em, spacing: 7mm)
+      titlecase(config.paper.title)
+    }
 
     #text(fill: blue-unir, size: 13pt)[#authors-string]
 
