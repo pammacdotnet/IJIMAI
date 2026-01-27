@@ -500,14 +500,12 @@
       [Received #received | Accepted #accepted | Published #published]
     })
 
-    #context [
-      #let abstract-y = here().position().y
-      #place(
-        top + left,
-        dx: 14.8cm,
-        dy: abstract-y - 5cm,
-        image("UNIR_logo.svg", width: 17.5%),
-      )]
+    #context place(
+      top + left,
+      dx: 14.8cm,
+      dy: here().position().y - 5cm,
+      image("UNIR_logo.svg", width: 17.5%),
+    )
     #v(1.3cm)
 
 
