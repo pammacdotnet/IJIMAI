@@ -478,13 +478,16 @@
 
     #text(fill: blue-unir, size: 13pt)[#authors-string]
 
-    #text(fill: black, size: 10pt)[
-      #(
-        numbered-institution-names
-          .map(((number, name)) => super[#number] + " " + eval(name, mode: "markup"))
-          .join([\ ])
-      )
-    ]
+    #{
+      set text(10pt)
+      numbered-institution-names
+        .map(((number, name)) => {
+          super[#number]
+          " "
+          eval(name, mode: "markup")
+        })
+        .join(linebreak())
+    }
 
     #{
       text(blue-unir)[#super(sym.star) Corresponding author: ]
