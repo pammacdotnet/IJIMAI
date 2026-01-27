@@ -490,22 +490,15 @@
     )
 
     #v(0.3cm)
-    #let received-date-string = [#config.paper.received-date.day() #month-name(
-        config.paper.received-date.month(),
-        true,
-      ) #config.paper.received-date.year()]
-    #let accepted-date-string = [#config.paper.accepted-date.day() #month-name(
-        config.paper.accepted-date.month(),
-        true,
-      ) #config.paper.accepted-date.year()]
-    #let published-date-string = [#config.paper.published-date.day() #month-name(
-        config.paper.published-date.month(),
-        true,
-      ) #config.paper.published-date.year()]
-    #underline(offset: 4pt, stroke: blue-unir)[#overline(offset: -10pt, stroke: blue-unir)[#text(
-      font: "Unit OT",
-      size: 8pt,
-    )[Received #received-date-string | Accepted #accepted-date-string | Published #published-date-string]]]
+    #let month(date, capitalize: true) = month-name(date.month(), capitalize)
+    #let format-date(date) = [#date.day() #month(date) #date.year()]
+    #let received = format-date(config.paper.received-date)
+    #let accepted = format-date(config.paper.accepted-date)
+    #let published = format-date(config.paper.published-date)
+    #box(stroke: (y: 0.65pt + blue-unir), outset: (top: 4.5pt, bottom: 4pt), {
+      set text(8pt, font: "Unit OT")
+      [Received #received | Accepted #accepted | Published #published]
+    })
 
     #context [
       #let abstract-y = here().position().y
