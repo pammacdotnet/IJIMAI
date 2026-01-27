@@ -485,9 +485,10 @@
       )
     ]
 
-    #text(fill: blue-unir)[#super[#sym.star] Corresponding author:] #(
-      config.authors.filter(author => author.corresponding).at(0).email
-    )
+    #{
+      text(blue-unir)[#super(sym.star) Corresponding author: ]
+      config.authors.filter(author => author.corresponding).first().email
+    }
 
     #v(0.3cm)
     #let month(date, capitalize: true) = month-name(date.month(), capitalize)
