@@ -418,6 +418,10 @@ Run `just init` as the very first command, to set up a Git pre-commit hook. It
 will automatically run tests and check for file formatting before any changes
 can be committed.
 
+Note: On success, it will not print anything (including `just`'s default
+printing of executed code, i.e., `@` lines), because `init` recipe is used in
+other recipes, and this makes those recipes' output more readable.
+
 ### Testing
 
 For testing, [Tytanic] v0.2.2 is used (see [Typst Compatibility]). To run tests:

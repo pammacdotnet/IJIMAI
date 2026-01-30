@@ -85,5 +85,5 @@ uninstall:
 
 # Initialize the pre-commit Git hook, overriding (potentially) existing one.
 pre-commit:
-  echo '{{PRE_COMMIT_SCRIPT}}' > .git/hooks/pre-commit
-  chmod +x .git/hooks/pre-commit
+  @ echo '{{PRE_COMMIT_SCRIPT}}' > .git/hooks/pre-commit
+  @ chmod +x .git/hooks/pre-commit
