@@ -625,7 +625,6 @@
       doi-link,
     ).join[, ]
   }
-
   let cite-as-section = {
     set align(left)
     set par(leading: 1mm)
@@ -633,14 +632,7 @@
     show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blue-unir)
     [Please, cite this article as: #cite-string]
   }
-
-  figure(
-    scope: "parent",
-    placement: bottom,
-    kind: "_ijimai-citing-notice",
-    supplement: none,
-    cite-as-section,
-  )
+  place(bottom, float: true, scope: "parent", cite-as-section)
 
   // Detect first paragraph after the Introduction section using location
   // proximity relative to the section.
