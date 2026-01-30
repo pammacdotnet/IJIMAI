@@ -565,24 +565,22 @@
     )
   }
 
-  let author-bios = (
-    config
-      .authors
-      .enumerate()
-      .map(((i, author)) => {
-        let photo-data = if type(photos) == array { photos.at(i) } else {
-          read(photos + author.photo)
-        }
-        let author-photo = image(photo-data, width: 2cm)
-        let author-bio = [#par(
-            text(fill: blue-unir, font: "Unit OT", size: 8.0pt, author.name),
-          ) #(
-            text(size: 8pt, eval(author.bio, mode: "markup"))
-          )]
-        wrap-content(author-photo, author-bio)
-      })
-      .join()
-  )
+  let author-bios = {
+    let author-bio = ((i, author)) => {
+      let photo-data = if type(photos) == array { photos.at(i) } else {
+        read(photos + author.photo)
+      }
+      let author-photo = image(width: 2cm, photo-data)
+      let author-info = {
+        set text(8pt)
+        text(blue-unir, font: "Unit OT", author.name)
+        parbreak()
+        eval(author.bio, mode: "markup")
+      }
+      wrap-content(author-photo, author-info)
+    }
+    config.authors.enumerate().map(author-bio).join()
+  }
 
   set list(indent: 1em)
   set enum(indent: 1em)
