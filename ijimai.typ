@@ -463,22 +463,24 @@
 
   counter(page).update(config.paper.starting-page)
 
-  place(
-    top + left,
-    scope: "parent",
-    float: true,
-    dy: 0.6cm,
-    clearance: 1.5em + 12.98611mm,
-  )[
-    #{
+  {
+    show: place.with(
+      top + left,
+      scope: "parent",
+      float: true,
+      dy: 0.6cm,
+      clearance: 1.5em + 12.98611mm,
+    )
+
+    {
       set text(24pt)
       set par(leading: 1.5em, spacing: 7mm)
       titlecase(config.paper.title)
     }
 
-    #text(fill: blue-unir, size: 13pt)[#authors-string]
+    text(fill: blue-unir, size: 13pt)[#authors-string]
 
-    #{
+    block(below: 12pt, {
       set text(10pt)
       numbered-institution-names
         .map(((number, name)) => {
@@ -487,39 +489,39 @@
           eval(name, mode: "markup")
         })
         .join(linebreak())
-    }
+    })
 
-    #{
+    block({
       text(blue-unir)[#super(sym.star) Corresponding author: ]
       config.authors.filter(author => author.corresponding).first().email
-    }
+    })
 
-    #v(0.3cm)
-    #let month(date, capitalize: true) = month-name(date.month(), capitalize)
-    #let format-date(date) = [#date.day() #month(date) #date.year()]
-    #let received = format-date(config.paper.received-date)
-    #let accepted = format-date(config.paper.accepted-date)
-    #let published = format-date(config.paper.published-date)
-    #box(stroke: (y: 0.65pt + blue-unir), outset: (top: 4.5pt, bottom: 4pt), {
+    v(0.3cm)
+    let month(date, capitalize: true) = month-name(date.month(), capitalize)
+    let format-date(date) = [#date.day() #month(date) #date.year()]
+    let received = format-date(config.paper.received-date)
+    let accepted = format-date(config.paper.accepted-date)
+    let published = format-date(config.paper.published-date)
+    box(stroke: (y: 0.65pt + blue-unir), outset: (top: 4.5pt, bottom: 4pt), {
       set text(8pt, font: "Unit OT")
       [Received #received | Accepted #accepted | Published #published]
     })
 
-    #context place(
+    context place(
       top + left,
       dx: 14.8cm,
       dy: here().position().y - 5cm,
       image("UNIR_logo.svg", width: 17.5%),
     )
-    #v(1.3cm)
+    v(1.3cm)
 
 
-    #let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
+    let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
 
-    #show grid.cell.where(y: 0): set text(13pt, blue-unir, font: "Unit OT")
-    #set line(length: 100%, stroke: blue-unir)
-    #show line: set block(above: 0.81mm)
-    #grid(
+    show grid.cell.where(y: 0): set text(13pt, blue-unir, font: "Unit OT")
+    set line(length: 100%, stroke: blue-unir)
+    show line: set block(above: 0.81mm)
+    grid(
       columns: (3.5fr, 1fr),
       column-gutter: 25pt,
       row-gutter: 10.8pt,
@@ -553,7 +555,7 @@
         config.paper.doi
       },
     )
-  ]
+  }
 
   let author-bios = (
     config
