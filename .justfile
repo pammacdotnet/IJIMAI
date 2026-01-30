@@ -29,13 +29,21 @@ PACKAGE_VERSION := shell(
 
 PRE_COMMIT_SCRIPT := "\
 #!/bin/sh
+set -eu
 # Run tests.
-just test\
+just test
+# Format files.
+if ! just format --check; then
+  just format
+  echo 'Include new formatting changes.'
+  exit 1
+fi
 "
 
 alias t := test
 alias st := search-test
 alias ut := update-test
+alias f := format
 alias i := install
 alias un := uninstall
 alias init := pre-commit
@@ -55,6 +63,10 @@ search-test *args:
 # Update tests.
 update-test *args: pre-commit
   {{tt}} update {{args}}
+
+format action="--inplace":
+  typstyle '{{action}}' ./template/paper.typ ./tests/*/test.typ
+  typstyle '{{action}}' --wrap-text *.typ ./tests/*.typ
 
 # Install the package by linking it to this repository.
 install:

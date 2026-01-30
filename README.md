@@ -414,12 +414,16 @@ See [`./template/paper.typ`] for a use case example.
 
 ## Development
 
+Run `just init` as the very first command, to set up a Git pre-commit hook. It
+will automatically run tests and check for file formatting before any changes
+can be committed.
+
 ### Testing
 
-For testing [Tytanic] v0.2.2 is used (see [Typst Compatibility]). To run tests:
+For testing, [Tytanic] v0.2.2 is used (see [Typst Compatibility]). To run tests:
 
 ```sh
-just t # test
+just # t, test
 ```
 
 To update test:
@@ -432,6 +436,14 @@ To run the underlying `tt` commands, export related environment variables first:
 
 ```sh
 export TYPST_FONT_PATHS=fonts
+```
+
+### Formatting
+
+To format Typst files, [Typstyle] v0.14.4 is used. To format files, run:
+
+```sh
+just f # format
 ```
 
 For more details, see [`.justfile`](./.justfile).
@@ -470,5 +482,6 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [Simple]: ./tests/template/test.typ
 [2 authors]: ./tests/template-2-authors/test.typ
 [Special issue]: ./tests/template-special-issue/test.typ
+[Typstyle]: https://github.com/typstyle-rs/typstyle
 [Tytanic]: https://github.com/typst-community/tytanic
 [Typst Compatibility]: https://typst-community.github.io/tytanic/reference/compat.html#typst-compatibility

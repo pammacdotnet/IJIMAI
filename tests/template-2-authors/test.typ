@@ -52,7 +52,9 @@ Reference to equation: @ppt.
       $d$: inner radius
     ],
 
-    image("tetrahedron.svg", width: 0.8cm), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
+    image("tetrahedron.svg", width: 0.8cm),
+    $ sqrt(2) / 12 a^3 $,
+    [$a$: edge length],
   ),
   caption: [Timing Results],
 ) <ppt>

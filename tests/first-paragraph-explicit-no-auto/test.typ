@@ -1,4 +1,4 @@
-#import "../minimal-template.typ": ijimai-no-content as ijimai, first-paragraph
+#import "../minimal-template.typ": first-paragraph, ijimai-no-content as ijimai
 #show: ijimai.with(auto-first-paragraph: false)
 // You can explicitly use `first-paragraph` function in case implicit approach
 // gives an error. It is unlikely, but there is no guarantee that implicit

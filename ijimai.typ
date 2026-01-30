@@ -2,7 +2,7 @@
 #import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/t4t:0.4.3": get
-#import "@preview/titleize:0.1.1": titlecase, string-to-titlecase
+#import "@preview/titleize:0.1.1": string-to-titlecase, titlecase
 
 /// IJIMAI (foreground) accent color.
 #let blue-unir = rgb("#0098cd")
@@ -142,7 +142,13 @@
     columns: 2,
     header: context {
       set align(center)
-      set text(10pt, blue-unir, font: "Unit OT", weight: "light", style: "italic")
+      set text(
+        size: 10pt,
+        fill: blue-unir,
+        font: "Unit OT",
+        weight: "light",
+        style: "italic",
+      )
 
       if (config.paper.special-issue == true) {
         let gradient = gradient.linear(white, blue-unir, angle: 180deg)
@@ -180,7 +186,7 @@
   let space = [ ].func()
   let styled = text(red)[].func()
   let symbol-func = $.$.body.func()
-  let context-func = (context{}).func()
+  let context-func = (context {}).func()
 
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
@@ -192,6 +198,7 @@
     } else if element.func() == symbol-func {
       if element.text != "." { element }
     } else if element.func() in (space, linebreak, parbreak) {
+      none
     } else if element.func() in (ref, footnote) {
       element
     } else if element.func() == sequence {
@@ -240,6 +247,7 @@
     } else if element.func() == symbol-func {
       if element.text != " " { element }
     } else if element.func() in (space, linebreak, parbreak) {
+      none
     } else if element.func() in (ref, footnote, math.equation) {
       element
     } else if element.func() == sequence {
@@ -515,7 +523,6 @@
     )
     v(1.3cm)
 
-
     let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
 
     show grid.cell.where(y: 0): set text(13pt, blue-unir, font: "Unit OT")
@@ -535,6 +542,7 @@
         [EYWORDS]
         line()
       },
+
       {
         set text(abstract-font-size)
         set par(leading: 5.5pt, justify: true)
@@ -589,7 +597,7 @@
   let short-author-list = if "short-author-list" in config.paper {
     config.paper.short-author-list.trim().replace(regex(" {2,}"), " ")
   } else {
-    config.authors.map(author => {
+    let format-author = author => {
       let name = author.name.split()
       assert(
         name.len() == 2,
@@ -599,7 +607,8 @@
       )
       let (first, last) = name
       [#first.first(). #last]
-    }).join([, ], last: [ and ])
+    }
+    config.authors.map(format-author).join([, ], last: [ and ])
   }
   let cite-string = context {
     let doi-link-text = "https://dx.doi.org/" + config.paper.doi
@@ -698,8 +707,8 @@
         let not-used = (:)
         for (section, values) in required-sections {
           let exists = false
-          for value in values {
-            if lower(value.text) in used-sections.get().map(get.text).map(lower) {
+          for val in values {
+            if lower(val.text) in used-sections.get().map(get.text).map(lower) {
               exists = true
               break
             }
@@ -708,7 +717,10 @@
         }
         let message = "Next required sections are missing:\n"
         message += not-used.pairs().map(((key, value)) => "- " + key).join("\n")
-        message += "\nPlease, use document structure from the official IJIMAI Typst template."
+        message += (
+          "\nPlease, use document structure "
+            + "from the official IJIMAI Typst template."
+        )
         message
       } else if used-sections.get().len() > required-sections.len() {
         let dict = (:)
@@ -755,7 +767,10 @@
         .pairs()
         .map(((key, value)) => "- " + key)
         .join("\n")
-      message += "\nPlease, use document structure from the official IJIMAI Typst template."
+      message += (
+        "\nPlease, use document structure "
+          + "from the official IJIMAI Typst template."
+      )
       assert(
         lower(get.text(used)) in aliases.map(x => lower(x.text)),
         message: message,

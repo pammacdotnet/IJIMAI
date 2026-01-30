@@ -40,7 +40,9 @@ $ G_(mu nu) + Lambda g_(mu nu) = kappa T_(mu nu) $ <field>
       $d$: inner radius
     ],
 
-    image("tetrahedron.svg", width: 0.8cm), $ sqrt(2) / 12 a^3 $, [$a$: edge length],
+    image("tetrahedron.svg", width: 0.8cm),
+    $ sqrt(2) / 12 a^3 $,
+    [$a$: edge length],
   ),
   caption: [Timing Results],
 ) <ppt>
