@@ -605,7 +605,16 @@
     let doi-link-text = "https://dx.doi.org/" + config.paper.doi
     let doi-link = link(doi-link-text)
     let last-page = counter(page).final().first()
-    [#short-author-list. #config.paper.title. #config.paper.journal, vol. #config.paper.volume, no. #config.paper.number, pp. #config.paper.starting-page - #last-page, #config.paper.publication-year, #doi-link]
+    let paper = config.paper
+    // IEEE style
+    (
+      [#short-author-list. #paper.title. #paper.journal],
+      [vol. #paper.volume],
+      [no. #paper.number],
+      [pp. #paper.starting-page - #last-page],
+      [#paper.publication-year],
+      doi-link,
+    ).join[, ]
   }
 
   let cite-as-section = {
