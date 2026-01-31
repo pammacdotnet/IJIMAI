@@ -424,7 +424,7 @@ other recipes, and this makes those recipes' output more readable.
 
 ### Testing
 
-For testing, [Tytanic] v0.2.2 is used (see [Typst Compatibility]). To run tests:
+For testing, [Tytanic] v0.3.3 is used (see [Typst Compatibility]). To run tests:
 
 ```sh
 just # t, test
