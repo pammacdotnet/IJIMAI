@@ -119,7 +119,7 @@
 
   let space-above-tables = 4.5mm
   let space-above-images = 4.5mm
-  let abstract-font-size = 8.8pt
+  let abstract-font-size = 9pt
 
   set document(
     title: string-to-titlecase(config.paper.title),
@@ -163,10 +163,10 @@
       if calc.odd(here().page()) {
         if (config.paper.special-issue) {
           config.paper.special-issue-title
-        } else [Regular issue]
+        } else [Regular Issue]
       } else {
         let (journal, volume, number) = config.paper
-        [#journal, Vol. #volume, N#super[o]#number]
+        [#journal, Vol. #volume, Nº#number]
       }
     },
     footer: context {
@@ -176,9 +176,11 @@
     },
   )
 
+  show bibliography: set text(8pt)
+  show bibliography: set par(leading: 4pt, spacing: 5pt, first-line-indent: 0pt)
+  show bibliography: set block(below: 2em)
   show bibliography: it => {
-    show link: set text(blue)
-    show link: underline
+    show regex("^\[\d+\]"): set text(blue-unir)
     it
   }
 
@@ -416,8 +418,8 @@
       show regex("^(?i)" + credit-section-name + "$"): credit-section-name
 
       set align(center)
-      set text(blue-unir, if is-special { 10pt } else { 11pt })
-      show: block.with(above: 15pt, below: 13.75pt, sticky: true)
+      set text(10pt, blue-unir)
+      show: block.with(above: 15pt, below: 0pt, sticky: true)
       if it.numbering != none and not is-special {
         numbering("I.", deepest)
         h(7pt, weak: true)
@@ -443,7 +445,7 @@
       [_#(it.body):_]
     }
     if it.level == 1 {
-      v(-12pt)
+      set block(above: 1mm)
       line(length: 100%, stroke: blue-unir + 0.5pt)
     }
     if is-special and lower(it.body.text) == lower(credit-section-name) {
@@ -476,17 +478,20 @@
       top + left,
       scope: "parent",
       float: true,
-      dy: 0.6cm,
-      clearance: 1.5em + 12.98611mm,
+      clearance: 16mm,
     )
 
+    v(5mm)
+
     {
+      show: block.with(below: 6mm)
       set text(24pt)
-      set par(leading: 1.5em, spacing: 7mm)
+      set par(leading: 11pt, spacing: 7mm)
+      set par(linebreaks: "optimized")
       titlecase(config.paper.title)
     }
 
-    text(fill: blue-unir, size: 13pt)[#authors-string]
+    block(below: 6mm, text(fill: blue-unir, size: 12pt)[#authors-string])
 
     // Wraps the rest of content around logo, that is placed at the bottom
     // right. Works automatically by splitting content at `parbreak`. Space
@@ -539,98 +544,82 @@
       })
     }
 
-    block(below: 12pt, {
-      set text(10pt)
+    {
+      show: block
+      set par(spacing: 0.65em)
+      show: wrap-logo.with(image("UNIR_logo.svg"))
+
       numbered-institution-names
         .map(((number, name)) => {
+          set text(10pt)
           super[#number]
           " "
           eval(name, mode: "markup")
         })
-        .join(linebreak())
-    })
+        .join(parbreak())
 
-    block({
-      text(blue-unir)[#super(sym.star) Corresponding author: ]
-      config.authors.filter(author => author.corresponding).first().email
-    })
+      {
+        show: block.with(below: 6mm - 4pt, above: 5mm)
+        set text(8pt)
+        text(blue-unir)[#super(sym.star) Corresponding author:]
+        " "
+        config.authors.filter(author => author.corresponding).first().email
+      }
 
-    v(0.3cm)
-    let month(date, capitalize: true) = month-name(date.month(), capitalize)
-    let format-date(date) = [#date.day() #month(date) #date.year()]
-    let received = format-date(config.paper.received-date)
-    let accepted = format-date(config.paper.accepted-date)
-    let published = format-date(config.paper.published-date)
-    box(stroke: (y: 0.65pt + blue-unir), outset: (top: 4.5pt, bottom: 4pt), {
-      set text(8pt, font: "Unit OT")
+      let month(date, capitalize: true) = month-name(date.month(), capitalize)
+      let format-date(date) = [#date.day() #month(date) #date.year()]
+      let received = format-date(config.paper.received-date)
+      let accepted = format-date(config.paper.accepted-date)
+      let published = format-date(config.paper.published-date)
+      show: block.with(stroke: (y: 0.5pt + blue-unir), inset: (y: 4pt))
+      set text(8pt, font: "Unit OT", weight: "light")
+      show "|": set text(blue-unir)
       [Received #received | Accepted #accepted | Published #published]
-    })
+    }
 
-    context place(
-      top + left,
-      dx: 14.8cm,
-      dy: here().position().y - 5cm,
-      image("UNIR_logo.svg", width: 17.5%),
-    )
-    v(1.3cm)
+    v(14mm)
 
     let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
 
-    show grid.cell.where(y: 0): set text(13pt, blue-unir, font: "Unit OT")
+    show grid.cell.where(y: 0): set text(14pt, blue-unir, font: "Unit OT")
     set line(length: 100%, stroke: blue-unir)
-    show line: set block(above: 0.81mm)
-    grid(
-      columns: (3.5fr, 1fr),
-      column-gutter: 25pt,
-      row-gutter: 10.8pt,
+    show line: set block(above: 1mm)
+
+    let doi-line = {
+      set text(7pt, font: "Unit OT", weight: "light")
+      show: block.with(stroke: (y: 0.5pt + blue-unir), inset: (y: 4pt))
+      text(blue-unir)[DOI:]
+      h(3.5pt)
+      config.paper.doi
+    }
+
+    context grid(
+      columns: (auto, measure(doi-line).width),
+      column-gutter: 9mm,
+      row-gutter: 4mm,
       {
-        text(15pt)[A]
-        [BSTRACT]
+        smallcaps[Abstract]
         line()
       },
       {
-        text(15pt)[K]
-        [EYWORDS]
+        smallcaps[Keywords]
         line()
       },
 
       {
         set text(abstract-font-size)
-        set par(leading: 5.5pt, justify: true)
-        if config.paper.abstract == "" { v(15.968pt) }
+        set par(leading: 5pt, justify: true)
         config.paper.abstract
       },
       {
         set text(abstract-font-size)
-        set par(leading: 4pt, justify: false)
+        set par(leading: 5pt, justify: false)
         keywords-string
 
         set align(left + bottom)
-        set text(7.5pt, font: "Unit OT")
-        show: underline.with(offset: 4pt, stroke: blue-unir)
-        show: overline.with(offset: -10pt, stroke: blue-unir)
-        text(blue-unir, "DOI: ")
-        [ ]
-        config.paper.doi
+        doi-line
       },
     )
-  }
-
-  let author-bios = {
-    let author-bio = ((i, author)) => {
-      let photo-data = if type(photos) == array { photos.at(i) } else {
-        read(photos + author.photo)
-      }
-      let author-photo = image(width: 2cm, photo-data)
-      let author-info = {
-        set text(8pt)
-        text(blue-unir, font: "Unit OT", author.name)
-        parbreak()
-        eval(author.bio, mode: "markup")
-      }
-      wrap-content(author-photo, author-info)
-    }
-    config.authors.enumerate().map(author-bio).join()
   }
 
   set list(indent: 1em)
@@ -831,13 +820,20 @@
     )
   }
 
-  show regex("^\[\d+\]"): set text(fill: blue-unir)
-
-  set par(leading: 4pt, spacing: 5.5pt, first-line-indent: 0pt)
-  set text(size: 7.5pt)
-
   bibliography(bibliography-data, style: "ieee", title: "References")
-  v(1cm)
-  set par(leading: 4pt, spacing: 9.5pt)
-  author-bios
+
+  set text(8pt)
+  set block(below: 1.7em)
+  set par(leading: 4pt, spacing: 10pt, first-line-indent: 0pt)
+
+  let author-bio = ((i, author)) => {
+    let photo-data() = read(photos + author.photo)
+    let photo = if type(photos) == array { photos.at(i) } else { photo-data() }
+    let author-photo = image(width: 2cm, photo)
+    show: wrap-content.with(author-photo)
+    text(blue-unir, font: "Unit OT", weight: "light", author.name)
+    parbreak()
+    eval(author.bio, mode: "markup")
+  }
+  config.authors.enumerate().map(author-bio).join()
 }
