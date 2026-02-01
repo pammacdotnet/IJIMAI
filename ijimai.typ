@@ -488,6 +488,57 @@
 
     text(fill: blue-unir, size: 13pt)[#authors-string]
 
+    // Wraps the rest of content around logo, that is placed at the bottom
+    // right. Works automatically by splitting content at `parbreak`. Space
+    // between logo and text (to the left and top) is configured through `gap`.
+    let wrap-logo(gap: 3mm, logo, wrap-it) = {
+      let sequence = [].func()
+      let parts = wrap-it.children.split(parbreak()).map(sequence)
+      let content(before, after) = {
+        before
+        grid(
+          columns: (1fr, auto),
+          align: bottom,
+          after,
+          grid.cell(inset: (top: gap, left: gap), logo),
+        )
+      }
+      let just-grid(i) = content(none, parts.slice(i).join(parbreak()))
+      let body(i) = content(
+        parts.slice(0, i).join(parbreak()),
+        parts.slice(i).join(parbreak()),
+      )
+      layout(((width, ..)) => {
+        let logo-height = measure(logo).height
+        let min-height
+        let best-index = 0 // Index with minimal height.
+        let get-height(body) = measure(body, width: width).height
+        let n = parts.len()
+        if n == 1 { return body(0) }
+        for i in range(n) {
+          let height = get-height(body(i))
+          if min-height == none {
+            min-height = height
+            continue
+          }
+          // It's better to get true (hence not strict comparison), as it will
+          // shorten left side (closer to logo height). But only if total height
+          // is smaller than before and left side is not shorter than logo. This
+          // ensures the bottom of logo and bottom of left side are always
+          // aligned together, and there is no empty space between top part and
+          // left side.
+          if (
+            min-height + 0.001pt >= height
+              and get-height(just-grid(i)) >= logo-height
+          ) {
+            min-height = height
+            best-index = i
+          }
+        }
+        body(best-index)
+      })
+    }
+
     block(below: 12pt, {
       set text(10pt)
       numbered-institution-names
