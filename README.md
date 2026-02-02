@@ -53,12 +53,12 @@ Word and Google Docs.
 All the needed information is written in a [TOML] configuration file.
 
 If you do not have the Unit OT font, you can download it from the [repository].
-Once done, upload the [`UnitOT-Regular.otf`] and [`UnitOT-LightItalic.otf`]
-files to your project directory in the [Typst web application][web app]. If you
-are using Typst locally, install font files in your operating system so that
-they are available to any program, alternatively use `--font-path` (paired with
-`--ignore-system-fonts`) flag and pass the directory with the downloaded fonts
-(see `typst compile --help`).
+Once done, upload the [`UnitOT-Regular.otf`], [`UnitOT-Light.otf`], and
+[`UnitOT-LightItalic.otf`] files to your project directory in the [Typst web
+application][web app]. If you are using Typst locally, install font files in
+your operating system so that they are available to any program, alternatively
+use `--font-path` (paired with `--ignore-system-fonts`) flag and pass the
+directory with the downloaded fonts (see `typst compile --help`).
 
 ## Documentation
 
@@ -472,8 +472,9 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [CLI]: https://typst.app/open-source/#download
 [creating project]: https://typst.app/docs/web-app/creating-a-project/#creating-a-project-from-a-template
 [`template`]: ./template
-[`UnitOT-Regular.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/4ca0ac4024eeedfb3fcd5c4600adffe1f1034df5/fonts/Unit%20OT/UnitOT-Regular.otf
-[`UnitOT-LightItalic.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/4ca0ac4024eeedfb3fcd5c4600adffe1f1034df5/fonts/Unit%20OT/UnitOT-LightItalic.otf
+[`UnitOT-Regular.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/fonts/Unit%20OT/UnitOT-Regular.otf
+[`UnitOT-Light.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/fonts/Unit%20OT/UnitOT-Light.otf
+[`UnitOT-LightItalic.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/fonts/Unit%20OT/UnitOT-LightItalic.otf
 [`titleize`]: https://typst.app/universe/package/titleize
 [`droplet`]: https://typst.app/universe/package/droplet
 [issues]: https://github.com/pammacdotnet/IJIMAI/issues
@@ -481,8 +482,8 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [Heading names]: #heading-names
 [documentation]: ./tests/documentation/test.typ
 [Required sections]: #required-sections
-[par show rule]: https://github.com/pammacdotnet/IJIMAI/blob/4ca0ac4024eeedfb3fcd5c4600adffe1f1034df5/ijimai.typ?plain=1#L579
-[tests]: https://github.com/pammacdotnet/IJIMAI/tree/4ca0ac4024eeedfb3fcd5c4600adffe1f1034df5/tests
+[par show rule]: https://github.com/pammacdotnet/IJIMAI/blob/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/ijimai.typ?plain=1#L579
+[tests]: https://github.com/pammacdotnet/IJIMAI/tree/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/tests
 [ANSI/NISO Z39.104-2022]: https://www.niso.org/publications/z39104-2022-credit
 [`outline`]: https://typst.app/docs/reference/model/outline
 [Document Outline]: https://pdfa.org/glossary-of-pdf-terms/#:~:text=Document%20Outline
