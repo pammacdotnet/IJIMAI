@@ -1,4 +1,4 @@
-#import "../minimal-template.typ": config, ijimai
+#import "../../minimal-template.typ": config, ijimai
 #let config = toml(bytes(config))
 #(config.at("authors").first().name = "Johannes Diderik van der Waals")
 #(_ = config.paper.remove("short-author-list"))

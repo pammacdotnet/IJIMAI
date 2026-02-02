@@ -1,4 +1,4 @@
-#import "../minimal-template.typ": ijimai-no-content as ijimai
+#import "../../minimal-template.typ": ijimai-no-content as ijimai
 #show: ijimai
 // The 2 different assertion are triggered when:
 // - no first paragraph is specified (empty Introduction section)
@@ -7,9 +7,9 @@
 // Can't check if the first letter (grapheme cluster) of the first paragraph is
 // not uppercase. See comment in `first-paragraph`.
 
-// Some punctuation, several sentences, which is normal.
-#let first-paragraph = [#lorem(50)]
-#assert(first-paragraph.func() == text)
+#let first-paragraph = [A simple (short) sentence. #lorem(40)]
+#let sequence = [].func()
+#assert(first-paragraph.func() == sequence)
 = Introduction
 #first-paragraph
 = CRediT authorship contribution statement

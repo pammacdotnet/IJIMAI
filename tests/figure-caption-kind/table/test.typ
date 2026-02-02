@@ -1,4 +1,4 @@
-#import "../minimal-template.typ": ijimai
+#import "../../minimal-template.typ": ijimai
 #show: ijimai
 #set figure(placement: none)
 

@@ -1,4 +1,4 @@
-#import "../minimal-template.typ": ijimai-no-content as ijimai
+#import "../../minimal-template.typ": ijimai-no-content as ijimai
 #show: ijimai
 // The 2 different assertion are triggered when:
 // - no first paragraph is specified (empty Introduction section)

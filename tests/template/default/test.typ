@@ -1,6 +1,6 @@
-#let dir = "../../template/"
+#let dir = "../../../template/"
 #let image(file, ..args) = std.image(dir + file, ..args)
-#import "../../ijimai.typ": *
+#import "../../../ijimai.typ": *
 #show: ijimai.with(
   config: toml(dir + "paper.toml"),
   bibliography: "bibliography.yaml",

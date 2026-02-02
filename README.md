@@ -402,21 +402,21 @@ See [`./template/paper.typ`] for a use case example.
 
 ### [Simple]
 
-| [![](./tests/template/ref/1.png)][Simple] | [![](./tests/template/ref/2.png)][Simple] |
+| [![](./tests/template/default/ref/1.png)][Simple] | [![](./tests/template/default/ref/2.png)][Simple] |
 | ----------------------------------------- | ----------------------------------------- |
 
 ---
 
 ### [2 authors]
 
-| [![](./tests/template-2-authors/ref/1.png)][2 authors] | [![](./tests/template-2-authors/ref/2.png)][2 authors] |
+| [![](./tests/template/authors-2/ref/1.png)][2 authors] | [![](./tests/template/authors-2/ref/2.png)][2 authors] |
 | ------------------------------------------------------ | ------------------------------------------------------ |
 
 ---
 
 ### [Special issue]
 
-| [![](./tests/template-special-issue/ref/1.png)][Special issue] | [![](./tests/template-special-issue/ref/2.png)][Special issue] |
+| [![](./tests/template/special-issue/ref/1.png)][Special issue] | [![](./tests/template/special-issue/ref/2.png)][Special issue] |
 | -------------------------------------------------------------- | -------------------------------------------------------------- |
 
 ## Development
@@ -491,9 +491,9 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [`./template/paper.toml`]: ./template/paper.toml
 [read hack]: https://github.com/SillyFreak/typst-alexandria/blob/f750ddbdb27c4dfeb5c6705c2a9d43fdf7e71b92/src/lib.typ#L40-L44
 [Accessibility Guide]: https://typst.app/docs/guides/accessibility/
-[Simple]: ./tests/template/test.typ
-[2 authors]: ./tests/template-2-authors/test.typ
-[Special issue]: ./tests/template-special-issue/test.typ
+[Simple]: ./tests/template/default/test.typ
+[2 authors]: ./tests/template/authors-2/test.typ
+[Special issue]: ./tests/template/special-issue/test.typ
 [Typstyle]: https://github.com/typstyle-rs/typstyle
 [Tytanic]: https://github.com/typst-community/tytanic
 [Typst Compatibility]: https://typst-community.github.io/tytanic/reference/compat.html#typst-compatibility
