@@ -119,7 +119,6 @@
 
   let space-above-tables = 4.5mm
   let space-above-images = 4.5mm
-  let abstract-font-size = 9pt
 
   set document(
     title: string-to-titlecase(config.paper.title),
@@ -491,7 +490,7 @@
       titlecase(config.paper.title)
     }
 
-    block(below: 6mm, text(fill: blue-unir, size: 12pt)[#authors-string])
+    block(below: 6mm, text(12pt, blue-unir, authors-string))
 
     // Wraps the rest of content around logo, that is placed at the bottom
     // right. Works automatically by splitting content at `parbreak`. Space
@@ -579,9 +578,11 @@
 
     v(14mm)
 
-    let keywords-string = (config.paper.keywords.sorted().join(", ") + ".")
+    let keywords-string = config.paper.keywords.sorted().join(", ") + "."
 
     show grid.cell.where(y: 0): set text(14pt, blue-unir, font: "Unit OT")
+    show grid.cell.where(y: 0): name => smallcaps(name) + line()
+    show grid.cell.where(y: 1): set par(leading: 5pt)
     set line(length: 100%, stroke: blue-unir)
     show line: set block(above: 1mm)
 
@@ -597,28 +598,10 @@
       columns: (auto, measure(doi-line).width),
       column-gutter: 9mm,
       row-gutter: 4mm,
-      {
-        smallcaps[Abstract]
-        line()
-      },
-      {
-        smallcaps[Keywords]
-        line()
-      },
+      grid.header[Abstract][Keywords],
 
-      {
-        set text(abstract-font-size)
-        set par(leading: 5pt, justify: true)
-        config.paper.abstract
-      },
-      {
-        set text(abstract-font-size)
-        set par(leading: 5pt, justify: false)
-        keywords-string
-
-        set align(left + bottom)
-        doi-line
-      },
+      par(justify: true, config.paper.abstract),
+      keywords-string + align(bottom, doi-line),
     )
   }
 
