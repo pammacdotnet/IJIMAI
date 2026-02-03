@@ -137,7 +137,7 @@
   set math.equation(numbering: n => numbering("(1)", n), supplement: none)
   set page(
     paper: "ansi-a",
-    margin: 1.5cm,
+    margin: 15mm,
     columns: 2,
     header: context {
       set align(center)
