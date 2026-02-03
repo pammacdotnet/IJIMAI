@@ -6,6 +6,8 @@
 
 export TYPST_FONT_PATHS := "fonts"
 
+# Ability to use "$@" in recipes to correctly handle quotes/spaces in arguments.
+set positional-arguments
 
 PREVIEW_DIR := env(
   'TYPST_PACKAGE_CACHE_PATH',
@@ -54,7 +56,7 @@ tt := shell("if [ -f tt ]; then echo ./tt; else echo tt; fi")
 
 # Run tests.
 test *args: pre-commit
-  {{tt}} run {{args}}
+  {{tt}} run "$@"
 
 # Run tests that match given regex.
 search-test *args:
@@ -62,7 +64,7 @@ search-test *args:
 
 # Update tests.
 update-test *args: pre-commit
-  {{tt}} update {{args}}
+  {{tt}} update "$@"
 
 format action="--inplace":
   typstyle '{{action}}' ./template/paper.typ ./tests/*/test.typ
