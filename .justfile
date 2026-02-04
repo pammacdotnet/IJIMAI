@@ -9,12 +9,10 @@ export TYPST_FONT_PATHS := "fonts"
 # Ability to use "$@" in recipes to correctly handle quotes/spaces in arguments.
 set positional-arguments
 
-PREVIEW_DIR := env(
-  'TYPST_PACKAGE_CACHE_PATH',
-  env(
-    'XDG_CACHE_HOME',
-    env('HOME') / if os() == 'macos' { 'Library/Application Support' } else { '.cache' }
-  ) / 'typst' / 'packages',
+PREVIEW_DIR := shell(
+  'typst info 2>&1 | grep "$1" | sed "$2"',
+  '^\s*Package cache path',
+  's/^.*Package cache path\s*//',
 ) / 'preview'
 
 PACKAGE_NAME := shell(
@@ -50,9 +48,15 @@ alias i := install
 alias un := uninstall
 alias init := pre-commit
 
+default: test
+
 # Automatically use local binary over global one, if present. For more
 # information (including used version), see Testing section in ./README.md.
 tt := shell("if [ -f tt ]; then echo ./tt; else echo tt; fi")
+
+# Use Tytanic with exported environment variables.
+tt *args:
+  {{tt}} "$@"
 
 # Run tests.
 test *args: pre-commit

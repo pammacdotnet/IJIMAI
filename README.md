@@ -449,6 +449,8 @@ To run the underlying `tt` commands, export related environment variables first:
 export TYPST_FONT_PATHS=fonts
 ```
 
+Or `just tt` recipe can be used instead.
+
 ### Formatting
 
 To format Typst files, [Typstyle] v0.14.4 is used. To format files, run:
