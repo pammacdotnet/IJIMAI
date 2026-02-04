@@ -311,7 +311,7 @@
     "."
   }
 
-  let in-ref = state("in-ref", false)
+  let in-ref = state("_ijimai-in-ref", false)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
   // Make floating figures by default to avoid gaps in document flow.
