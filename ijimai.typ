@@ -763,7 +763,7 @@
       row-gutter: 4mm,
       grid.header[Abstract][Keywords],
 
-      par(justify: true, config.paper.abstract),
+      par(justify: true, eval(config.paper.abstract, mode: "markup")),
       keywords.join[, ] + [.] + align(bottom, doi-line),
     )
   }
