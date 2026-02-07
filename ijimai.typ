@@ -429,6 +429,10 @@
   // https://github.com/typst/typst/issues/5357#issuecomment-3384254721
   show figure.caption.where(kind: table): set block(sticky: true)
 
+  show title: set text(24pt, weight: "regular")
+  show title: set par(leading: 11pt, spacing: 7mm, linebreaks: "optimized")
+  show title: set block(below: 6mm)
+
   // ANSI/NISO Z39.104-2022
   // Contributor roles
   let roles = (
@@ -663,13 +667,7 @@
 
     v(5mm)
 
-    {
-      show: block.with(below: 6mm)
-      set text(24pt)
-      set par(leading: 11pt, spacing: 7mm)
-      set par(linebreaks: "optimized")
-      titlecase(config.paper.title)
-    }
+    title()
 
     block(below: 6mm, text(12pt, blue-unir, authors-line))
 
