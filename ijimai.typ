@@ -1,8 +1,10 @@
 #import "@preview/wrap-it:0.1.1": wrap-content
 #import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
 #import "@preview/droplet:0.3.1": dropcap
+#import "@preview/numbly:0.1.0": numbly
 #import "@preview/t4t:0.4.3": get
 #import "@preview/titleize:0.1.1": string-to-titlecase, titlecase
+#import "@preview/sela:0.1.0": any, sel
 
 /// IJIMAI (foreground) accent color.
 #let blue-unir = rgb("#0098cd")
@@ -329,8 +331,6 @@
   // https://github.com/typst/typst/issues/5357#issuecomment-3384254721
   show figure.caption.where(kind: table): set block(sticky: true)
 
-  set heading(numbering: "I.A.a)")
-
   /// Automatically generate the whole body for the CRediT section.
   let generate-author-credit-roles() = {
     if state("_ijimai-generate-author-credit-roles").get() == false { return }
@@ -382,6 +382,7 @@
 
   let used-sections = state("_ijimai-used-sections", ())
   let credit-section-name = "CRediT Authorship Contribution Statement"
+  let first-special-heading = credit-section-name
   let introduction-section-name = "Introduction"
   let required-sections = (
     (introduction-section-name): (),
@@ -398,60 +399,135 @@
     .map(((k, v)) => (k, (text(k),) + v))
     .to-dict()
 
-  show heading: it => {
-    let deepest = counter(heading).get().last()
+  set heading(numbering: (..n) => {
+    let supported-level = n.pos().len() <= 4
+    assert(supported-level, message: "Headings of level 5+ are not supported")
+    numbly("{1:I}.", "{2:A}.", "{3:1}.", "{4:a})")(..n)
+  })
 
-    set text(weight: "regular")
-    let is-special = (
-      it.level == 1
-        and lower(get.text(it.body))
-          in required-sections.values().flatten().map(x => lower(x.text))
-    )
-    if it.level == 1 {
-      if is-special { used-sections.update(x => x + (it.body,)) }
-      // This is a special section that must be styled like a normal section.
-      if lower(it.body.text) == lower(introduction-section-name) {
-        is-special = false
-      }
-      // Special formatting for special section.
-      show regex("^(?i)" + credit-section-name + "$"): credit-section-name
-
-      set align(center)
-      set text(10pt, blue-unir)
-      show: block.with(above: 15pt, below: 0pt, sticky: true)
-      if it.numbering != none and not is-special {
-        numbering("I.", deepest)
-        h(7pt, weak: true)
-      }
-      show: smallcaps
-      show: titlecase
-      it.body
-    } else if it.level == 2 {
-      //set par(first-line-indent: 0pt)
-      set text(10pt, blue-unir, style: "italic")
-      show: block.with(spacing: 10pt, sticky: true, above: 1.2em + 0.22em)
-      if it.numbering != none {
-        numbering("A.", deepest)
-        h(7pt, weak: true)
-      }
-      it.body
-    } else {
-      set text(10pt)
-      if it.level == 3 {
-        numbering("a)", deepest)
-        [ ]
-      }
-      [_#(it.body):_]
+  // Apply titlecase, but ignore long letter-based numberings (Roman numerals).
+  // https://forum.typst.app/t/7866/3
+  let titlecase-only-name(it) = {
+    let limit = 4 // "III." already has length of 4.
+    show regex(".{" + str(limit) + ",}"): it => {
+      if it.text.match(regex("^[IVXLCDM]+\\.$")) != none { return it }
+      string-to-titlecase(it.text)
     }
-    if it.level == 1 {
+    it
+  }
+
+  // Headings starting from `first-special-heading` must have no numbering.
+  // How to conditionally disable heading numbering for some headings?
+  // https://forum.typst.app/t/7670/4
+  show: doc => context {
+    let is-special = it => (
+      lower(it.body.at("text", default: "")) == lower(first-special-heading)
+    )
+    let special-heading = query(heading.where(level: 1))
+      .filter(is-special)
+      .first(default: none)
+    if special-heading == none { return doc }
+    let rest-of-the-headings = query(
+      selector(heading).after(special-heading.location()),
+    )
+    show selector.or(..rest-of-the-headings.map(it => heading.where(
+      level: it.level,
+      body: it.body,
+    ))): set heading(numbering: none)
+    doc
+  }
+
+  // Remove numbering suffix from heading references (callback numbering).
+  // More flexible separators in numbering patterns
+  // https://github.com/typst/typst/issues/905
+  // Option to hide last dot in refs to heading that had custom numbering.
+  // https://github.com/typst/typst/issues/6032
+  show ref.where(form: "normal", supplement: auto): it => {
+    if (
+      it.element == none
+        or it.element.func() != heading
+        or it.element.numbering == none
+        or it.element.supplement != [Section]
+    ) { return it }
+    let elem = it.element
+    elem.supplement
+    [~]
+    // Combine numbering from all levels, and remove the suffix.
+    let numbers = counter(heading).at(elem.location())
+    let display(level) = numbering(elem.numbering, ..numbers.slice(0, level))
+    range(1, numbers.len() + 1).map(display).join().slice(0, -1)
+  }
+
+  show heading: set text(10pt, blue-unir, weight: "regular")
+  show heading: set block(above: 1.5em, below: 1em, sticky: true)
+  show heading: titlecase-only-name
+  show heading: it => {
+    show h.where(amount: 0.3em): h(0.5em)
+    it
+  }
+
+  // Opposite of `counter.step()`. Use as `counter(...).update(unstep)`.
+  let unstep(..n) = {
+    let (..rest, last) = n.pos()
+    (..rest, calc.max(0, last - 1))
+  }
+
+  // How to apply titlecase to headings in Document Outline?
+  // https://forum.typst.app/t/7866/3
+  // Apply heading name transformation show rules to PDF's Document Outline
+  // https://github.com/typst/typst/issues/7803
+  set heading(bookmarked: false)
+  show heading: it => {
+    if it.hanging-indent == 1pt * float.inf { return it }
+    let (body, ..settings) = it.fields()
+    let _ = settings.remove("label", default: none)
+    it
+    show heading: none
+    counter(heading).update(unstep)
+    let name = get.text(body)
+    if lower(name) == lower(credit-section-name) { name = credit-section-name }
+    heading(
+      ..settings,
+      outlined: false,
+      bookmarked: true,
+      hanging-indent: 1pt * float.inf,
+      string-to-titlecase(name),
+    )
+  }
+
+  // 1. Keep track of used sections (required sections must be present).
+  // 2. Draw the "underline".
+  // 3. For `credit-section-name` section, automatically generate its content.
+  show heading.where(level: 1): set align(center)
+  show heading.where(level: 1): smallcaps
+  show heading.where(level: 1): it => {
+    let name = lower(get.text(it.body))
+    let required = required-sections.values().flatten().map(x => lower(x.text))
+    if name in required { used-sections.update(x => x + (it.body,)) }
+    {
+      set block(below: 0pt)
+      it
+    }
+    {
       set block(above: 1mm)
       line(length: 100%, stroke: blue-unir + 0.5pt)
     }
-    if is-special and lower(it.body.text) == lower(credit-section-name) {
-      set text(9pt) // Cancel heading styling.
+    if lower(it.body.text) == lower(credit-section-name) {
+      // Cancel heading styling.
+      set align(left)
+      set text(9pt, black)
       generate-author-credit-roles()
     }
   }
+  // Special formatting for special section with special casing.
+  show heading.where(level: 1): it => {
+    show regex("^(?i)" + credit-section-name + "$"): credit-section-name
+    it
+  }
+
+  // 1 em is below the "underline," without it the spacing is reduced by 1 mm.
+  show sel(heading.where(level: any(2, 3, 4))): set block(below: 1em - 1mm)
+  show sel(heading.where(level: any(2, 3, 4))): set text(style: "italic")
 
   let institution-names = config
     .authors
@@ -668,8 +744,9 @@
       if here().page() > 1 { return it }
       let used = counter("_ijimai-first-paragraph-usage").final().first()
       if used > 1 { return it } // Context quirk (can't use `used == 1`).
-      let a = query(selector(heading.where(level: 1)).before(here())).filter(
-        x => lower(get.text(x)) == "introduction",
+      let visible-level1-headings = heading.where(level: 1, outlined: true)
+      let a = query(visible-level1-headings.before(here())).filter(
+        x => lower(get.text(x)) == lower(introduction-section-name),
       )
       if a.len() != 1 { return it }
       let intro = a.first()
