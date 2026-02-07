@@ -55,7 +55,7 @@
     hanging-indent: 1em,
     overhang: 0pt,
     fill: blue-unir,
-    [#upper(text(fill: blue-unir, weight: "semibold", first-word)) #body],
+    [#upper(text(blue-unir, weight: "semibold", first-word)) #body],
   )
   counter("_ijimai-first-paragraph-usage").step()
 }
@@ -127,8 +127,8 @@
     author: config.authors.map(x => x.name),
     keywords: config.paper.keywords.sorted(),
   )
-  set text(font: "Libertinus Serif", size: 9pt, lang: "en")
-  set columns(gutter: 0.4cm)
+  set text(9pt, font: "Libertinus Serif")
+  set columns(gutter: 4mm)
   // The requirements state that the supplement can only appear if an equation
   // reference is at the start of a sentence, but it must be dropped otherwise.
   //
@@ -279,7 +279,6 @@
   }
 
   show figure.caption.where(kind: table): it => {
-    show: smallcaps
     let text = get.text(it)
     // text == none when caption == [].
     // Don't remove period for empty caption.
@@ -295,6 +294,7 @@
       remove-trailing-period(remove-trailing-spaces(it.body))
     }
   }
+  show figure.caption.where(kind: table): smallcaps
 
   show figure.caption.where(kind: image): it => {
     let text = get.text(it)
@@ -534,7 +534,7 @@
     .map(author => author.institution)
     .dedup()
   let numbered-institution-names = institution-names.enumerate(start: 1)
-  let authors-string = config
+  let authors-line = config
     .authors
     .map(author => {
       let institution-number = numbered-institution-names
@@ -544,7 +544,7 @@
       [#author.name#h(0.7pt)#super[#institution-number]]
       if author.corresponding [#super[#sym.star]]
     })
-    .join(", ")
+    .join[, ]
 
   counter(page).update(config.paper.starting-page)
 
@@ -566,7 +566,7 @@
       titlecase(config.paper.title)
     }
 
-    block(below: 6mm, text(12pt, blue-unir, authors-string))
+    block(below: 6mm, text(12pt, blue-unir, authors-line))
 
     // Wraps the rest of content around logo, that is placed at the bottom
     // right. Works automatically by splitting content at `parbreak`. Space
@@ -688,7 +688,7 @@
     first-line-indent: (amount: 1em, all: true),
     justify: true,
     leading: 5pt,
-    spacing: 0.25cm,
+    spacing: 2.5mm,
   )
 
   let short-author-list = if "short-author-list" in config.paper {
@@ -725,7 +725,7 @@
   let cite-as-section = {
     set align(left)
     set par(leading: 1mm)
-    set text(size: 8.1pt)
+    set text(8.1pt)
     show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blue-unir)
     [Please, cite this article as: #cite-string]
   }
