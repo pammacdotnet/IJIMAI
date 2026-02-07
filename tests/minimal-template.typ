@@ -10,21 +10,21 @@ credit = []
 bio = ""
 
 [paper]
-abstract = ""
-journal = ""
-volume = 0
-number = 0
-starting-page = 0
-publication-year = 0
 title = ""
-doi = ""
-short-author-list = ""
-special-issue-title = ""
-special-issue = false
+abstract = ""
 keywords = []
+doi = ""
 received-date = 1970-01-01
 accepted-date = 1970-01-01
 published-date = 1970-01-01
+volume = 0
+number = 0
+starting-page = 0
+journal = ""
+publication-year = 0
+short-author-list = ""
+special-issue = false
+special-issue-title = ""
 ```.text
 
 #let bib = ```yaml
