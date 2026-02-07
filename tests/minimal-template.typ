@@ -5,8 +5,9 @@
 name = ""
 corresponding = true
 email = ""
-institution = ""
-credit = []
+orcid = ""
+institution = "Institution Name (Country)"
+credit = ["writing-original-draft"]
 bio = ""
 
 [paper]
@@ -19,9 +20,7 @@ accepted-date = 1970-01-01
 published-date = 1970-01-01
 volume = 0
 number = 0
-starting-page = 0
-journal = ""
-publication-year = 0
+starting-page = 1
 short-author-list = ""
 special-issue = false
 special-issue-title = ""
@@ -65,7 +64,6 @@ a:
     read: read,
     auto-first-paragraph: auto-first-paragraph,
   )
-  #state("_ijimai-generate-author-credit-roles").update(false)
   #doc
   = Introduction
   = CRediT authorship contribution statement

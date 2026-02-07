@@ -55,7 +55,7 @@
     hanging-indent: 1em,
     overhang: 0pt,
     fill: blue-unir,
-    [#upper(text(blue-unir, weight: "semibold", first-word)) #body],
+    [#smallcaps(text(blue-unir, first-word)) #body],
   )
   counter("_ijimai-first-paragraph-usage").step()
 }
@@ -122,10 +122,20 @@
   let space-above-tables = 4.5mm
   let space-above-images = 4.5mm
 
+  let journal-name = (
+    "International Journal of Interactive Multimedia and Artificial Intelligence"
+  )
+
+  let keywords = config.paper.keywords.sorted().map(string-to-titlecase)
+
+  let message = "Page must be a positive integer"
+  assert(config.paper.starting-page > 0, message: message)
+  counter(page).update(config.paper.starting-page)
+
   set document(
     title: string-to-titlecase(config.paper.title),
     author: config.authors.map(x => x.name),
-    keywords: config.paper.keywords.sorted(),
+    keywords: keywords,
     date: config.paper.published-date,
   )
   set text(9pt, font: "Libertinus Serif")
@@ -152,23 +162,26 @@
         style: "italic",
       )
 
+      // First page of the article in journal can be odd or even.
+      // With `here().page()`, however, it will always be odd (1).
+      let page-in-journal = counter(page).get().first()
       if (config.paper.special-issue == true) {
         let gradient = gradient.linear(white, blue-unir, angle: 180deg)
         let stripe = rect.with(width: 165%, height: 17pt - 8%)
-        if calc.odd(here().page()) {
+        if calc.odd(page-in-journal) {
           place(dx: -80%, stripe(fill: gradient))
         } else {
           place(dx: -page.margin, stripe(fill: gradient.sharp(5)))
         }
       }
 
-      if calc.odd(here().page()) {
+      if calc.odd(page-in-journal) {
         if (config.paper.special-issue) {
           config.paper.special-issue-title
         } else [Regular Issue]
       } else {
-        let (journal, volume, number) = config.paper
-        [#journal, Vol. #volume, Nº#number]
+        let (volume, number) = config.paper
+        [#journal-name, Vol. #volume, Nº#number]
       }
     },
     footer: context {
@@ -178,11 +191,37 @@
     },
   )
 
+  set footnote.entry(indent: 0pt)
+  show footnote.entry: it => {
+    show h.where(amount: 0.05em): h(0.5em)
+    it
+  }
+
   show bibliography: set text(8pt)
   show bibliography: set par(leading: 4pt, spacing: 5pt, first-line-indent: 0pt)
   show bibliography: set block(below: 2em)
   show bibliography: it => {
-    show regex("^\[\d+\]"): set text(blue-unir)
+    show regex("^\[\d+\]$"): set text(blue-unir)
+    // 1. Prepend visible https://doi.org suffix, if absent.
+    // 2. Remove 2nd instance of doi.org from URL, if present.
+    // 3. Disallow use of short DOI (https://shortdoi.org).
+    show link: it => {
+      if "doi.org" not in it.dest or it.body == [#it.dest] { return it }
+      let doi = it.dest.replace(regex("(https?://)?doi.org/"), "")
+      let message = (
+        "Short DOI is not allowed: " + doi + ". Please use unshortened form."
+      )
+      assert("/" in doi and doi.len() > 7, message: message)
+      if it.dest.matches("doi.org/").len() == 1 {
+        link(it.dest, it.dest)
+      } else {
+        link("https://doi.org/" + doi, it.body)
+      }
+    }
+    it
+  }
+  show ref: it => {
+    show regex("^\[\d+\]$"): set text(blue-unir)
     it
   }
 
@@ -194,7 +233,9 @@
 
   /// Used for table figure caption.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
-  let remove-trailing-period(element) = {
+  let remove-trailing-period(in-table: none, element) = {
+    assert(type(in-table) == bool, message: "provide true or false to in-table")
+    remove-trailing-period = remove-trailing-period.with(in-table: in-table)
     assert(type(element) == content)
     if element.func() == text {
       if element.text.last() != "." { return element }
@@ -225,6 +266,8 @@
       let text = fields.remove("text")
       raw(..fields, text.replace(regex("\\.$"), ""))
     } else if element.func() == math.equation {
+      let message = "Table title should not contain math mode content"
+      assert(not in-table, message: message)
       let fields = element.fields()
       let body = fields.remove("body")
       if body == symbol-func(".") { return }
@@ -241,7 +284,9 @@
   /// different kinds at the end of the caption, it will remove all of them,
   /// until there are none left.
   /// See https://github.com/pammacdotnet/IJIMAI/pull/13 for details.
-  let remove-trailing-spaces(element) = {
+  let remove-trailing-spaces(in-table: none, element) = {
+    assert(type(in-table) == bool, message: "provide true or false to in-table")
+    remove-trailing-spaces = remove-trailing-spaces.with(in-table: in-table)
     if element == none { return element }
     assert(type(element) == content)
     let new = if element.func() == text {
@@ -253,6 +298,9 @@
     } else if element.func() in (space, linebreak, parbreak) {
       none
     } else if element.func() in (ref, footnote, math.equation) {
+      let message = "Table title should not contain math mode content"
+      let is-math = element.func() == math.equation
+      assert(not (is-math and in-table), message: message)
       element
     } else if element.func() == sequence {
       let (..rest, last) = element.children
@@ -292,10 +340,32 @@
       if it.supplement != none { sym.space.nobreak }
       context it.counter.display(it.numbering)
       it.separator
-      remove-trailing-period(remove-trailing-spaces(it.body))
+      let args = (in-table: true)
+      remove-trailing-period(..args, remove-trailing-spaces(..args, it.body))
     }
   }
   show figure.caption.where(kind: table): smallcaps
+  // `text` show rules can match whole caption line (for simple content), or
+  // separately for table supplement + numbering + separator and caption body
+  // (or its parts).
+  // This show rule avoids destructive changes for applying titlecase only to
+  // caption body by utilizing `text` show rule. Does not affect numbering.
+  show figure.caption.where(kind: table): it => {
+    let sep = get.text(it.separator).replace(".", "\\.").replace(" ", "\\s")
+    show regex("^.+$"): it => context {
+      let match = it.text.match(regex("(?i)^(table\\s\\w+" + sep + ")(.+)"))
+      let (rest, title) = if match != none {
+        match.captures
+      } else if not lower(it.text).starts-with(regex("table\\s")) {
+        (none, it.text)
+      } else {
+        return it
+      }
+      rest
+      string-to-titlecase(title)
+    }
+    it
+  }
 
   show figure.caption.where(kind: image): it => {
     let text = get.text(it)
@@ -307,11 +377,13 @@
     if it.supplement != none { sym.space.nobreak }
     context it.counter.display(it.numbering)
     it.separator
+    let args = (in-table: false)
     // Some periods can be in raw, footnote, strong, etc. It must be unstyled.
-    remove-trailing-period(remove-trailing-spaces(it.body))
+    remove-trailing-period(..args, remove-trailing-spaces(..args, it.body))
     "."
   }
 
+  // Only needed for tables, so heading destructive show rule below is fine.
   let in-ref = state("_ijimai-in-ref", false)
   show ref: it => in-ref.update(true) + it + in-ref.update(false)
 
@@ -332,49 +404,52 @@
   // https://github.com/typst/typst/issues/5357#issuecomment-3384254721
   show figure.caption.where(kind: table): set block(sticky: true)
 
+  // ANSI/NISO Z39.104-2022
+  // Contributor roles
+  let roles = (
+    conceptualization: [Conceptualization],
+    data-curation: [Data curation],
+    formal-analysis: [Formal analysis],
+    funding-acquisition: [Funding acquisition],
+    investigation: [Investigation],
+    methodology: [Methodology],
+    project-administration: [Project administration],
+    resources: [Resources],
+    software: [Software],
+    supervision: [Supervision],
+    validation: [Validation],
+    visualization: [Visualization],
+    writing-original-draft: [Writing -- original draft],
+    writing-review-editing: [Writing -- review & editing],
+  )
+  for author in config.authors {
+    let message = "Missing \"credit\" key for " + author.name
+    assert("credit" in author, message: message)
+    let credit = author.credit
+    let message = (
+      "\"credit\" key must be a non-empty list of roles (" + author.name + ")"
+    )
+    assert(type(credit) == array and credit.len() > 0, message: message)
+    let message = role => (
+      "Invalid CRediT role: "
+        + role
+        + " ("
+        + author.name
+        + ").\nValid roles:"
+        + roles.keys().map(x => "\n- " + x).join()
+    )
+    for role in credit {
+      assert(role in roles.keys(), message: message(role))
+    }
+  }
+
   /// Automatically generate the whole body for the CRediT section.
   let generate-author-credit-roles() = {
-    if state("_ijimai-generate-author-credit-roles").get() == false { return }
-    // ANSI/NISO Z39.104-2022
-    // Contributor roles
-    let roles = (
-      conceptualization: [Conceptualization],
-      data-curation: [Data curation],
-      formal-analysis: [Formal analysis],
-      funding-acquisition: [Funding acquisition],
-      investigation: [Investigation],
-      methodology: [Methodology],
-      project-administration: [Project administration],
-      resources: [Resources],
-      software: [Software],
-      supervision: [Supervision],
-      validation: [Validation],
-      visualization: [Visualization],
-      writing-original-draft: [Writing -- original draft],
-      writing-review-editing: [Writing -- review & editing],
-    )
+    let display-role(role) = roles.at(role)
     let author-roles = config
       .authors
-      .map(author => {
-        let message = "Missing \"credit\" key for " + author.name
-        assert("credit" in author, message: message)
-        let credit = author.credit
-        let message = "\"credit\" key must be a list of roles"
-        assert(type(credit) == array, message: message)
-        let message = role => (
-          "Invalid CRediT role: "
-            + role
-            + " ("
-            + author.name
-            + ").\nValid roles:"
-            + roles.keys().map(x => "\n- " + x).join()
-        )
-        for role in credit {
-          assert(role in roles.keys(), message: message(role))
-        }
-        ((author.name): credit.sorted().map(role => roles.at(role)))
-      })
-      .join()
+      .map(author => (author.name, author.credit.sorted().map(display-role)))
+      .to-dict()
     let format-author-roles = ((author, roles)) => {
       [#eval(author, mode: "markup"): #roles.join[, ]]
     }
@@ -542,12 +617,16 @@
         .filter(((_, name)) => name == author.institution)
         .first() // One and only numbered institution
         .first() // Institution number
-      [#author.name#h(0.7pt)#super[#institution-number]]
+      author.name
+      super[#institution-number]
+      [ ]
+      let alt-text = "ORCID iD logo"
+      // Source: https://commons.wikimedia.org/wiki/File:ORCID_iD.svg
+      let orcid-id-logo = box(image("ORCID_iD.svg", alt: alt-text, height: 8pt))
+      link("https://orcid.org/" + author.orcid, orcid-id-logo)
       if author.corresponding [#super[#sym.star]]
     })
     .join[, ]
-
-  counter(page).update(config.paper.starting-page)
 
   {
     show: place.with(
@@ -625,6 +704,15 @@
       set par(spacing: 0.65em)
       show: wrap-logo.with(pdf.artifact(image("UNIR_logo.svg")))
 
+      for (number, name) in numbered-institution-names {
+        let str-name = get.text(eval(name, mode: "markup"))
+        if str-name == none { continue } // Maybe use state to skip it all?
+        let message = (
+          "Country must be enclosed in parentheses (without leading comma): "
+            + str-name
+        )
+        assert(str-name.clusters().last() == ")", message: message)
+      }
       numbered-institution-names
         .map(((number, name)) => {
           set text(10pt)
@@ -655,8 +743,6 @@
 
     v(14mm)
 
-    let keywords-string = config.paper.keywords.sorted().join(", ") + "."
-
     show grid.cell.where(y: 0): set text(14pt, blue-unir, font: "Unit OT")
     show grid.cell.where(y: 0): name => smallcaps(name) + line()
     show grid.cell.where(y: 1): set par(leading: 5pt)
@@ -678,7 +764,7 @@
       grid.header[Abstract][Keywords],
 
       par(justify: true, config.paper.abstract),
-      keywords-string + align(bottom, doi-line),
+      keywords.join[, ] + [.] + align(bottom, doi-line),
     )
   }
 
@@ -706,27 +792,28 @@
       let (first, last) = name
       [#first.first(). #last]
     }
-    config.authors.map(format-author).join([, ], last: [ and ])
+    config.authors.map(format-author).join[, ]
   }
   let cite-string = context {
-    let doi-link-text = "https://dx.doi.org/" + config.paper.doi
+    let doi-link-text = "https://doi.org/" + config.paper.doi
     let doi-link = link(doi-link-text)
     let last-page = counter(page).final().first()
     let paper = config.paper
-    // IEEE style
+    // This style is based on IEEE.
     (
-      [#short-author-list. #paper.title. #paper.journal],
+      [#short-author-list. #string-to-titlecase(paper.title)],
+      journal-name,
       [vol. #paper.volume],
       [no. #paper.number],
-      [pp. #paper.starting-page - #last-page],
-      [#paper.publication-year],
+      [pp. #paper.starting-page;--#last-page],
+      [#paper.published-date.year()],
       doi-link,
     ).join[, ]
   }
   let cite-as-section = {
     set align(left)
     set par(leading: 1mm)
-    set text(8.1pt)
+    set text(8pt)
     show: rect.with(width: 100%, fill: silver, stroke: 0.5pt + blue-unir)
     [Please, cite this article as: #cite-string]
   }
