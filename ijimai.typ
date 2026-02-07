@@ -205,7 +205,7 @@
       } else {
         let name = journal-name
         let (volume, number) = config.paper
-        let volume-and-number = [, Vol. #volume, Nº#number]
+        let volume-and-number = [, Vol. #volume, #sym.numero #number]
         if preprint [#name] else [#name#volume-and-number]
       }
     },
