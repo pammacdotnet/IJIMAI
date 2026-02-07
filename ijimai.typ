@@ -546,7 +546,7 @@
     {
       show: block
       set par(spacing: 0.65em)
-      show: wrap-logo.with(image("UNIR_logo.svg"))
+      show: wrap-logo.with(pdf.artifact(image("UNIR_logo.svg")))
 
       numbered-institution-names
         .map(((number, name)) => {
@@ -812,7 +812,7 @@
   let author-bio = ((i, author)) => {
     let photo-data() = read(photos + author.photo)
     let photo = if type(photos) == array { photos.at(i) } else { photo-data() }
-    let author-photo = image(width: 2cm, photo)
+    let author-photo = image(alt: "Photo of " + author.name, width: 2cm, photo)
     show: wrap-content.with(author-photo)
     text(blue-unir, font: "Unit OT", weight: "light", author.name)
     parbreak()

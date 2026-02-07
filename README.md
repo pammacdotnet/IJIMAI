@@ -268,6 +268,13 @@ If the `<content type> was not handled properly` error is encountered, please
 open an [issue][issues] with the error message included. This is a bug (and a
 shortcoming of the way the implementation was designed).
 
+### Accessibility
+
+Template is made to be PDF/UA-1 compliant, therefore `typst compile
+--pdf-standards ua-1` (or the web app) can be used to compile a document that
+adheres to this standard. For more information see the official [Accessibility
+Guide].
+
 ## API reference
 
 ### `ijimai`
@@ -483,6 +490,7 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [`./template/paper.typ`]: ./template/paper.typ
 [`./template/paper.toml`]: ./template/paper.toml
 [read hack]: https://github.com/SillyFreak/typst-alexandria/blob/f750ddbdb27c4dfeb5c6705c2a9d43fdf7e71b92/src/lib.typ#L40-L44
+[Accessibility Guide]: https://typst.app/docs/guides/accessibility/
 [Simple]: ./tests/template/test.typ
 [2 authors]: ./tests/template-2-authors/test.typ
 [Special issue]: ./tests/template-special-issue/test.typ
