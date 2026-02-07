@@ -126,6 +126,7 @@
     title: string-to-titlecase(config.paper.title),
     author: config.authors.map(x => x.name),
     keywords: config.paper.keywords.sorted(),
+    date: config.paper.published-date,
   )
   set text(9pt, font: "Libertinus Serif")
   set columns(gutter: 4mm)
