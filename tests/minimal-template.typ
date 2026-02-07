@@ -22,6 +22,7 @@ volume = 0
 number = 0
 starting-page = 1
 short-author-list = ""
+preprint = false
 special-issue = false
 special-issue-title = ""
 ```.text

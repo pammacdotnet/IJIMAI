@@ -126,6 +126,12 @@
     "International Journal of Interactive Multimedia and Artificial Intelligence"
   )
 
+  let (preprint, special-issue) = config.paper
+  let message = (
+    "\"special-issue\" and \"preprint\" keys cannot be both set to \"true\""
+  )
+  assert(not (special-issue and preprint), message: message)
+
   let keywords = config.paper.keywords.sorted().map(string-to-titlecase)
 
   let message = "Page must be a positive integer"
@@ -175,13 +181,32 @@
         }
       }
 
+      let (preprint, special-issue, special-issue-title) = config.paper
+
       if calc.odd(page-in-journal) {
-        if (config.paper.special-issue) {
-          config.paper.special-issue-title
-        } else [Regular Issue]
+        if preprint {
+          if page-in-journal > 1 [Article in Press] else {
+            let stripe-height = 13mm // Required height.
+            let available = (
+              page.margin.length * (100% - page.header-ascent.ratio)
+            ) // Available height in the header container.
+            // Amount of height needed to match required height.
+            let y-extend-needed = stripe-height - available
+            let height = 100% + y-extend-needed
+            let width = page.width
+            show: move.with(dy: y-extend-needed)
+            show: block.with(width: width, height: height, fill: blue-unir)
+            set align(horizon)
+            image("article_in_press.svg")
+          }
+        } else {
+          if special-issue [#special-issue-title] else [Regular Issue]
+        }
       } else {
+        let name = journal-name
         let (volume, number) = config.paper
-        [#journal-name, Vol. #volume, Nº#number]
+        let volume-and-number = [, Vol. #volume, Nº#number]
+        if preprint [#name] else [#name#volume-and-number]
       }
     },
     footer: context {
@@ -803,9 +828,13 @@
     (
       [#short-author-list. #string-to-titlecase(paper.title)],
       journal-name,
-      [vol. #paper.volume],
-      [no. #paper.number],
-      [pp. #paper.starting-page;--#last-page],
+      ..if not config.paper.preprint {
+        (
+          [vol. #paper.volume],
+          [no. #paper.number],
+          [pp. #paper.starting-page;--#last-page],
+        )
+      },
       [#paper.published-date.year()],
       doi-link,
     ).join[, ]

@@ -30,5 +30,6 @@ volume = 0
 number = 0
 starting-page = 93
 # short-author-list = "J. Doe and J. Smith"
+preprint = false
 special-issue = false
 special-issue-title = "A special issue about something cool"
