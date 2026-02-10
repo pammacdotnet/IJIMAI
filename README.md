@@ -12,7 +12,7 @@ use AI with interactive multimedia techniques.
 IJIMAI, directly written in Typst! IJIMAI is the first journal ever to accept
 contributions authored in Typst.
 
-## Quick start
+## Quick Start
 
 To use it in [the web application][web app], find the `ijimai` template when
 creating a project. To learn about creating a project, see
@@ -81,14 +81,14 @@ work).
 > compilation errors, **please, make sure to read the documentation carefully
 > and fully** before creating an issue.
 
-### Heading names
+### Heading Names
 
 The template uses [`titleize`] package to format all headings in title case.
 This means that manually recreating title case is unnecessary. Look inside the
 [template][Simple] or at the snippet in the [Quick start] for proffered (but
 not enforced) way of writing heading names.
 
-### Required sections
+### Required Sections
 
 Each paper must contain next sections (in the order of listing):
 
@@ -111,7 +111,7 @@ section allows for next alternative spellings (but prefer the one above):
 
 To see description for the (last 4) sections, refer to the [documentation] test.
 
-### Introduction section and first paragraph
+### Introduction Section and First Paragraph
 
 The template treats the very first paragraph (below Introduction heading)
 specially. The first word is being heavily styled. It is uppercased, its color
@@ -166,7 +166,7 @@ show rule might help, especially if the document uses its own `par` show rule
 behavior). To disable it, set `auto-first-paragraph` parameter of the `ijimai`
 function to `false` (set to `true` by default).
 
-### CRediT section and roles
+### CRediT Section and Roles
 
 The "CRediT Authorship Contribution Statement" section needs to have a specific
 content with a specific formatting. To further remove the manual labor and
@@ -213,7 +213,7 @@ within the heading show rule, both Typst's [`outline`] (not used in the
 template) and PDF's [Document Outline] are not affected. Which means neither of
 them will contain content of the section.
 
-### Short author list
+### Short Author List
 
 The short author list is a short piece of text used in the citation box at the
 bottom of the first page.
@@ -258,7 +258,7 @@ automated, an therefore is not a concern for the author. This is outlined to
 remove potential confusion in case initial order and sorted order are
 different.
 
-### Figure caption
+### Figure Caption
 
 The figure caption (`figure.caption.where(kind: image)`) must always include a
 period at the end. While the table caption (figure.caption.where(kind: table))
@@ -278,7 +278,7 @@ Template is made to be PDF/UA-1 compliant, therefore `typst compile
 adheres to this standard. For more information see the official [Accessibility
 Guide].
 
-## API reference
+## API Reference
 
 ### `ijimai`
 
@@ -410,14 +410,14 @@ See [`./template/paper.typ`] for a use case example.
 
 ---
 
-### [2 authors]
+### [2 Authors]
 
 | [![](./tests/template/authors-2/ref/1.png)][2 authors] | [![](./tests/template/authors-2/ref/2.png)][2 authors] |
 | ------------------------------------------------------ | ------------------------------------------------------ |
 
 ---
 
-### [Special issue]
+### [Special Issue]
 
 | [![](./tests/template/special-issue/ref/1.png)][Special issue] | [![](./tests/template/special-issue/ref/2.png)][Special issue] |
 | -------------------------------------------------------------- | -------------------------------------------------------------- |
@@ -464,7 +464,7 @@ just f # format
 
 For more details, see [`.justfile`](./.justfile).
 
-## In case of doubts
+## In Case of Doubts
 
 Please, bear in mind this template is continuously been bettered. In case of
 doubts, please, send an email to alberto.corbi@unir.net.
