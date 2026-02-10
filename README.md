@@ -65,6 +65,9 @@ directory with the downloaded fonts (see `typst compile --help`).
 This section describes the usage/features of the template with an accent on
 common issues.
 
+> [!NOTE]
+> To see a list of changes from previous versions, see [`CHANGELOG.md`].
+
 The template includes a lot of automations that have different degrees of
 _potentially_ causing some issues (due to human error or nature of automations'
 implementation). This is why this documentation tries to thoroughly go through
@@ -473,6 +476,7 @@ doubts, please, send an email to alberto.corbi@unir.net.
 [web app]: http://typst.app/signin
 [CLI]: https://typst.app/open-source/#download
 [creating project]: https://typst.app/docs/web-app/creating-a-project/#creating-a-project-from-a-template
+[`CHANGELOG.md`]: ./CHANGELOG.md
 [`template`]: ./template
 [`UnitOT-Regular.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/fonts/Unit%20OT/UnitOT-Regular.otf
 [`UnitOT-Light.otf`]: https://github.com/pammacdotnet/IJIMAI/raw/569ea3c431cbaa0a12764e3b42abd7b166f1d3ee/fonts/Unit%20OT/UnitOT-Light.otf
