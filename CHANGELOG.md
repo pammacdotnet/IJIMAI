@@ -17,6 +17,91 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Added
+
+- **Breaking Change:** Added ORCID logo and `orcid` key to each author in TOML
+  config.
+- **Breaking Change:** Add `UnitOT-Light.otf` font.
+- Made template PDF/UA-1 compliant.
+- Added preprint styling with `paper.preprint` key in TOML config.
+- Added PDF metadata based on TOML config.
+- The `paper.abstract`'s value in the config can now contain markup mode
+  content.
+- Added `CHANGELOG.md`.
+- Added Development section in `README.md`.
+- Documented `blue-unir` and `blue-unir-soft` colors in `README.md`.
+
+### Changed
+
+- **Breaking Change:** Updated and improved a lot of styling:
+  - Replaced `N` + superscript `o` with `№` and added space after it in the
+    page header.
+  - Use title case for keywords.
+  - Enforced proper DOI link and display in bibliography.
+  - Use `blue-unir` color for bibliography references (in text).
+  - Disallowed math mode in table caption.
+  - Use title case for table caption.
+  - Enforced use of parentheses around institution country.
+  - Improved text formatting of `cite-string` content.
+  - Text now wraps around the logo (on the left and top sides).
+  - Bottom of the logo now aligns perfectly with bottom of underline of
+    received/accepted/published line.
+  - Make received/accepted/published and DOI centered between colored lines.
+  - Simplified gutter values for abstract/keywords grid.
+  - Use DOI line's width for keywords column.
+  - Replaced `underline` + `overline` usage in DOI line with `block`.
+  - Simplified space between "DOI:" and DOI value: only 1 space is copied.
+  - Unified space for underline between abstract/keywords and 1st level headings.
+  - Unified stroke thickness for underline between:
+    - received/accepted/published line,
+    - DOI line,
+    - 1st level headings.
+  - Improved spacing and simplify code for author bio.
+- **Breaking Change:** Bumped minimal required Typst version to 0.14.2.
+- Use `title()` for paper title.
+- Now compiled PDF files are reproducible.
+- Reorganized keys in TOML config.
+- Updated Testing section in `README.md`.
+- Updated mentioned fonts and use permanent links in `README.md`.
+- Use title case for headings in `README.md`.
+- Check for CRediT roles directly in template (short call stack on error).
+- Refactored the rest of the template codebase.
+
+### Removed
+
+- Removed `paper.journal` key from TOML config.
+- Removed `paper.publication-year` key from TOML config.
+
+### Fixed
+
+- **Breaking Change:** Fixed and improved a lot of styling:
+  - Fixed first word in Introduction: upper semibold -> smallcaps regular.
+  - Fixed footnote indentation and space after number.
+  - Fixed and improved heading styling:
+    - Fixed numbering: `I.A.a)` -> `I.A.1.a)`.
+    - Fixed `heading`'s spacing, font, and other settings.
+    - Use title case for headings in PDF's Document Outline (i.e., Bookmarks).
+    - Added heading numbering in Document Outline.
+    - Use consistent spacing between numbering and name: 0.5 em.
+  - Fixed abstract/keywords font size: 8.8 → 9 pt.
+  - Fixed abstract/keywords (headings): use smallcaps with correct font size
+    (14 pt).
+  - Fixed "regular issue" header: capitalize "issue."
+  - Fixed multiline title leading and splitting: 11 pt + optimized line breaks.
+  - Fixed font size of authors line: 13 → 11 pt.
+  - Fixed font size of corresponding author: 10 → 8 pt.
+  - Fixed received/accepted/published line:
+    - Use light font weight.
+    - Color the vertical bars in `blue-unir`.
+  - Fixed leading below abstract: 5.5 → 5 pt.
+  - Fixed leading below keywords: 4 → 5 pt.
+  - Fixed DOI line: use light font weight with correct font size (7 pt).
+  - Fixed and improved bibliography:
+    - Removed link `blue-unir` color and underline.
+    - Fixed font size: 7.5 → 8 pt.
+    - Use better spacing.
+- Fixed page-number-based header styling when `paper.starting-page` is even.
+
 ## [1.0.0] - 2025-10-13
 
 ### Added
