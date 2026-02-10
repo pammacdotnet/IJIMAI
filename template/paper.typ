@@ -1,4 +1,4 @@
-#import "@preview/ijimai:1.0.0": *
+#import "@preview/ijimai:2.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   bibliography: "bibliography.yaml",

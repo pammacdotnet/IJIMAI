@@ -17,6 +17,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [2.0.0]
+
 ### Added
 
 - **Breaking Change:** Added ORCID logo and `orcid` key to each author in TOML
@@ -218,7 +220,8 @@ and this project adheres to
 
 Initial release.
 
-[unreleased]: https://github.com/pammacdotnet/IJIMAI/compare/v1.0.0...HEAD
+[unreleased]: https://github.com/pammacdotnet/IJIMAI/compare/v2.0.0...HEAD
+[2.0.0]: https://github.com/pammacdotnet/IJIMAI/compare/v1.0.0...2.0.0
 [1.0.0]: https://github.com/pammacdotnet/IJIMAI/compare/v0.0.4...v1.0.0
 [0.0.4]: https://github.com/pammacdotnet/IJIMAI/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/pammacdotnet/IJIMAI/releases/tag/v0.0.3
