@@ -13,7 +13,7 @@ compiler = "0.14.2"
 [template]
 path = "template"
 entrypoint = "paper.typ"
-thumbnail = "tests/template/ref/1.png"
+thumbnail = "tests/template/default/ref/1.png"
 
 [tool.tytanic.default]
 ppi = 100
