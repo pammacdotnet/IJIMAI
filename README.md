@@ -462,6 +462,14 @@ To format Typst files, [Typstyle] v0.14.4 is used. To format files, run:
 just f # format
 ```
 
+### Updating Package Version
+
+To efficiently update package version in the codebase, run `just uv`:
+
+```sh
+just update-version x.x.x
+```
+
 For more details, see [`.justfile`](./.justfile).
 
 ## In Case of Doubts

@@ -47,6 +47,7 @@ alias f := format
 alias i := install
 alias un := uninstall
 alias init := pre-commit
+alias uv := update-version
 
 default: test
 
@@ -93,3 +94,21 @@ uninstall:
 pre-commit:
   @ echo '{{PRE_COMMIT_SCRIPT}}' > .git/hooks/pre-commit
   @ chmod +x .git/hooks/pre-commit
+
+# Before creating a package update, update the version with this recipe.
+update-version version:
+  #!/bin/sh
+  set -eu
+  old=$(grep 'version =' typst.toml | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+  new='{{version}}'
+  [ "$new" = "old" ] && exit
+  sed -i "/version =/s/$old/$new/" typst.toml
+  sed -i "/@preview/s/$old/$new/" README.md template/paper.typ
+  if ! grep -qF "[$new]:" CHANGELOG.md; then
+    url=$(sed -n '/\[unreleased\]: /s/\[unreleased\]: //;'"s/HEAD/$new/p" CHANGELOG.md)
+    sed -i '/\[unreleased\]: /'"s/$old/$new/" CHANGELOG.md
+    sed -i "/\\[$old\\]:/i[$new]: $url" CHANGELOG.md
+    sed -i '/## \[Unreleased\]/a'"\\
+  \\
+  ## [$new]" CHANGELOG.md
+  fi
