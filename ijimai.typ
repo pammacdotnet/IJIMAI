@@ -769,27 +769,64 @@
 
     show grid.cell.where(y: 0): set text(14pt, blue-unir, font: "Unit OT")
     show grid.cell.where(y: 0): name => smallcaps(name) + line()
+    show grid.cell.where(x: 0, y: 1): set par(justify: true) // Abstract body.
     show grid.cell.where(y: 1): set par(leading: 5pt)
     set line(length: 100%, stroke: blue-unir)
     show line: set block(above: 1mm)
 
-    let doi-line = {
+    let make-doi-line(doi) = {
       set text(7pt, font: "Unit OT", weight: "light")
       show: block.with(stroke: (y: 0.5pt + blue-unir), inset: (y: 4pt))
       text(blue-unir)[DOI:]
       h(3.5pt)
-      config.paper.doi
+      doi
     }
+    let doi-line = make-doi-line(config.paper.doi)
 
-    context grid(
-      columns: (auto, measure(doi-line).width),
-      column-gutter: 9mm,
-      row-gutter: 4mm,
-      grid.header[Abstract][Keywords],
+    // Column width in the grid must be constant to produce a consistent look
+    // for any paper. The keywords column can't depend on DOI line width as it
+    // can drastically change.
+    //
+    // In general, the keywords line width is about the same as DOI line, which
+    // can make them look being aligned vertically. To keep this illusion as
+    // much as possible while making the column width constant, the keywords
+    // column uses an average width between the longest and shortest possible
+    // DOI values. This is called `optimal-width` and used for keywords name and
+    // body grid cells. To get the width, it must be measured within a
+    // `context`. To accomodate DOI line in the same column, the right grid
+    // column is set to `max-width`, i.e., maxium width of a DOI line.
+    //
+    // A few per-grid-cell show/show-set rules are applied to keep the cell
+    // content alinged with the right page margin, but the text is left aligned
+    // within the given `optimal-width`. all the styling is applied through
+    // rules outside of the grid to make the grid call more readable.
+    context {
+      // With the given font settings, 1 is the most narrow, 0 is the widest.
+      // In general, preprint DOI is shorter than issue DOI.
+      let min-width = measure(make-doi-line("10.9781/ijimai.2011.1111")).width
+      let max-width = measure(make-doi-line("10.9781/ijimai.2000.00.000")).width
+      let optimal-width = (max-width + min-width) / 2
 
-      par(justify: true, eval(config.paper.abstract, mode: "markup")),
-      keywords.join[, ] + [.] + align(bottom, doi-line),
-    )
+      let doi-cell = grid.cell.where(x: 1, y: 2)
+      let grid-sel = sel.with(scope: (cell: grid.cell))
+      let keyword-cells = grid-sel(grid.cell.where(x: 1, y: any(0, 1)))
+      show keyword-cells: set align(right)
+      show keyword-cells: align.with(left)
+      show keyword-cells: block.with(width: optimal-width)
+      show doi-cell: set align(bottom + right)
+
+      grid(
+        columns: (auto, max-width),
+        column-gutter: 8mm,
+        row-gutter: 4mm,
+        grid.header[Abstract][Keywords],
+
+        grid.cell(rowspan: 2, eval(config.paper.abstract, mode: "markup")),
+
+        keywords.join[, ] + [.],
+        doi-line,
+      )
+    }
   }
 
   set list(indent: 1em)
