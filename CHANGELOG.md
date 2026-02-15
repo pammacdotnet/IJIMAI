@@ -17,6 +17,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking Change:** Keywords (and abstract) grid column width is now constant
+  and no longer depends on the current DOI line width.
+
+### Fixed
+
+- Add the missing `link` to `heading` when referencing.
+
 ## [2.0.0]
 
 ### Added
