@@ -555,6 +555,7 @@
         or it.element.supplement != [Section]
     ) { return it }
     let elem = it.element
+    show: link.with(elem.location())
     elem.supplement
     [~]
     // Combine numbering from all levels, and remove the suffix.
