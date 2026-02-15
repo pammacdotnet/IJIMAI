@@ -18,7 +18,7 @@ To use it in [the web application][web app], find the `ijimai` template when
 creating a project. To learn about creating a project, see
 [documentation][creating project].
 
-To use it with [the CLI][CLI], run `typst init @preview/ijimai:2.0.0` in a
+To use it with [the CLI][CLI], run `typst init @preview/ijimai:3.0.0` in a
 terminal.
 
 The project example and structure can also be found in the [`template`]
@@ -29,7 +29,7 @@ photos. Additionally, the project must include 5 required headings and a first
 paragraph (at least one word):
 
 ```typ
-#import "@preview/ijimai:2.0.0": *
+#import "@preview/ijimai:3.0.0": *
 #show: ijimai.with(
   config: toml("paper.toml"),
   bibliography: "bibliography.yaml", // or .bib file

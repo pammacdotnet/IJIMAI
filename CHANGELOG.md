@@ -17,6 +17,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## [3.0.0]
+
 ### Changed
 
 - **Breaking Change:** Keywords (and abstract) grid column width is now constant
@@ -229,7 +231,8 @@ and this project adheres to
 
 Initial release.
 
-[unreleased]: https://github.com/pammacdotnet/IJIMAI/compare/v2.0.0...HEAD
+[unreleased]: https://github.com/pammacdotnet/IJIMAI/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/pammacdotnet/IJIMAI/compare/v2.0.0...3.0.0
 [2.0.0]: https://github.com/pammacdotnet/IJIMAI/compare/v1.0.0...2.0.0
 [1.0.0]: https://github.com/pammacdotnet/IJIMAI/compare/v0.0.4...v1.0.0
 [0.0.4]: https://github.com/pammacdotnet/IJIMAI/compare/v0.0.3...v0.0.4
