@@ -1,0 +1,29 @@
+.justfile
+CHANGELOG.md
+LICENSE
+ORCID_iD.svg
+README.md
+UNIR_logo.svg
+article_in_press.svg
+ijimai.typ
+template/axes.svg
+template/bibliography.yaml
+template/cylinder.svg
+template/paper.toml
+template/paper.typ
+template/photos/Jane Smith.jpg
+template/photos/John Doe.jpg
+template/tetrahedron.svg
+tests/documentation/ref/1.png
+tests/documentation/ref/2.png
+tests/documentation/test.typ
+tests/template/authors-2/ref/1.png
+tests/template/authors-2/ref/2.png
+tests/template/authors-2/test.typ
+tests/template/default/ref/1.png
+tests/template/default/ref/2.png
+tests/template/default/test.typ
+tests/template/special-issue/ref/1.png
+tests/template/special-issue/ref/2.png
+tests/template/special-issue/test.typ
+typst.toml

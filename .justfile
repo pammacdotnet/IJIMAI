@@ -48,6 +48,7 @@ alias i := install
 alias un := uninstall
 alias init := pre-commit
 alias uv := update-version
+alias mp := make-package
 
 default: test
 
@@ -112,3 +113,18 @@ update-version version:
   \\
   ## [$new]" CHANGELOG.md
   fi
+
+make-package:
+  #!/bin/sh
+  set -eu
+  from_file=.packaged_files
+  version=$(grep 'version =' typst.toml | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
+  echo "Are there any updates to the package file list required since the last version?"
+  echo
+  echo "To update the list, create a commit in the cloned https://github.com/typst/packages repository"
+  echo "with the new file list. Then run the command below in the root of the commited package"
+  echo "version (packages/preview/<package>/<version>/ in the typst/packages repository):"
+  echo
+  echo "git ls-files > '$PWD/$from_file'"
+  rm -rf "$version"
+  rsync --files-from "$from_file" . "$version"
