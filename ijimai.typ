@@ -1,5 +1,5 @@
 #import "@preview/wrap-it:0.1.1": wrap-content
-#import "@preview/datify:0.1.4": custom-date-format, day-name, month-name
+#import "@preview/datify:0.1.4": month-name
 #import "@preview/droplet:0.3.1": dropcap
 #import "@preview/numbly:0.1.0": numbly
 #import "@preview/t4t:0.4.3": get
