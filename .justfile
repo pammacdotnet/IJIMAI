@@ -106,7 +106,7 @@ update-version version:
   sed -i "/version =/s/$old/$new/" typst.toml
   sed -i "/@preview/s/$old/$new/" README.md template/paper.typ
   if ! grep -qF "[$new]:" CHANGELOG.md; then
-    url=$(sed -n '/\[unreleased\]: /s/\[unreleased\]: //;'"s/HEAD/$new/p" CHANGELOG.md)
+    url=$(sed -n '/\[unreleased\]: /s/\[unreleased\]: //;'"s/HEAD/v$new/p" CHANGELOG.md)
     sed -i '/\[unreleased\]: /'"s/$old/$new/" CHANGELOG.md
     sed -i "/\\[$old\\]:/i[$new]: $url" CHANGELOG.md
     sed -i '/## \[Unreleased\]/a'"\\
