@@ -17,7 +17,7 @@ and this project adheres to
 
 ## [Unreleased]
 
-## [3.0.0]
+## [3.0.0] - 2026-02-15
 
 ### Changed
 
@@ -28,7 +28,7 @@ and this project adheres to
 
 - Add the missing `link` to `heading` when referencing.
 
-## [2.0.0]
+## [2.0.0] - 2026-02-10
 
 ### Added
 
