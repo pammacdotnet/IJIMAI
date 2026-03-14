@@ -102,6 +102,7 @@ update-version version:
   set -eu
   old=$(grep 'version =' typst.toml | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+')
   new='{{version}}'
+  date=$(date -uIdate)
   [ "$new" = "old" ] && exit
   sed -i "/version =/s/$old/$new/" typst.toml
   sed -i "/@preview/s/$old/$new/" README.md template/paper.typ
@@ -111,7 +112,7 @@ update-version version:
     sed -i "/\\[$old\\]:/i[$new]: $url" CHANGELOG.md
     sed -i '/## \[Unreleased\]/a'"\\
   \\
-  ## [$new]" CHANGELOG.md
+  ## [$new] - $date" CHANGELOG.md
   fi
 
 make-package:
